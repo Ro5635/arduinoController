@@ -1,0 +1,20 @@
+{
+  "name": "arduinocontroller",
+  "version": "1.0.0",
+  "description": "Control an Arduino from a GUI",
+  "main": "main.js",
+  "scripts": {
+    "install": "electron-rebuild",
+    "start": "electron .",
+    "pack": "electron-builder --dir",
+    "dist": "electron-builder"
+  },
+  "author": "",
+  "license": "ISC",
+  "devDependencies": {
+    "electron": "^4.0.0"
+  },
+  "dependencies": {
+    "electron-builder": "^20.38.4"
+  }
+}
