@@ -16,7 +16,7 @@ async function createWindow() {
     mainWindow = new BrowserWindow({width: 800, height: 200, frame: true});
 
     // and load the index.html of the app.
-    mainWindow.loadFile('./arduinoController/dist/index.html');
+    mainWindow.loadFile('./dist/index.html');
 
     // Open the DevTools.
     // mainWindow.webContents.openDevTools()
