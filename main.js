@@ -7,6 +7,10 @@
 // Modules to control application life and create native browser window
 const {app, BrowserWindow, ipcMain} = require('electron');
 
+const serialHelperProvider = require('./serialHelper');
+let serialHelper;
+
+
 // Keep a global reference of the window object, if you don't, the window will
 // be closed automatically when the JavaScript object is garbage collected.
 let mainWindow;
@@ -19,7 +23,7 @@ async function createWindow() {
     mainWindow.loadFile('./dist/index.html');
 
     // Open the DevTools.
-    // mainWindow.webContents.openDevTools()
+    mainWindow.webContents.openDevTools();
 
     // Emitted when the window is closed.
     mainWindow.on('closed', function () {
@@ -49,4 +53,38 @@ app.on('activate', function () {
         createWindow()
     }
 
+});
+
+//
+//  Initial Home for ipc tasks, this will be extracted to a separate module with time
+//
+
+// Handle calls to complete serial operations
+ipcMain.on('serialOperations', async function (event, tasks) {
+
+  try {
+    for (let task of tasks) {
+      switch (task.taskName) {
+        case 'openPort':
+          serialHelper = serialHelperProvider.getSerialHelper(task.comPort);
+          break;
+
+        case 'writeLine':
+          if (!serialHelper) {
+            throw new Error('No serial port available');
+          }
+          serialHelper.writeLine(task.line);
+          break;
+
+        default:
+          console.error('Could not identify required serialOperation');
+          console.error(`Requested task: ${task.taskName}`);
+
+      }
+    }
+  } catch (err) {
+    console.error(`Failed to run serialOperation`);
+    console.error(err);
+
+  }
 });

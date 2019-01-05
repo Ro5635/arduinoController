@@ -7,7 +7,7 @@
                        (click)="makeBoardRequest({controlType: this.controlConfiguration.controlType, boardPin: this.controlConfiguration.boardPin, newState: 1})">
       <mat-icon>power_on</mat-icon>
     </mat-button-toggle>
-    <mat-button-toggle value="Low">
+    <mat-button-toggle value="Low" (click)="makeBoardRequest({controlType: this.controlConfiguration.controlType, boardPin: this.controlConfiguration.boardPin, newState: 0})">
       <mat-icon>power_off</mat-icon>
     </mat-button-toggle>
   </mat-button-toggle-group>

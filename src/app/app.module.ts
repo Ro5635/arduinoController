@@ -17,6 +17,8 @@ import {AppComponent} from './app.component';
 import { CreateControlDialogueComponent } from './create-control-dialogue/create-control-dialogue.component';
 import { ButtonControlComponentComponent } from './button-control-component/button-control-component.component';
 
+import { NgxElectronModule } from 'ngx-electron';
+
 @NgModule({
   declarations: [
     AppComponent,
@@ -33,6 +35,7 @@ import { ButtonControlComponentComponent } from './button-control-component/butt
     MatInputModule,
     MatDialogModule,
     FormsModule,
+    NgxElectronModule,
     MatButtonToggleModule,
     MatCardModule,
     AppRoutingModule,
