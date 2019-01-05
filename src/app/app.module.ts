@@ -18,12 +18,14 @@ import { CreateControlDialogueComponent } from './create-control-dialogue/create
 import { ButtonControlComponentComponent } from './button-control-component/button-control-component.component';
 
 import { NgxElectronModule } from 'ngx-electron';
+import { ControlComponentComponent } from './control-component/control-component.component';
 
 @NgModule({
   declarations: [
     AppComponent,
     CreateControlDialogueComponent,
     ButtonControlComponentComponent,
+    ControlComponentComponent,
 
   ],
   imports: [

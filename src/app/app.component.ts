@@ -14,7 +14,7 @@ import {BoardRequest} from "./boardRequest";
 })
 export class AppComponent {
 
-  buttControls: Array<ControlConfiguration> = [];
+  controls: Array<ControlConfiguration> = [];
 
   constructor(public dialog: MatDialog, private _electronService: ElectronService) {
   }
@@ -54,28 +54,23 @@ export class AppComponent {
     });
 
     dialogRef.afterClosed().subscribe((result: ControlConfiguration) => {
-      switch (result.controlType) {
+      this.controls.push(result);
 
-        case 'Button':
-          this.buttControls.push(result);
+      // TMP hacks during dev ...
+      if (!this.serialPortOpen) {
+        this.openSerialPort();
 
-          // TMP hacks during dev ...
-          if (!this.serialPortOpen) {
-            this.openSerialPort();
-
-          }
-
-          setTimeout(() => {
-            // Need to set the selected pin to a DigitalWrite pin
-            this._electronService.ipcRenderer.send('serialOperations', [{
-              taskName: 'writeLine',
-              line: `#11#1#${result.boardPin}#`
-            }]);
-          }, 2000);
-
-
-          break;
       }
+
+      setTimeout(() => {
+        // Need to set the selected pin to a DigitalWrite pin
+        this._electronService.ipcRenderer.send('serialOperations', [{
+          taskName: 'writeLine',
+          line: `#11#1#${result.boardPin}#`
+        }]);
+      }, 2000);
+
+
     });
   }
 

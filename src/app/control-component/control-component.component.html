@@ -1,0 +1,8 @@
+<mat-card [ngSwitch]="controlConfiguration.controlType">
+
+  <app-button-control-component *ngSwitchCase="'Button'" (boardRequest)="passBoardRequest($event)" [controlConfiguration]="controlConfiguration"></app-button-control-component>
+
+  <!--<some-element *ngSwitchCase="slider">...</some-element>-->
+
+  <span *ngSwitchDefault>There has been an error</span>
+</mat-card>

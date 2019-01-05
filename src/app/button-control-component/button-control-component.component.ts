@@ -15,7 +15,7 @@ export class ButtonControlComponentComponent implements OnInit {
     this.boardRequest.emit(payload);
   }
 
-  constructor() { }
+  constructor() {}
 
   ngOnInit() {
   }
