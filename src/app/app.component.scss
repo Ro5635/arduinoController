@@ -11,3 +11,21 @@
   -webkit-user-select: none;
 }
 
+.boardControls {
+  display: flex;
+  justify-content: space-around;
+  flex-wrap: wrap;
+
+  margin: 5%;
+
+  &-control {
+    display: block;
+    padding-bottom: 15px;
+
+  }
+}
+
+//TMP
+.createControlButton {
+  margin: 5%;
+}

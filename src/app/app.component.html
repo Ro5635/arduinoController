@@ -9,11 +9,17 @@
 
 </mat-toolbar>
 
+<section>
+  <button class="createControlButton" mat-raised-button (click)="openDialog()">Create Control</button>
 
-<button mat-raised-button (click)="openDialog()">Create Control</button>
+  <div class="boardControls">
+    <app-button-control-component class="boardControls-control" *ngFor="let buttControl of buttControls" [controlConfiguration]="buttControl"
+                                  (boardRequest)="boardRequest($event)"></app-button-control-component>
+  </div>
+
+</section>
 
 
-<app-button-control-component *ngFor="let buttControl of buttControls" [controlConfiguration]="buttControl" (boardRequest)="boardRequest($event)"></app-button-control-component>
-
-
+<!-- Just dumped everything into app.component for now -->
 <router-outlet></router-outlet>
+

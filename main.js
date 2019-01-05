@@ -13,7 +13,7 @@ let mainWindow;
 
 async function createWindow() {
     // Create the browser window.
-    mainWindow = new BrowserWindow({width: 800, height: 200, frame: false});
+    mainWindow = new BrowserWindow({width: 800, height: 400, frame: false});
 
     // and load the index.html of the app.
     mainWindow.loadFile('./dist/index.html');

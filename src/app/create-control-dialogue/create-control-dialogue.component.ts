@@ -1,6 +1,6 @@
 import {Component, OnInit, Inject} from '@angular/core';
 import {MatDialog, MatDialogRef, MAT_DIALOG_DATA} from '@angular/material';
-import {ControlConfiguration} from './../controlConfiguration';
+import {ControlConfiguration} from '../controlConfiguration';
 
 @Component({
   selector: 'app-create-control-dialogue',
