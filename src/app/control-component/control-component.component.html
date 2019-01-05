@@ -1,4 +1,5 @@
-<mat-card [ngSwitch]="controlConfiguration.controlType">
+
+<mat-card *ngIf="controlConfiguration" [ngSwitch]="controlConfiguration.controlType">
 
   <app-button-control-component *ngSwitchCase="'Button'" (boardRequest)="passBoardRequest($event)" [controlConfiguration]="controlConfiguration"></app-button-control-component>
 

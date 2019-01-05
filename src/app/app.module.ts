@@ -19,6 +19,7 @@ import { ButtonControlComponentComponent } from './button-control-component/butt
 
 import { NgxElectronModule } from 'ngx-electron';
 import { ControlComponentComponent } from './control-component/control-component.component';
+import { DashboardComponent } from './dashboard/dashboard.component';
 
 @NgModule({
   declarations: [
@@ -26,6 +27,7 @@ import { ControlComponentComponent } from './control-component/control-component
     CreateControlDialogueComponent,
     ButtonControlComponentComponent,
     ControlComponentComponent,
+    DashboardComponent,
 
   ],
   imports: [
