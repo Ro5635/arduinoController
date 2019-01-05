@@ -3,6 +3,24 @@
 <p>
   Press Create to test the data flow
 </p>
+
+<mat-form-field class="example-form-field">
+  <input matInput type="text" placeholder="Control Name:" [(ngModel)]="requestedConfig.name">
+  <button mat-button *ngIf="requestedConfig.name" matSuffix mat-icon-button aria-label="Clear" (click)="requestedConfig.name=''">
+    <mat-icon>close</mat-icon>
+  </button>
+</mat-form-field>
+
+<mat-form-field class="example-form-field">
+  <input matInput type="text" placeholder="Board Pin:" [(ngModel)]="requestedConfig.boardPin">
+  <button mat-button *ngIf="requestedConfig.boardPin" matSuffix mat-icon-button aria-label="Clear" (click)="requestedConfig.boardPin=''">
+    <mat-icon>close</mat-icon>
+  </button>
+</mat-form-field>
+
+
+
+
 <div mat-dialog-actions>
   <button mat-button (click)="confirmSelection()" color="primary">
     Create

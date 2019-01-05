@@ -13,7 +13,7 @@
 <button mat-raised-button (click)="openDialog()">Create Control</button>
 
 
-<app-button-control-component *ngFor="let buttControl of buttControls" [controlConfiguration]="buttControl"></app-button-control-component>
+<app-button-control-component *ngFor="let buttControl of buttControls" [controlConfiguration]="buttControl" (boardRequest)="boardRequest($event)"></app-button-control-component>
 
 
 <router-outlet></router-outlet>

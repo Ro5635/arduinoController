@@ -3,7 +3,7 @@ import {MatDialog} from '@angular/material';
 import {CreateControlDialogueComponent} from './create-control-dialogue/create-control-dialogue.component';
 
 import {ControlConfiguration} from './controlConfiguration';
-import {ButtonControlComponentComponent} from "./button-control-component/button-control-component.component";
+import {BoardRequest} from "./boardRequest";
 
 @Component({
   selector: 'app-root',
@@ -15,6 +15,12 @@ export class AppComponent {
   buttControls: Array<ControlConfiguration> = [];
 
   constructor(public dialog: MatDialog) {
+  }
+
+  boardRequest(boardRequest: BoardRequest): void {
+    console.log('It worked!');
+    console.log(boardRequest);
+
   }
 
   openDialog(): void {

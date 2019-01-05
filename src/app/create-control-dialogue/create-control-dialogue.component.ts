@@ -12,10 +12,10 @@ export class CreateControlDialogueComponent implements OnInit {
   constructor(public dialogRef: MatDialogRef<CreateControlDialogueComponent>, @Inject(MAT_DIALOG_DATA) public data: any) {
   }
 
-  config: ControlConfiguration = {boardPin: '10', controlType: 'Button', name: 'LED State'};
+  requestedConfig: ControlConfiguration = {boardPin: '', controlType: 'Button', name: ''};
 
   confirmSelection() {
-    this.dialogRef.close(this.config);
+    this.dialogRef.close(this.requestedConfig);
   }
 
   ngOnInit() {

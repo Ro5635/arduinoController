@@ -1,5 +1,6 @@
-import { Component, OnInit, Input } from '@angular/core';
+import { Component, OnInit, Input, Output, EventEmitter } from '@angular/core';
 import {ControlConfiguration} from "../controlConfiguration";
+import {BoardRequest} from '../boardRequest';
 
 @Component({
   selector: 'app-button-control-component',
@@ -8,6 +9,11 @@ import {ControlConfiguration} from "../controlConfiguration";
 })
 export class ButtonControlComponentComponent implements OnInit {
   @Input() controlConfiguration: ControlConfiguration;
+  @Output() boardRequest = new EventEmitter<BoardRequest>();
+
+  makeBoardRequest(payload: BoardRequest) {
+    this.boardRequest.emit(payload);
+  }
 
   constructor() { }
 
