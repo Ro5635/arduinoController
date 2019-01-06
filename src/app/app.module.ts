@@ -20,6 +20,8 @@ import { ButtonControlComponentComponent } from './button-control-component/butt
 import { NgxElectronModule } from 'ngx-electron';
 import { ControlComponentComponent } from './control-component/control-component.component';
 import { DashboardComponent } from './dashboard/dashboard.component';
+import { DashboardContainerComponent } from './dashboard-container/dashboard-container.component';
+import { BoardSelectionContainerComponent } from './board-selection-container/board-selection-container.component';
 
 @NgModule({
   declarations: [
@@ -28,6 +30,8 @@ import { DashboardComponent } from './dashboard/dashboard.component';
     ButtonControlComponentComponent,
     ControlComponentComponent,
     DashboardComponent,
+    DashboardContainerComponent,
+    BoardSelectionContainerComponent,
 
   ],
   imports: [

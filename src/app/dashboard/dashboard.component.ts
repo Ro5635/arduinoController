@@ -5,13 +5,7 @@ import {CreateControlDialogueComponent} from '../create-control-dialogue/create-
 import {Board} from "../Board";
 import {ControlConfiguration} from '../controlConfiguration';
 import {BoardRequest} from "../boardRequest";
-
 import {BoardBrokerServiceService} from "../board-broker-service.service";
-
-/**
- *  TODO: Replace the serial port handling
- *
- */
 
 @Component({
   selector: 'app-dashboard',
@@ -25,18 +19,23 @@ export class DashboardComponent implements OnInit {
 
   @Input() currentBoard: Board;
 
-  ngOnInit() {}
+  ngOnInit() {
+  }
 
+  // Controls present on the dashboard
   controls: Array<ControlConfiguration> = [];
-  serialPortOpen: boolean = false;
 
-
+  /**
+   * boardRequest
+   *
+   * Handle requests from the controls within this dash and pass the events on to the  boardBrokerService
+   * that will handle the requested operations
+   *
+   * @param passedBoardRequest  BoardRequest
+   */
   boardRequest(passedBoardRequest: BoardRequest): void {
-
-
     this.boardBrokerServiceService.boardRequest(passedBoardRequest)
       .subscribe(response => console.log(`service returned: ${response}`));
-
 
   }
 
@@ -52,7 +51,7 @@ export class DashboardComponent implements OnInit {
 
       // Request that the board pin be updated
       this.boardBrokerServiceService.setPinConfiguration(result.boardPin, 'OUTPUT')
-        .subscribe(boardSetupSucceded => console.log(`Result of the board set up: ${boardSetupSucceded}`));
+        .subscribe(boardSetupSucceeded => console.log(`Result of the board set up: ${boardSetupSucceeded}`));
 
     });
   }
