@@ -69,6 +69,9 @@ ipcMain.on('serialOperations', async function (event, tasks) {
       switch (task.taskName) {
         case 'openPort':
           serialHelper = serialHelperProvider.getSerialHelper(task.comPort);
+          // Report back to UI
+          // TODO: handle failure to open serial port
+          mainWindow.webContents.send('serialOperations-openPort', {success: true});
           break;
 
         case 'writeLine':

@@ -12,10 +12,8 @@
   <mat-step>
     <ng-template matStepLabel>Save Board</ng-template>
 
+    <app-board-save [selectedBoardConfig]="selectedBoardConfig"></app-board-save>
 
-    <div>
-      <button mat-button>Save</button>
-    </div>
   </mat-step>
 
 </mat-horizontal-stepper>

@@ -1,3 +1,16 @@
-<p>
-  board-save works!
-</p>
+<section class="stepSection">
+  <h2>Save Board</h2>
+
+
+  <form [formGroup]="additionalBoardDetails">
+
+    <p>Please enter a name for your board for your reference, e.g: "Ben's Green Arduino"</p>
+    <mat-form-field class="">
+      <input matInput placeholder="Name" formControlName="boardName">
+    </mat-form-field>
+
+  </form>
+
+  <button mat-raised-button [disabled]="additionalBoardDetails.invalid" (click)="saveBoard()">Save</button>
+
+</section>

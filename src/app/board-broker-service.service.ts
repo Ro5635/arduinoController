@@ -3,12 +3,14 @@ import {Observable, of} from 'rxjs';
 import {ElectronService} from "ngx-electron";
 import {BoardRequest} from "./boardRequest";
 import {ArduinoCLIBoard} from "./ArduinoCLIBoard";
+import {UserBoard} from "./UserBoard";
 
 
 @Injectable({
   providedIn: 'root'
 })
 export class BoardBrokerServiceService {
+  currentBoard: UserBoard;
 
   constructor(private _electronService: ElectronService) {
 
@@ -17,7 +19,7 @@ export class BoardBrokerServiceService {
 
   }
 
-  serialPortOpen: boolean = false;
+  private serialPortOpen: boolean = false;
 
   /**
    * boardRequest
@@ -26,24 +28,24 @@ export class BoardBrokerServiceService {
    *
    * @param passedBoardRequest
    */
-  boardRequest(passedBoardRequest: BoardRequest): Observable<string> {
+  async boardRequest(passedBoardRequest: BoardRequest): Promise<any> {
+    await this.prepareForUse();
 
+    return new Promise((resolve, reject) => {
     // this.currentBoard.passRequest(passedBoardRequest);
 
     console.log(`Requesting following line written: #12#2#${passedBoardRequest.boardPin}#${passedBoardRequest.newState}#`);
 
-    if (!this.serialPortOpen) {
-      this.openSerialPort();
-
-    }
-
-    this._electronService.ipcRenderer.send('serialOperations', [{
-      taskName: 'writeLine',
-      line: `#12#2#${passedBoardRequest.boardPin}#${passedBoardRequest.newState}#`
-    }]);
+      this._electronService.ipcRenderer.send('serialOperations', [{
+        taskName: 'writeLine',
+        line: `#12#2#${passedBoardRequest.boardPin}#${passedBoardRequest.newState}#`
+      }]);
 
 
-    return of('test');
+      return resolve();
+      
+    });
+
 
   }
 
@@ -56,37 +58,108 @@ export class BoardBrokerServiceService {
    * @param newPinState   string    MUST BE: 'OUTPUT' OR 'INPUT'
    * @returns Success     boolean   Did the operation succeed
    */
-  setPinConfiguration(pinName: string, newPinState: string): Observable<boolean> {
-    let operationID;
+  async setPinConfiguration(pinName: string, newPinState: string): Promise<any> {
+    await this.prepareForUse();
 
-    if (newPinState === 'OUTPUT') {
-      operationID = 11;
+    return new Promise((resolve, reject) => {
+      let operationID;
 
-    } else if (newPinState === 'INPUT') {
-      operationID = 10;
 
-    } else {
-      throw new Error('Unrecognised pin state requested, unable to setPinConfiguration');
+      if (newPinState === 'OUTPUT') {
+        operationID = 11;
 
-    }
+      } else if (newPinState === 'INPUT') {
+        operationID = 10;
 
-    this._electronService.ipcRenderer.send('serialOperations', [{
-      taskName: 'writeLine',
-      line: `#${operationID}#1#${pinName}#`
-    }]);
+      } else {
+        console.error(new Error('Unrecognised pin state requested, unable to setPinConfiguration'));
+        return reject()
 
-    // Handle passing back
-    return of(true);
+      }
+
+      this._electronService.ipcRenderer.send('serialOperations', [{
+        taskName: 'writeLine',
+        line: `#${operationID}#1#${pinName}#`
+      }]);
+
+
+      return resolve();
+
+
+    });
+
+
   }
 
-  openSerialPort(): void {
-    if (!this.serialPortOpen) {
-      this._electronService.ipcRenderer.send('serialOperations', [{taskName: 'openPort', comPort: 'COM3'}]);
-      // Assumes the above will eventually work, this is the cause of manny of the current bugs
-      //TODO: build in a wait on and parse serial response mechanism
-      this.serialPortOpen = true;
+  /**
+   * prepareForUse
+   *
+   * Ensure that the service is ready and the serial port is open
+   * CANNOT USE ASYNC AWAIT ON THIS...
+   */
+  private prepareForUse(): Promise<void> {
+    return new Promise((resolve, reject) => {
 
-    }
+      if (!this.serialPortOpen) {
+        this.openSerialPort().then(() => {
+          return resolve();
+
+        }).catch(() => {
+          return reject();
+
+        })
+
+      }
+      return resolve();
+
+    });
+  }
+
+  private openSerialPort(): Promise<void> {
+    return new Promise((resolve, reject) => {
+      if (!this.serialPortOpen) {
+        this._electronService.ipcRenderer.send('serialOperations', [{
+          taskName: 'openPort',
+          comPort: this.currentBoard.comPort
+        }]);
+
+        // Register a listener
+        this._electronService.ipcRenderer.on('serialOperations-openPort', (event, message) => {
+          if (message.success) {
+            this.serialPortOpen = true;
+            resolve();
+          }
+          reject();
+
+        });
+
+
+      }
+
+    });
+  }
+
+  /**
+   * setBoard
+   *
+   * Set the board for the service to target
+   *
+   * @param targetBoard
+   */
+  setBoard(targetBoard: UserBoard): Promise<void> {
+    return new Promise((resolve, reject) => {
+      this.serialPortOpen = false;
+      this.currentBoard = targetBoard;
+      this.openSerialPort()
+        .then(() => {
+          resolve();
+        })
+        .catch((err) => {
+          console.error(err);
+          reject()
+        })
+
+    });
   }
 
   /**
@@ -110,11 +183,22 @@ export class BoardBrokerServiceService {
     });
   }
 
-  programmeBoard(comPort: string): Promise<boolean>{
+  /**
+   * programmeBoard
+   *
+   * Programmes the arduino connected to the past port
+   *
+   * TODO: Accept arduino parameters such as fqbn for use in compile and upload
+   * @param comPort
+   */
+  programmeBoard(comPort: string): Promise<boolean> {
     return new Promise((resolve, reject) => {
 
-      // Request the board scan
-      this._electronService.ipcRenderer.send('arduinoOperations', [{taskName: 'prepareArduinoCLIAndUpload', "comPort": comPort}]);
+      // Request the CLI preparation and sketch upload
+      this._electronService.ipcRenderer.send('arduinoOperations', [{
+        taskName: 'prepareArduinoCLIAndUpload',
+        "comPort": comPort
+      }]);
 
       // Register a listener
       this._electronService.ipcRenderer.on('boardUpload', (event, message) => {

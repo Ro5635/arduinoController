@@ -33,14 +33,13 @@ export class DashboardComponent implements OnInit {
    *
    * @param passedBoardRequest  BoardRequest
    */
-  boardRequest(passedBoardRequest: BoardRequest): void {
-    this.boardBrokerServiceService.boardRequest(passedBoardRequest)
-      .subscribe(response => console.log(`service returned: ${response}`));
+  async boardRequest(passedBoardRequest: BoardRequest) {
+    await this.boardBrokerServiceService.boardRequest(passedBoardRequest)
 
   }
 
 
-  openDialog(): void {
+  async openDialog() {
     const dialogRef = this.dialog.open(CreateControlDialogueComponent, {
       width: '250px',
       data: {bestCake: 'LemonDrizzled', worstCake: 'Fire'}
@@ -51,8 +50,13 @@ export class DashboardComponent implements OnInit {
 
       // Request that the board pin be updated
       this.boardBrokerServiceService.setPinConfiguration(result.boardPin, 'OUTPUT')
-        .subscribe(boardSetupSucceeded => console.log(`Result of the board set up: ${boardSetupSucceeded}`));
+        .then(() => {
 
+        }).catch(err => {
+        console.error(err);
+        console.error('Failed to set pin');
+
+      })
     });
   }
 
