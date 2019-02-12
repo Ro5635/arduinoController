@@ -118,6 +118,16 @@ ipcMain.on('arduinoOperations', async function (event, tasks) {
           await arduinoHelper.prepareArduinoCLI();
           break;
 
+        case 'prepareArduinoCLIAndUpload':
+          await arduinoHelper.prepareArduinoCLI();
+          await arduinoHelper.uploadToBoard(task.comPort);
+
+          // Report back to app
+          //TODO: Handle Failure to upload to board
+          mainWindow.webContents.send('boardUpload', {uploadSuccess: true});
+
+          break;
+
         default:
           console.error('Could not identify required arduinoOperation');
           console.error(`Requested task: ${task.taskName}`);

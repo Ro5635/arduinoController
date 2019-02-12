@@ -13,7 +13,7 @@ export class BoardBrokerServiceService {
   constructor(private _electronService: ElectronService) {
 
     // Attempt to open the serial port
-    this.openSerialPort();
+    // this.openSerialPort();
 
   }
 
@@ -105,9 +105,26 @@ export class BoardBrokerServiceService {
         const boards: ArduinoCLIBoard[] = message;
         resolve(boards);
 
+      });
+
+    });
+  }
+
+  programmeBoard(comPort: string): Promise<boolean>{
+    return new Promise((resolve, reject) => {
+
+      // Request the board scan
+      this._electronService.ipcRenderer.send('arduinoOperations', [{taskName: 'prepareArduinoCLIAndUpload', "comPort": comPort}]);
+
+      // Register a listener
+      this._electronService.ipcRenderer.on('boardUpload', (event, message) => {
+        const success = message.uploadSuccess;
+        resolve(success)
 
       });
+
     });
+
   }
 
 }

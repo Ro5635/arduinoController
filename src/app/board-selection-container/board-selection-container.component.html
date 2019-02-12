@@ -1,39 +1,42 @@
-<h2>Board Selection</h2>
-<form [formGroup]="boardSelectionForm">
+<section class="stepSection">
+  <h2>Board Selection</h2>
+  <form [formGroup]="boardSelectionForm">
 
-  <p>Please select the type of Arduino board that you are using</p>
+    <p>Please select the type of Arduino board that you are using</p>
 
-  <mat-form-field>
-    <mat-select placeholder="Board Type" formControlName="board">
-      <mat-option *ngFor="let board of availableBoards" [value]="board">
-        {{board.boardBrandName}}
-      </mat-option>
-    </mat-select>
-  </mat-form-field>
-
-  <p>Please plug your board into this computer via USB and press search, then select the board you wish to use</p>
-
-  <div class="connectedBoardSelection">
     <mat-form-field>
-      <mat-select placeholder="Select board" formControlName="connectedArduinoBoard"
-                  [disabled]="connectedArduinoBoards.length === 0">
-        <mat-option *ngFor="let board of connectedArduinoBoards" [value]="board">
-          {{board.name}}
+      <mat-select placeholder="Board Type" formControlName="board">
+        <mat-option *ngFor="let board of availableBoards" [value]="board">
+          {{board.boardBrandName}}
         </mat-option>
       </mat-select>
     </mat-form-field>
 
-    <button mat-raised-button color="primary" (click)="getConnectedBoards()" [disabled]="loadingBoards"
-            class="connectedBoardSelection_searchButton">Search For Connected Boards
-    </button>
+    <p>Please plug your board into this computer via USB and press search, then select the board you wish to use</p>
 
-    <div class="connectedBoardSelection_loading" *ngIf="loadingBoards">Loading Boards
-      <mat-progress-bar mode="query"></mat-progress-bar>
+    <div class="connectedBoardSelection">
+      <mat-form-field>
+        <mat-select placeholder="Select board" formControlName="connectedArduinoBoard"
+                    [disabled]="connectedArduinoBoards.length === 0">
+          <mat-option *ngFor="let board of connectedArduinoBoards" [value]="board">
+            {{board.name}}
+          </mat-option>
+        </mat-select>
+      </mat-form-field>
+
+      <button mat-raised-button color="primary" (click)="getConnectedBoards()" [disabled]="loadingBoards"
+              class="connectedBoardSelection_searchButton">Search For Connected Boards
+      </button>
+
+      <div class="connectedBoardSelection_loading" *ngIf="loadingBoards">Loading Boards
+        <mat-progress-bar mode="query"></mat-progress-bar>
+      </div>
     </div>
+
+  </form>
+
+  <div class="stepperControlButtons">
+    <button mat-button matStepperNext [disabled]="boardSelectionForm.invalid" (click)="emitBoardSelection()">Next
+    </button>
   </div>
-
-</form>
-
-<div class="stepperControlButtons">
-  <button mat-button matStepperNext [disabled]="boardSelectionForm.invalid" (click)="emitBoardSelection()">Next</button>
-</div>
+</section>

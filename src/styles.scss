@@ -1,8 +1,6 @@
 /* You can add global styles to this file, and also import other style files */
-
 //Angular Material Theme
 @import "~@angular/material/prebuilt-themes/indigo-pink.css";
-
 
 body {
   margin: 0;
@@ -11,4 +9,9 @@ body {
 .dragable {
   -webkit-app-region: drag;
   -webkit-user-select: none;
+}
+
+.stepSection {
+  width: 85%;
+  margin: 0 auto;
 }

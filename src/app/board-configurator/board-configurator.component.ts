@@ -7,7 +7,7 @@ import {ConnectedBorad} from "../ConnectedBorad";
   styleUrls: ['./board-configurator.component.scss']
 })
 export class BoardConfiguratorComponent implements OnInit {
-  selectedBoradConfig: ConnectedBorad;
+  selectedBoardConfig: ConnectedBorad;
 
   constructor() { }
 
@@ -15,7 +15,7 @@ export class BoardConfiguratorComponent implements OnInit {
   }
 
   updateSelectedBoard($selectedBoard){
-    this.selectedBoradConfig = $selectedBoard;
+    this.selectedBoardConfig = $selectedBoard;
 
   }
 

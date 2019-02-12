@@ -1,0 +1,25 @@
+<section class="stepSection">
+  <h2>Programme Board</h2>
+  <p>In order to use your board with this application it needs to been programmed with the helper service, this will
+    erase any existing software deployed to your micro-controller.
+    <br>
+    To proceed please hit programme board below.</p>
+
+  <div class="programmeButtons">
+    <button mat-raised-button color="primary" class="programmeButtons-button" (click)="programmeBoard()"
+            [disabled]="programmingInProgress">Programme Board
+    </button>
+    <br>
+    <mat-spinner *ngIf="programmingInProgress" class="programmeSpinner"></mat-spinner>
+  </div>
+
+  <div class="programmingSuccessful">
+    <mat-card *ngIf="programmingSuccessful" class="programmingSuccessful_card">Programming Completed Successfully</mat-card>
+  </div>
+
+  <div class="stepperControlButtons">
+    <button mat-button matStepperNext [disabled]="!programmingSuccessful">Next
+    </button>
+  </div>
+
+</section>

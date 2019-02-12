@@ -14,6 +14,8 @@ import {MatCardModule} from '@angular/material/card';
 import {MatStepperModule} from '@angular/material/stepper';
 import {MatSelectModule} from '@angular/material/select';
 import {MatProgressBarModule} from '@angular/material/progress-bar';
+import {MatProgressSpinnerModule} from '@angular/material/progress-spinner';
+import {MatBadgeModule} from '@angular/material/badge';
 
 import {AppRoutingModule} from './app-routing.module';
 import {AppComponent} from './app.component';
@@ -26,6 +28,8 @@ import {DashboardComponent} from './dashboard/dashboard.component';
 import {DashboardContainerComponent} from './dashboard-container/dashboard-container.component';
 import {BoardSelectionContainerComponent} from './board-selection-container/board-selection-container.component';
 import {BoardConfiguratorComponent} from './board-configurator/board-configurator.component';
+import { BoardProgrammerComponent } from './board-programmer/board-programmer.component';
+import { BoardSaveComponent } from './board-save/board-save.component';
 
 @NgModule({
   declarations: [
@@ -37,6 +41,8 @@ import {BoardConfiguratorComponent} from './board-configurator/board-configurato
     DashboardContainerComponent,
     BoardSelectionContainerComponent,
     BoardConfiguratorComponent,
+    BoardProgrammerComponent,
+    BoardSaveComponent,
 
   ],
   imports: [
@@ -55,7 +61,9 @@ import {BoardConfiguratorComponent} from './board-configurator/board-configurato
     AppRoutingModule,
     MatStepperModule,
     MatSelectModule,
-    MatProgressBarModule
+    MatProgressBarModule,
+    MatProgressSpinnerModule,
+    MatBadgeModule
   ],
   providers: [],
   entryComponents: [
