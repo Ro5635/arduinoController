@@ -11,7 +11,7 @@ import {ConnectedBorad} from "../ConnectedBorad";
   styleUrls: ['./board-selection-container.component.scss']
 })
 export class BoardSelectionContainerComponent implements OnInit {
-  @Output() selectedBoard = new EventEmitter<ConnectedBorad>();
+  @Output() selectedBoardEmitter = new EventEmitter<ConnectedBorad>();
 
   // Create each available board
   arduinoUno: Board = new Board('Arduino Uno', ['0', '1', '2', '3', '4', '5', '6', '7', '8', '9', '10', '11', '12', '13'], ['A0', 'A1', 'A2', 'A3', 'A4', 'A5']);
@@ -45,8 +45,15 @@ export class BoardSelectionContainerComponent implements OnInit {
   }
 
   emitBoardSelection(): void {
+    // Emit the  users selection details to parent
+    const selectedBoardType: Board = this.boardSelectionForm.value.board;
+    const connectedBaord: ArduinoCLIBoard = this.boardSelectionForm.value.connectedArduinoBoard;
 
-  }
+    const selectedBoardDetails = new ConnectedBorad(selectedBoardType.boardBrandName, selectedBoardType.digitalPins, selectedBoardType.analogPins, connectedBaord.port);
+    
+    this.selectedBoardEmitter.emit(selectedBoardDetails);
+
+  };
 
 
 }

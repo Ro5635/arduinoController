@@ -1,4 +1,5 @@
 import { Component, OnInit } from '@angular/core';
+import {ConnectedBorad} from "../ConnectedBorad";
 
 @Component({
   selector: 'app-board-configurator',
@@ -6,10 +7,16 @@ import { Component, OnInit } from '@angular/core';
   styleUrls: ['./board-configurator.component.scss']
 })
 export class BoardConfiguratorComponent implements OnInit {
+  selectedBoradConfig: ConnectedBorad;
 
   constructor() { }
 
   ngOnInit() {
+  }
+
+  updateSelectedBoard($selectedBoard){
+    this.selectedBoradConfig = $selectedBoard;
+
   }
 
 }

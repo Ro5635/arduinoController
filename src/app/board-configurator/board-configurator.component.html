@@ -1,7 +1,7 @@
 <mat-horizontal-stepper [linear]="true">
 
   <mat-step>
-    <app-board-selection-container></app-board-selection-container>
+    <app-board-selection-container [selectedBoardEmitter]="updateSelectedBoard($event)"></app-board-selection-container>
   </mat-step>
 
   <mat-step>
