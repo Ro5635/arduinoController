@@ -2,6 +2,7 @@ import {Injectable} from '@angular/core';
 import {Observable, of} from 'rxjs';
 import {ElectronService} from "ngx-electron";
 import {BoardRequest} from "./boardRequest";
+import {ArduinoCLIBoard} from "./ArduinoCLIBoard";
 
 
 @Injectable({
@@ -86,6 +87,27 @@ export class BoardBrokerServiceService {
       this.serialPortOpen = true;
 
     }
+  }
+
+  /**
+   * getConnectedBoards
+   *
+   * Gets the boards connected to this PC
+   */
+  getConnectedBoards(): Promise<ArduinoCLIBoard[]> {
+    return new Promise((resolve, reject) => {
+      // Request the board scan
+      this._electronService.ipcRenderer.send('arduinoOperations', [{taskName: 'boardScan'}]);
+
+      // Register a listener
+      this._electronService.ipcRenderer.on('boardsFound', (event, message: ArduinoCLIBoard[]) => {
+
+        const boards: ArduinoCLIBoard[] = message;
+        resolve(boards);
+
+
+      });
+    });
   }
 
 }

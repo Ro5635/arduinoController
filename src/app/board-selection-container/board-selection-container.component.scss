@@ -1,0 +1,15 @@
+.connectedBoardSelection{
+  display: inline-block;
+
+  &_searchButton {
+    margin-left: 25px;
+  }
+
+  &_loading {
+    margin-top: 25px;
+  }
+}
+
+.stepperControlButtons {
+  margin-top: 5%;
+}

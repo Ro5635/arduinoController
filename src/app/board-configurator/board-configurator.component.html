@@ -1,0 +1,20 @@
+<mat-horizontal-stepper [linear]="true">
+
+  <mat-step>
+    <app-board-selection-container></app-board-selection-container>
+  </mat-step>
+
+  <mat-step>
+    <ng-template matStepLabel>Upload To Board</ng-template>
+  </mat-step>
+
+  <mat-step>
+    <ng-template matStepLabel>Done</ng-template>
+    You are now done.
+    <div>
+      <button mat-button matStepperPrevious>Back</button>
+      <button mat-button>Reset</button>
+    </div>
+  </mat-step>
+
+</mat-horizontal-stepper>
