@@ -17,6 +17,7 @@ import {MatProgressBarModule} from '@angular/material/progress-bar';
 import {MatProgressSpinnerModule} from '@angular/material/progress-spinner';
 import {MatBadgeModule} from '@angular/material/badge';
 import {MatSnackBarModule} from '@angular/material/snack-bar';
+import {DragDropModule} from '@angular/cdk/drag-drop';
 
 import {AppRoutingModule} from './app-routing.module';
 import {AppComponent} from './app.component';
@@ -65,7 +66,8 @@ import { BoardSaveComponent } from './board-save/board-save.component';
     MatProgressBarModule,
     MatProgressSpinnerModule,
     MatBadgeModule,
-    MatSnackBarModule
+    MatSnackBarModule,
+    DragDropModule
   ],
   providers: [],
   entryComponents: [

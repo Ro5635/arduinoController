@@ -1,11 +1,32 @@
-
 <section>
   <button class="createControlButton" mat-raised-button (click)="openDialog()">Create Control</button>
 
-  <div class="boardControls">
-    <app-control-component class="boardControls-control" *ngFor="let control of controls"
-                           [controlConfiguration]="control"
-                           (boardRequest)="boardRequest($event)"></app-control-component>
+  <div cdkDropListGroup class="dashboardColumns">
+
+    <div cdkDropList [cdkDropListData]="controlsCol1"
+         (cdkDropListDropped)="drop($event)"
+         class="boardControls dashboardColumns_Col-1">
+
+      <app-control-component cdkDrag
+                             class="boardControls-control"
+                             *ngFor="let control of controlsCol1"
+                             [controlConfiguration]="control"
+                             (boardRequest)="boardRequest($event)"></app-control-component>
+
+    </div>
+
+
+    <div cdkDropList [cdkDropListData]="controlsCol2"
+         (cdkDropListDropped)="drop($event)"
+         class="boardControls dashboardColumns_Col-2">
+
+      <app-control-component cdkDrag class="boardControls-control"
+                             *ngFor="let control of controlsCol2"
+                             [controlConfiguration]="control"
+                             (boardRequest)="boardRequest($event)"></app-control-component>
+    </div>
+
+
   </div>
 
 </section>
