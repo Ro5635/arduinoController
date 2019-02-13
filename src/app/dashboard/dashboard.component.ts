@@ -6,6 +6,7 @@ import {Board} from "../Board";
 import {ControlConfiguration} from '../controlConfiguration';
 import {BoardRequest} from "../boardRequest";
 import {BoardBrokerServiceService} from "../board-broker-service.service";
+import {CdkDragDrop, moveItemInArray, transferArrayItem} from "@angular/cdk/drag-drop";
 
 @Component({
   selector: 'app-dashboard',
@@ -23,7 +24,8 @@ export class DashboardComponent implements OnInit {
   }
 
   // Controls present on the dashboard
-  controls: Array<ControlConfiguration> = [];
+  controlsCol1: Array<ControlConfiguration> = [];
+  controlsCol2: Array<ControlConfiguration> = [];
 
   /**
    * boardRequest
@@ -46,7 +48,7 @@ export class DashboardComponent implements OnInit {
     });
 
     dialogRef.afterClosed().subscribe((result: ControlConfiguration) => {
-      this.controls.push(result);
+      this.controlsCol1.push(result);
 
       // Request that the board pin be updated
       this.boardBrokerServiceService.setPinConfiguration(result.boardPin, 'OUTPUT')
@@ -60,5 +62,15 @@ export class DashboardComponent implements OnInit {
     });
   }
 
+  drop(event: CdkDragDrop<ControlConfiguration[]>) {
+    if (event.previousContainer === event.container) {
+      moveItemInArray(event.container.data, event.previousIndex, event.currentIndex);
+    } else {
+    transferArrayItem(event.previousContainer.data,
+      event.container.data,
+      event.previousIndex,
+      event.currentIndex);
+    }
+  }
 
 }
