@@ -27,8 +27,6 @@ exports.prepareArduinoCLI = async function () {
 
     commands.push("arduino-cli core update-index");
     commands.push("arduino-cli core install arduino:avr");
-    // Compile the arduino sketch
-    commands.push("arduino-cli compile --fqbn arduino:avr:uno setLEDBasedOnSerial");
 
     for (let command of commands) {
       try {
@@ -95,24 +93,32 @@ exports.scanForBoards = async function () {
  *
  * Uploads arduino sketch to the board at the supplied com port
  *
- * @param comPort
+ * @param comPort       Target Com Port
+ * @param fqbn          Fully Qualified Board Name
  * @return {Promise<*>}
  */
-exports.uploadToBoard = async function (comPort) {
+exports.uploadToBoard = async function (comPort, fqbn) {
   return new Promise(async function (resolve, reject) {
+    let commands = [];
     const sketchName = 'setLEDBasedOnSerial';
-    const fqbn = 'arduino:avr:uno';
-    const command = `arduino-cli upload -p ${comPort} --fqbn ${fqbn} ${sketchName}`;
 
-    try {
-      await runShellCommand(command);
+    // Compile the arduino sketch
+    commands.push(`arduino-cli compile --fqbn ${fqbn} ${sketchName}`);
 
-    } catch (err) {
-      console.error('Failed to upload sketch to board');
-      console.error(`Failed to upload to board at: ${comPort}`);
-      console.error(err);
-      return reject(new Error('Failed to upload to board'));
+    // Upload Sketch to board
+    commands.push(`arduino-cli upload -p ${comPort} --fqbn ${fqbn} ${sketchName}`);
 
+    for (let command of commands) {
+      try {
+        await runShellCommand(command);
+
+      } catch (err) {
+        console.error('Failed to upload sketch to board');
+        console.error(`Failed to upload to board at: ${comPort}`);
+        console.error(err);
+        return reject(new Error('Failed to upload to board'));
+
+      }
     }
 
     console.log('Upload to board completed successfully');

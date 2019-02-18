@@ -210,15 +210,15 @@ export class BoardBrokerServiceService {
    * Programmes the arduino connected to the past port
    *
    * TODO: Accept arduino parameters such as fqbn for use in compile and upload
-   * @param comPort
+   * @param board
    */
-  programmeBoard(comPort: string): Promise<boolean> {
+  programmeBoard(board: ConnectedBoard): Promise<boolean> {
     return new Promise((resolve, reject) => {
 
       // Request the CLI preparation and sketch upload
       this._electronService.ipcRenderer.send('arduinoOperations', [{
         taskName: 'prepareArduinoCLIAndUpload',
-        "comPort": comPort
+        "board": board
       }]);
 
       // Register a listener

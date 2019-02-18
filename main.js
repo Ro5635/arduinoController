@@ -126,7 +126,7 @@ ipcMain.on('arduinoOperations', async function (event, tasks) {
 
         case 'prepareArduinoCLIAndUpload':
           await arduinoHelper.prepareArduinoCLI();
-          await arduinoHelper.uploadToBoard(task.comPort);
+          await arduinoHelper.uploadToBoard(task.board.comPort, task.board.fqbn);
 
           // Report back to app
           //TODO: Handle Failure to upload to board

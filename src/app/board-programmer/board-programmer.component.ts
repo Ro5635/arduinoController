@@ -23,7 +23,7 @@ export class BoardProgrammerComponent implements OnInit {
     this.programmingInProgress = true;
 
     try {
-      const status = await this.boardBrokerService.programmeBoard(this.selectedBoardConfig.comPort);
+      const status = await this.boardBrokerService.programmeBoard(this.selectedBoardConfig);
 
       if (status) {
         this.programmingInProgress = false;
