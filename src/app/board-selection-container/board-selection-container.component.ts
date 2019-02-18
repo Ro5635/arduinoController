@@ -4,6 +4,7 @@ import {FormBuilder, FormControl, FormGroup, Validators} from "@angular/forms";
 import {BoardBrokerServiceService} from "../board-broker-service.service";
 import {ArduinoCLIBoard} from "../ArduinoCLIBoard";
 import {ConnectedBoard} from "../ConnectedBoard";
+import {SupportedBoardData} from "../Config/SupportedBoardData";
 
 @Component({
   selector: 'app-board-selection-container',
@@ -13,11 +14,8 @@ import {ConnectedBoard} from "../ConnectedBoard";
 export class BoardSelectionContainerComponent implements OnInit {
   @Output() selectedBoardEmitter = new EventEmitter<ConnectedBoard>();
 
-  // Create each supported board
-  arduinoUno: Board = new Board('Arduino Uno', ['0', '1', '2', '3', '4', '5', '6', '7', '8', '9', '10', '11', '12', '13'], ['A0', 'A1', 'A2', 'A3', 'A4', 'A5'], ['3','5', '6', '9', '10', '11'], 'arduino:avr:uno');
-  arduinoMega: Board = new Board('Arduino Mega', ['2', '3', '4', '5', '6', '7', '8', '9', '10', '11', '12', '13', '22', '23', '24', '25', '26', '27', '28', '29', '30', '31', '32', '33', '34', '35', '36', '37', '38', '39', '40', '41', '42', '43', '44', '45', '46', '47', '48', '49', '50', '51', '52', '53'], ['A0', 'A1', 'A2', 'A3', 'A4', 'A5', 'A6', 'A7', 'A8', 'A9', 'A10', 'A11', 'A12', 'A13', 'A14', 'A15'], ['3','4', '5', '6', '7', '8', '9', '10', '11', '12', '13'], 'arduino:avr:mega');
-
-  supportedBoardDetails: object = {};
+  SUPPORTEDBOARDDATA = new SupportedBoardData();
+  supportedBoardDetails: object = this.SUPPORTEDBOARDDATA.supportedBoards;
 
   connectedBoards: ConnectedBoard[] = [];
   loadingBoards: boolean = false;
@@ -31,9 +29,6 @@ export class BoardSelectionContainerComponent implements OnInit {
     this.boardSelectionForm = this._formBuilder.group({
       selectedBoard: new FormControl('', [Validators.required])
     });
-
-    this.supportedBoardDetails[this.arduinoUno.fqbn] = this.arduinoUno;
-    this.supportedBoardDetails[this.arduinoMega.fqbn] = this.arduinoMega;
 
   }
 
