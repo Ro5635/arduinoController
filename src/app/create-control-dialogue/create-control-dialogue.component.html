@@ -1,7 +1,7 @@
 <h1 mat-dialog-title>Create Control:</h1>
 
 <p>
-  Press Create to test the data flow
+  Entere a control name and pin to make a new control
 </p>
 
 <mat-form-field class="example-form-field">
@@ -9,6 +9,14 @@
   <button mat-button *ngIf="requestedConfig.name" matSuffix mat-icon-button aria-label="Clear" (click)="requestedConfig.name=''">
     <mat-icon>close</mat-icon>
   </button>
+</mat-form-field>
+
+<mat-form-field>
+  <mat-select matInput placeholder="Control Type" [(ngModel)]="requestedConfig.controlType">
+    <mat-option  *ngFor="let controlType of controlTypes" [value]="controlType.value">
+      {{controlType.value}}
+    </mat-option>
+  </mat-select>
 </mat-form-field>
 
 <mat-form-field class="example-form-field">

@@ -3,7 +3,7 @@ import {Board} from "../Board";
 import {FormBuilder, FormControl, FormGroup, Validators} from "@angular/forms";
 import {BoardBrokerServiceService} from "../board-broker-service.service";
 import {ArduinoCLIBoard} from "../ArduinoCLIBoard";
-import {ConnectedBorad} from "../ConnectedBorad";
+import {ConnectedBoard} from "../ConnectedBoard";
 
 @Component({
   selector: 'app-board-selection-container',
@@ -11,14 +11,14 @@ import {ConnectedBorad} from "../ConnectedBorad";
   styleUrls: ['./board-selection-container.component.scss']
 })
 export class BoardSelectionContainerComponent implements OnInit {
-  @Output() selectedBoardEmitter = new EventEmitter<ConnectedBorad>();
+  @Output() selectedBoardEmitter = new EventEmitter<ConnectedBoard>();
 
-  // Create each available board
-  arduinoUno: Board = new Board('Arduino Uno', ['0', '1', '2', '3', '4', '5', '6', '7', '8', '9', '10', '11', '12', '13'], ['A0', 'A1', 'A2', 'A3', 'A4', 'A5']);
+  // Create each supported board
+  arduinoUno: Board = new Board('Arduino Uno', ['0', '1', '2', '3', '4', '5', '6', '7', '8', '9', '10', '11', '12', '13'], ['A0', 'A1', 'A2', 'A3', 'A4', 'A5'], ['3','5', '6', '9', '10', '11'], 'arduino:avr:uno');
 
-  availableBoards: Board[] = [this.arduinoUno];
+  supportedBoardDetails: object = {};
 
-  connectedArduinoBoards: ArduinoCLIBoard[] = [];
+  connectedBoards: ConnectedBoard[] = [];
   loadingBoards: boolean = false;
 
   boardSelectionForm: FormGroup;
@@ -28,30 +28,46 @@ export class BoardSelectionContainerComponent implements OnInit {
 
   ngOnInit() {
     this.boardSelectionForm = this._formBuilder.group({
-      board: new FormControl('', [Validators.required]),
-      connectedArduinoBoard: new FormControl('', [Validators.required])
+      selectedBoard: new FormControl('', [Validators.required])
     });
+
+    this.supportedBoardDetails[this.arduinoUno.fqbn] = this.arduinoUno;
+
   }
 
   // TODO: Handle failure of the board scan
   async getConnectedBoards() {
+
+    // Clear previously found boards
+    this.connectedBoards = [];
+
     console.log("Requesting board scan");
     this.loadingBoards = true;
-    const connectedBoards: ArduinoCLIBoard[] = await this.boardBrokerService.getConnectedBoards();
+    const rawConnectedBoards: ArduinoCLIBoard[] = await this.boardBrokerService.getConnectedBoards();
+
+    // Transform the response into an array of ConnectedBoards
+    for (let rawConnectedBoard of rawConnectedBoards) {
+
+      // Get the supporting board details using the fqbn
+      const boardDetails: Board = this.supportedBoardDetails[rawConnectedBoard.fqbn];
+
+      // Create the new Board
+      const newBoard: ConnectedBoard = new ConnectedBoard(rawConnectedBoard.name, boardDetails.digitalPins, boardDetails.analogPins, boardDetails.pwmPins, rawConnectedBoard.fqbn, rawConnectedBoard.port, rawConnectedBoard.usbID);
+
+      this.connectedBoards.push(newBoard);
+
+    }
 
     this.loadingBoards = false;
-    this.connectedArduinoBoards = connectedBoards;
 
   }
 
   emitBoardSelection(): void {
     // Emit the  users selection details to parent
     const selectedBoardType: Board = this.boardSelectionForm.value.board;
-    const connectedBaord: ArduinoCLIBoard = this.boardSelectionForm.value.connectedArduinoBoard;
+    const selectedBoard: ConnectedBoard = this.boardSelectionForm.value.selectedBoard;
 
-    const selectedBoardDetails = new ConnectedBorad(selectedBoardType.boardBrandName, selectedBoardType.digitalPins, selectedBoardType.analogPins, connectedBaord.port);
-    
-    this.selectedBoardEmitter.emit(selectedBoardDetails);
+    this.selectedBoardEmitter.emit(selectedBoard);
 
   };
 

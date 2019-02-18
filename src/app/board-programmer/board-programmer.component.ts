@@ -1,5 +1,5 @@
 import {Component, Input, OnInit} from '@angular/core';
-import {ConnectedBorad} from "../ConnectedBorad";
+import {ConnectedBoard} from "../ConnectedBoard";
 import {BoardBrokerServiceService} from "../board-broker-service.service";
 
 @Component({
@@ -8,7 +8,7 @@ import {BoardBrokerServiceService} from "../board-broker-service.service";
   styleUrls: ['./board-programmer.component.scss']
 })
 export class BoardProgrammerComponent implements OnInit {
-  @Input() selectedBoardConfig: ConnectedBorad;
+  @Input() selectedBoardConfig: ConnectedBoard;
   programmingInProgress: boolean = false;
   programmingSuccessful: boolean = false;
 

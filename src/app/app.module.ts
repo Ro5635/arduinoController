@@ -18,6 +18,7 @@ import {MatProgressSpinnerModule} from '@angular/material/progress-spinner';
 import {MatBadgeModule} from '@angular/material/badge';
 import {MatSnackBarModule} from '@angular/material/snack-bar';
 import {DragDropModule} from '@angular/cdk/drag-drop';
+import {MatSliderModule} from '@angular/material/slider';
 
 import {AppRoutingModule} from './app-routing.module';
 import {AppComponent} from './app.component';
@@ -32,6 +33,7 @@ import {BoardSelectionContainerComponent} from './board-selection-container/boar
 import {BoardConfiguratorComponent} from './board-configurator/board-configurator.component';
 import { BoardProgrammerComponent } from './board-programmer/board-programmer.component';
 import { BoardSaveComponent } from './board-save/board-save.component';
+import { SliderControlComponent } from './slider-control/slider-control.component';
 
 @NgModule({
   declarations: [
@@ -45,6 +47,7 @@ import { BoardSaveComponent } from './board-save/board-save.component';
     BoardConfiguratorComponent,
     BoardProgrammerComponent,
     BoardSaveComponent,
+    SliderControlComponent,
 
   ],
   imports: [
@@ -67,7 +70,8 @@ import { BoardSaveComponent } from './board-save/board-save.component';
     MatProgressSpinnerModule,
     MatBadgeModule,
     MatSnackBarModule,
-    DragDropModule
+    DragDropModule,
+    MatSliderModule
   ],
   providers: [],
   entryComponents: [

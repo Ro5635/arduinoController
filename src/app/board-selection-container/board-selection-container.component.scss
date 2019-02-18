@@ -1,7 +1,20 @@
 .connectedBoardSelection{
-  display: inline-block;
+  display: flex;
+  flex-wrap: nowrap;
+  justify-content: space-between;
+
+
+  &_selectInput {
+    width: 55%;
+
+    &-formField{
+      width: 100%;
+    }
+  }
+
 
   &_searchButton {
+    margin-top: 5px;
     margin-left: 25px;
   }
 

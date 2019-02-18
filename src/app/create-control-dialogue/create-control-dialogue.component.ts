@@ -8,11 +8,13 @@ import {ControlConfiguration} from '../controlConfiguration';
   styleUrls: ['./create-control-dialogue.component.scss']
 })
 export class CreateControlDialogueComponent implements OnInit {
+  // This form will be replaced later so this will do for now
+  controlTypes: object[] = [{value: 'Slider'}, {value: 'Button'}];
 
   constructor(public dialogRef: MatDialogRef<CreateControlDialogueComponent>, @Inject(MAT_DIALOG_DATA) public data: any) {
   }
 
-  requestedConfig: ControlConfiguration = {boardPin: '', controlType: 'Button', name: ''};
+  requestedConfig: ControlConfiguration = {boardPin: '', controlType: '', name: ''};
 
   confirmSelection() {
     this.dialogRef.close(this.requestedConfig);
