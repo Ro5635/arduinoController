@@ -11,6 +11,12 @@ body {
   -webkit-user-select: none;
 }
 
+.not-dragable {
+  -webkit-app-region: no-drag;
+  -webkit-user-select: auto;
+}
+
+
 .stepSection {
   width: 85%;
   margin: 0 auto;

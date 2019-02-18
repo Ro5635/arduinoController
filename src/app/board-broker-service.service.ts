@@ -26,7 +26,7 @@ export class BoardBrokerServiceService {
    * boardRequest
    *
    * Facilitates passing a general board request
-   * TODO: This method is going to be eentirely overhauled, so in the mean time a switch is used on type
+   * TODO: This method is going to be entirely overhauled, so in the mean time a switch is used on type
    * @param passedBoardRequest
    */
   async boardRequest(passedBoardRequest: BoardRequest): Promise<any> {
