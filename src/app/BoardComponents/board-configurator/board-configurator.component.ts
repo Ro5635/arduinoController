@@ -1,5 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-import {ConnectedBoard} from "../ConnectedBoard";
+import {ConnectedBoard} from "../../BoardClasses/ConnectedBoard";
 
 @Component({
   selector: 'app-board-configurator',

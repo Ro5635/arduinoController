@@ -1,6 +1,6 @@
 import {Component, Input, OnInit} from '@angular/core';
-import {ConnectedBoard} from "../ConnectedBoard";
-import {BoardBrokerServiceService} from "../board-broker-service.service";
+import {ConnectedBoard} from "../../BoardClasses/ConnectedBoard";
+import {BoardBrokerServiceService} from "../../board-broker-service.service";
 
 @Component({
   selector: 'app-board-programmer',

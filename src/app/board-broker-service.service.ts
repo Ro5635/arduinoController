@@ -1,10 +1,10 @@
 import {Injectable} from '@angular/core';
 import {Observable, of} from 'rxjs';
 import {ElectronService} from "ngx-electron";
-import {BoardRequest} from "./boardRequest";
-import {ArduinoCLIBoard} from "./ArduinoCLIBoard";
-import {UserBoard} from "./UserBoard";
-import {ConnectedBoard} from "./ConnectedBoard";
+import {BoardRequest} from "./BoardClasses/boardRequest";
+import {ArduinoCLIBoard} from "./BoardClasses/ArduinoCLIBoard";
+import {UserBoard} from "./BoardClasses/UserBoard";
+import {ConnectedBoard} from "./BoardClasses/ConnectedBoard";
 
 
 @Injectable({

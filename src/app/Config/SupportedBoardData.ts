@@ -1,4 +1,4 @@
-import {Board} from "../Board";
+import {Board} from "../BoardClasses/Board";
 
 /**
  * Holds constants required in the main application

@@ -1,8 +1,8 @@
 import {Component, Input, OnInit} from '@angular/core';
-import {ConnectedBoard} from "../ConnectedBoard";
+import {ConnectedBoard} from "../../BoardClasses/ConnectedBoard";
 import {FormBuilder, FormControl, FormGroup, Validators} from "@angular/forms";
-import {UserBoard} from "../UserBoard";
-import {BoardBrokerServiceService} from "../board-broker-service.service";
+import {UserBoard} from "../../BoardClasses/UserBoard";
+import {BoardBrokerServiceService} from "../../board-broker-service.service";
 import {Router} from "@angular/router";
 import {MatSnackBar} from "@angular/material";
 

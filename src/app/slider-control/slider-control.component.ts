@@ -1,6 +1,6 @@
 import {Component, EventEmitter, Input, OnInit, Output} from '@angular/core';
 import {ControlConfiguration} from "../controlConfiguration";
-import {BoardRequest} from "../boardRequest";
+import {BoardRequest} from "../BoardClasses/boardRequest";
 
 @Component({
   selector: 'app-slider-control',

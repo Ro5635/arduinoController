@@ -1,10 +1,10 @@
 import {Component, EventEmitter, OnInit, Output} from '@angular/core';
-import {Board} from "../Board";
+import {Board} from "../../BoardClasses/Board";
 import {FormBuilder, FormControl, FormGroup, Validators} from "@angular/forms";
-import {BoardBrokerServiceService} from "../board-broker-service.service";
-import {ArduinoCLIBoard} from "../ArduinoCLIBoard";
-import {ConnectedBoard} from "../ConnectedBoard";
-import {SupportedBoardData} from "../Config/SupportedBoardData";
+import {BoardBrokerServiceService} from "../../board-broker-service.service";
+import {ArduinoCLIBoard} from "../../BoardClasses/ArduinoCLIBoard";
+import {ConnectedBoard} from "../../BoardClasses/ConnectedBoard";
+import {SupportedBoardData} from "../../Config/SupportedBoardData";
 
 @Component({
   selector: 'app-board-selection-container',
