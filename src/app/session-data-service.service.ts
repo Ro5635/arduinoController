@@ -1,5 +1,5 @@
 import { Injectable } from '@angular/core';
-import {Board} from "./Board";
+import {Board} from "./BoardClasses/Board";
 
 @Injectable({
   providedIn: 'root'

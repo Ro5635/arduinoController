@@ -1,8 +1,8 @@
 import {Component, Input, OnInit} from '@angular/core';
-import {ConnectedBorad} from "../ConnectedBorad";
+import {ConnectedBoard} from "../../BoardClasses/ConnectedBoard";
 import {FormBuilder, FormControl, FormGroup, Validators} from "@angular/forms";
-import {UserBoard} from "../UserBoard";
-import {BoardBrokerServiceService} from "../board-broker-service.service";
+import {UserBoard} from "../../BoardClasses/UserBoard";
+import {BoardBrokerServiceService} from "../../board-broker-service.service";
 import {Router} from "@angular/router";
 import {MatSnackBar} from "@angular/material";
 
@@ -12,7 +12,7 @@ import {MatSnackBar} from "@angular/material";
   styleUrls: ['./board-save.component.scss']
 })
 export class BoardSaveComponent implements OnInit {
-  @Input() selectedBoardConfig: ConnectedBorad;
+  @Input() selectedBoardConfig: ConnectedBoard;
   additionalBoardDetails: FormGroup;
 
   constructor(private _formBuilder: FormBuilder, private boardBrokerService: BoardBrokerServiceService, public router: Router, private snackBar: MatSnackBar) {
@@ -35,7 +35,8 @@ export class BoardSaveComponent implements OnInit {
     const FIXED_BOARD_ID_TMP = 'A001';
 
     // Create the final board
-    const finalBoard = new UserBoard(FIXED_BOARD_ID_TMP, this.additionalBoardDetails.value.boardName, this.selectedBoardConfig.boardBrandName, this.selectedBoardConfig.digitalPins, this.selectedBoardConfig.analogPins, this.selectedBoardConfig.comPort);
+    //TODO: Clean up, passing a provisioned boolean here when will want all the pins of that type...
+    const finalBoard = new UserBoard(FIXED_BOARD_ID_TMP, this.additionalBoardDetails.value.boardName, this.selectedBoardConfig.boardBrandName, this.selectedBoardConfig.getPins(false, 'DIGITAL'), this.selectedBoardConfig.getPins(false, 'ANALOG'), this.selectedBoardConfig.getPins(false, 'PWM'), this.selectedBoardConfig.fqbn, this.selectedBoardConfig.comPort);
 
     // TODO: Send board to backend
     // For now just add the board to the service

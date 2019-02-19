@@ -1,5 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-import {ConnectedBorad} from "../ConnectedBorad";
+import {ConnectedBoard} from "../../BoardClasses/ConnectedBoard";
 
 @Component({
   selector: 'app-board-configurator',
@@ -7,7 +7,7 @@ import {ConnectedBorad} from "../ConnectedBorad";
   styleUrls: ['./board-configurator.component.scss']
 })
 export class BoardConfiguratorComponent implements OnInit {
-  selectedBoardConfig: ConnectedBorad;
+  selectedBoardConfig: ConnectedBoard;
 
   constructor() { }
 

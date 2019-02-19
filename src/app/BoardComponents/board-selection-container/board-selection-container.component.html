@@ -1,0 +1,37 @@
+<section class="stepSection">
+  <h2>Board Selection</h2>
+  <form [formGroup]="boardSelectionForm">
+
+    <p>Please plug your board into this computer via USB and press search, then select the board you wish to use</p>
+
+    <div class="connectedBoardSelection">
+      <div class="connectedBoardSelection_selectInput">
+        <mat-form-field class="connectedBoardSelection_selectInput-formField">
+          <mat-select placeholder="Select board" formControlName="selectedBoard"
+                      [disabled]="connectedBoards.length === 0">
+            <mat-option *ngFor="let board of connectedBoards" [value]="board">
+              {{board.boardBrandName}} Connected to {{board.comPort}}
+            </mat-option>
+          </mat-select>
+        </mat-form-field>
+      </div>
+
+      <div class="connectedBoardSelection_button">
+        <button mat-raised-button color="primary" (click)="getConnectedBoards()" [disabled]="loadingBoards"
+                class="connectedBoardSelection_searchButton">Search For Connected Boards
+        </button>
+      </div>
+
+    </div>
+
+    <div class="connectedBoardSelection_loading" *ngIf="loadingBoards">Loading Boards
+      <mat-progress-bar mode="query"></mat-progress-bar>
+    </div>
+
+  </form>
+
+  <div class="stepperControlButtons">
+    <button mat-button matStepperNext [disabled]="boardSelectionForm.invalid" (click)="emitBoardSelection()">Next
+    </button>
+  </div>
+</section>

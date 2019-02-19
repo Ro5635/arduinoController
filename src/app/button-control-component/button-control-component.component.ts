@@ -1,6 +1,6 @@
 import { Component, OnInit, Input, Output, EventEmitter } from '@angular/core';
 import {ControlConfiguration} from "../controlConfiguration";
-import {BoardRequest} from '../boardRequest';
+import {BoardRequest} from '../BoardClasses/boardRequest';
 
 @Component({
   selector: 'app-button-control-component',

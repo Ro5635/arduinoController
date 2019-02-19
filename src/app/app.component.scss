@@ -11,4 +11,11 @@
   -webkit-user-select: none;
 }
 
+.toolBarButton {
+  transition-duration: 0.10s;
+  transition-timing-function: ease-in;
+}
 
+.toolBarButton:hover {
+  transform: scale(0.85);
+}

@@ -1,9 +1,10 @@
 import {Injectable} from '@angular/core';
 import {Observable, of} from 'rxjs';
 import {ElectronService} from "ngx-electron";
-import {BoardRequest} from "./boardRequest";
-import {ArduinoCLIBoard} from "./ArduinoCLIBoard";
-import {UserBoard} from "./UserBoard";
+import {BoardRequest} from "./BoardClasses/boardRequest";
+import {ArduinoCLIBoard} from "./BoardClasses/ArduinoCLIBoard";
+import {UserBoard} from "./BoardClasses/UserBoard";
+import {ConnectedBoard} from "./BoardClasses/ConnectedBoard";
 
 
 @Injectable({
@@ -15,7 +16,7 @@ export class BoardBrokerServiceService {
   constructor(private _electronService: ElectronService) {
 
     // Attempt to open the serial port
-    // this.openSerialPort();
+    // this.openSerialPort();mai
 
   }
 
@@ -25,25 +26,45 @@ export class BoardBrokerServiceService {
    * boardRequest
    *
    * Facilitates passing a general board request
-   *
+   * TODO: This method is going to be entirely overhauled, so in the mean time a switch is used on type
    * @param passedBoardRequest
    */
   async boardRequest(passedBoardRequest: BoardRequest): Promise<any> {
     await this.prepareForUse();
 
     return new Promise((resolve, reject) => {
-    // this.currentBoard.passRequest(passedBoardRequest);
+      // this.currentBoard.passRequest(passedBoardRequest);
 
-    console.log(`Requesting following line written: #12#2#${passedBoardRequest.boardPin}#${passedBoardRequest.newState}#`);
 
-      this._electronService.ipcRenderer.send('serialOperations', [{
-        taskName: 'writeLine',
-        line: `#12#2#${passedBoardRequest.boardPin}#${passedBoardRequest.newState}#`
-      }]);
+      switch (passedBoardRequest.controlType) {
+        case 'Button':
+          console.log(`Requesting following line written: #12#2#${passedBoardRequest.boardPin}#${passedBoardRequest.newState}#`);
+
+          this._electronService.ipcRenderer.send('serialOperations', [{
+            taskName: 'writeLine',
+            line: `#12#2#${passedBoardRequest.boardPin}#${passedBoardRequest.newState}#`
+          }]);
+
+          break;
+
+        case 'Slider':
+          console.log(`Requesting following line written: #13#2#${passedBoardRequest.boardPin}#${passedBoardRequest.newState}#`);
+
+          this._electronService.ipcRenderer.send('serialOperations', [{
+            taskName: 'writeLine',
+            line: `#13#2#${passedBoardRequest.boardPin}#${passedBoardRequest.newState}#`
+          }]);
+
+          break;
+        default:
+          console.error('Unable to identify operation');
+          return reject();
+
+      }
 
 
       return resolve();
-      
+
     });
 
 
@@ -189,15 +210,15 @@ export class BoardBrokerServiceService {
    * Programmes the arduino connected to the past port
    *
    * TODO: Accept arduino parameters such as fqbn for use in compile and upload
-   * @param comPort
+   * @param board
    */
-  programmeBoard(comPort: string): Promise<boolean> {
+  programmeBoard(board: ConnectedBoard): Promise<boolean> {
     return new Promise((resolve, reject) => {
 
       // Request the CLI preparation and sketch upload
       this._electronService.ipcRenderer.send('arduinoOperations', [{
         taskName: 'prepareArduinoCLIAndUpload',
-        "comPort": comPort
+        "board": board
       }]);
 
       // Register a listener

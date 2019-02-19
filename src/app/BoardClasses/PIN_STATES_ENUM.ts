@@ -1,0 +1,6 @@
+export enum PIN_STATES {
+  INPUT = "INPUT",
+  OUTPUT = "OUTPUT",
+  INPUT_PULLUP = "INPUT_PULLUP"
+}
+

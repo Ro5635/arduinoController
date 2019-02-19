@@ -19,7 +19,7 @@ let mainWindow;
 
 async function createWindow() {
   // Create the browser window.
-  mainWindow = new BrowserWindow({width: 800, height: 750, frame: true});
+  mainWindow = new BrowserWindow({width: 800, height: 750, frame: false});
 
   // Hide the menu bar
   // mainWindow.setMenuBarVisibility(false);
@@ -126,7 +126,7 @@ ipcMain.on('arduinoOperations', async function (event, tasks) {
 
         case 'prepareArduinoCLIAndUpload':
           await arduinoHelper.prepareArduinoCLI();
-          await arduinoHelper.uploadToBoard(task.comPort);
+          await arduinoHelper.uploadToBoard(task.board.comPort, task.board.fqbn);
 
           // Report back to app
           //TODO: Handle Failure to upload to board

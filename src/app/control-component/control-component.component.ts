@@ -1,6 +1,6 @@
 import {Component, OnInit, Input, Output, EventEmitter} from '@angular/core';
 import {ControlConfiguration} from "../controlConfiguration";
-import {BoardRequest} from "../boardRequest";
+import {BoardRequest} from "../BoardClasses/boardRequest";
 
 // This component just passes events up from the controls to the its parent
 

@@ -2,9 +2,21 @@
   <mat-toolbar-row>
     <span>Arduino Controller</span>
     <span class="app-toolbar-spacer"></span>
-    <mat-icon class="app-toolbar-icon">verified_user</mat-icon>
-    <mat-icon class="app-toolbar-icon">favorite</mat-icon>
-    <mat-icon class="app-toolbar-icon">delete</mat-icon>
+    <span class="not-dragable">
+
+      <button mat-icon-button class="toolBarButton">
+        <mat-icon class="">verified_user</mat-icon>
+      </button>
+
+      <button mat-icon-button class="toolBarButton">
+        <mat-icon class="">favorite</mat-icon>
+      </button>
+
+      <button (click)="closeApp()" mat-icon-button class="toolBarButton">
+        <mat-icon aria-label="Close the application">clear</mat-icon>
+      </button>
+
+    </span>
   </mat-toolbar-row>
 
 </mat-toolbar>
