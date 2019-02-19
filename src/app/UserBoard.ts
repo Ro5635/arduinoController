@@ -5,14 +5,11 @@ export class UserBoard extends Board {
   boardID: string;
   comPort: string;
 
-
   constructor(boardID, name, boardBrandName, digitalPins, analogPins, pwmPins, fqbn, comPort) {
     super(boardBrandName, digitalPins, analogPins, pwmPins, fqbn);
-    this.boardID = boardID;
     this.name = name;
+    this.boardID = boardID;
     this.comPort = comPort;
-    this.pwmPins = pwmPins;
-    this.fqbn = fqbn;
 
   }
 

@@ -35,7 +35,8 @@ export class BoardSaveComponent implements OnInit {
     const FIXED_BOARD_ID_TMP = 'A001';
 
     // Create the final board
-    const finalBoard = new UserBoard(FIXED_BOARD_ID_TMP, this.additionalBoardDetails.value.boardName, this.selectedBoardConfig.boardBrandName, this.selectedBoardConfig.digitalPins, this.selectedBoardConfig.analogPins, this.selectedBoardConfig.pwmPins, this.selectedBoardConfig.fqbn, this.selectedBoardConfig.comPort);
+    //TODO: Clean up, passing a provisioned boolean here when will want all the pins of that type...
+    const finalBoard = new UserBoard(FIXED_BOARD_ID_TMP, this.additionalBoardDetails.value.boardName, this.selectedBoardConfig.boardBrandName, this.selectedBoardConfig.getPins(false, 'DIGITAL'), this.selectedBoardConfig.getPins(false, 'ANALOG'), this.selectedBoardConfig.getPins(false, 'PWM'), this.selectedBoardConfig.fqbn, this.selectedBoardConfig.comPort);
 
     // TODO: Send board to backend
     // For now just add the board to the service

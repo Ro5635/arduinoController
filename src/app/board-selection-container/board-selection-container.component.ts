@@ -49,7 +49,7 @@ export class BoardSelectionContainerComponent implements OnInit {
       const boardDetails: Board = this.supportedBoardDetails[rawConnectedBoard.fqbn];
 
       // Create the new Board
-      const newBoard: ConnectedBoard = new ConnectedBoard(rawConnectedBoard.name, boardDetails.digitalPins, boardDetails.analogPins, boardDetails.pwmPins, rawConnectedBoard.fqbn, rawConnectedBoard.port, rawConnectedBoard.usbID);
+      const newBoard: ConnectedBoard = new ConnectedBoard(rawConnectedBoard.name, boardDetails.getPins(false, 'DIGITAL'), boardDetails.getPins(false, 'ANALOG'), boardDetails.getPins(false, 'PWM'), rawConnectedBoard.fqbn, rawConnectedBoard.port, rawConnectedBoard.usbID);
 
       this.connectedBoards.push(newBoard);
 
