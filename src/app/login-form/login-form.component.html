@@ -1,0 +1,32 @@
+<section class="login-form-pageContainer">
+
+  <form class="login-form-container" [formGroup]="loginForm">
+
+    <div class="mat-display-1">
+      <h1>Sign In</h1>
+
+    </div>
+
+    <mat-form-field class="login-form-container-fullWidth">
+      <input matInput type="email" placeholder="Email" formControlName="emailFormControl">
+      <mat-error *ngIf="loginForm.get('emailFormControl').invalid && loginForm.get('emailFormControl').touched">
+        Please enter a valid email address
+      </mat-error>
+    </mat-form-field>
+
+    <mat-form-field class="login-form-container-fullWidth">
+      <input matInput placeholder="Password" type="password" formControlName="passwordFormControl">
+    </mat-form-field>
+
+
+    <div class="login-form-container-halfWidth login-form-container-fieldTypeGroupSeparation">
+      <button mat-raised-button
+              (click)="attemptUserLogin(loginForm.get('emailFormControl').value, loginForm.get('passwordFormControl').value)"
+              [disabled]="loginForm.invalid">Log In
+      </button>
+      <button mat-raised-button disabled>Create Account</button>
+    </div>
+
+
+  </form>
+</section>

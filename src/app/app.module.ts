@@ -34,6 +34,7 @@ import {BoardConfiguratorComponent} from './BoardComponents/board-configurator/b
 import { BoardProgrammerComponent } from './BoardComponents/board-programmer/board-programmer.component';
 import { BoardSaveComponent } from './BoardComponents/board-save/board-save.component';
 import { SliderControlComponent } from './slider-control/slider-control.component';
+import { LoginFormComponent } from './login-form/login-form.component';
 
 @NgModule({
   declarations: [
@@ -48,6 +49,7 @@ import { SliderControlComponent } from './slider-control/slider-control.componen
     BoardProgrammerComponent,
     BoardSaveComponent,
     SliderControlComponent,
+    LoginFormComponent,
 
   ],
   imports: [

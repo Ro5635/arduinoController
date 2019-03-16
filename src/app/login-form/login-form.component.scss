@@ -1,0 +1,25 @@
+.login-form-pageContainer {
+  width: 80%;
+  margin: 0 auto;
+
+}
+
+.login-form-container {
+  min-width: 150px;
+  max-width: 500px;
+  width: 100%;
+
+  &-fullWidth {
+    width: 100%;
+  }
+  &-halfWidth {
+    width: 50%;
+    display: flex;
+    justify-content: space-between;
+  }
+
+  &-fieldTypeGroupSeparation {
+    margin-top: 5%;
+  }
+}
+
