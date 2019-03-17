@@ -1,6 +1,6 @@
 <section class="login-form-pageContainer">
 
-  <form class="login-form-container" [formGroup]="loginForm">
+  <form class="login-form-container login-form-pageContainer-section" [formGroup]="loginForm">
 
     <div class="mat-display-1">
       <h1>Sign In</h1>
@@ -29,4 +29,14 @@
 
 
   </form>
+  <div class="login-form-pageContainer-additionalScreenContent">
+    <div class="additionalScreenContent">
+
+      <div *ngIf="isAwaitingLoginResponse">
+        <mat-spinner class="additionalScreenContent-spinner"></mat-spinner>
+      </div>
+
+    </div>
+
+  </div>
 </section>

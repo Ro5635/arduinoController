@@ -3,10 +3,12 @@ import {Routes, RouterModule} from '@angular/router';
 
 import {DashboardContainerComponent} from "./dashboard-container/dashboard-container.component";
 import {BoardConfiguratorComponent} from "./BoardComponents/board-configurator/board-configurator.component";
+import {LoginFormComponent} from "./login-form/login-form.component";
 
 const routes: Routes = [
-  {path: '', component: BoardConfiguratorComponent},
-  {path: 'dashboard', component: DashboardContainerComponent}
+  {path: '', component: LoginFormComponent},
+  {path: 'dashboard', component: DashboardContainerComponent},
+  {path: 'login', component: LoginFormComponent}
 ];
 
 @NgModule({

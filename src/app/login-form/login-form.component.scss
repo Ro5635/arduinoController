@@ -1,13 +1,36 @@
 .login-form-pageContainer {
+  height: 35vh;
   width: 80%;
   margin: 0 auto;
 
+  &-additionalScreenContent {
+    height: 100%;
+    width: 45%;
+    display: inline-block;
+    vertical-align: top;
+
+  }
+}
+
+// Block to contain ads or loading info
+.additionalScreenContent {
+  height: 100%;
+  width: 100%;
+  text-align: center;
+
+  display: flex;
+  justify-content: space-around;
+  flex-direction: column;
+
+  &-spinner {
+    margin: auto;
+  }
 }
 
 .login-form-container {
+  display: inline-block;
   min-width: 150px;
-  max-width: 500px;
-  width: 100%;
+  width: 50%;
 
   &-fullWidth {
     width: 100%;
