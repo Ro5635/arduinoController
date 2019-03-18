@@ -1,10 +1,10 @@
 import {Injectable} from '@angular/core';
-import {HttpClient, HttpHeaders} from "@angular/common/http";
-import {Observable, of} from "rxjs";
-import {tap, catchError, map} from "rxjs/operators";
-import {LoginResourceResponse} from "./login-form/LoginResourceResponse";
-import {JsonWebToken} from "./JsonWebToken";
-import {User} from "./User";
+import {HttpClient, HttpHeaders} from '@angular/common/http';
+import {Observable, of} from 'rxjs';
+import {tap, catchError, map} from 'rxjs/operators';
+import {LoginResourceResponse} from './login-form/LoginResourceResponse';
+import {JsonWebToken} from './JsonWebToken';
+import {User} from './User';
 
 
 @Injectable({
@@ -38,7 +38,7 @@ export class UserService {
       this.getUserFromService().subscribe(newUser => {
         observer.next(newUser);
         observer.complete();
-      })
+      });
 
     });
   }
@@ -49,10 +49,12 @@ export class UserService {
    *
    * Attempt authenticate the user and acquire a new JWT
    *
-   * @param userEmail
-   * @param userPassword
+   * TODO: Clean up this observable
+   *
+   * @param userEmail  string 'rob@example.com'
+   * @param userPassword  string raw password  'greenEggsAndHam!'
    */
-  attemptLogin(userEmail: String, userPassword: String): Observable {
+  attemptLogin(userEmail: string, userPassword: string): Observable {
 
     // Requests success and JWT from querying login graphQL resource
     const postBody = `{"query":"{ login(email: \\"${userEmail}\\", password: \\"${userPassword}\\") { success\\n    jwt}}"}`;
@@ -91,6 +93,7 @@ export class UserService {
   refreshToken(): Observable {
     return new Observable(observer => {
 
+      // The ID in this query is currently ignored, but required.
       const postBody = `{"query":"{\ngetRefreshToken(id: \"5635\"){success, newJWT}}"}`;
 
       this.http.post(`${this.usersServiceAPIURL}/login/refresh`, postBody, this.getHeaders(true))
@@ -172,9 +175,9 @@ export class UserService {
    *
    * Stores a new JWT
    *
-   * @param newJWT
+   * @param newJWT  The replacement raw JWT string
    */
-  private storeNewJWT(newJWT: String): void {
+  private storeNewJWT(newJWT: string): void {
     this.usersJWT = new JsonWebToken(newJWT);
 
     // Subscribe to the tokens refresh trigger
@@ -212,9 +215,9 @@ export class UserService {
           observer.next(this.currentUser);
           observer.complete();
 
-        })
+        });
 
-    })
+    });
   }
 
 
