@@ -80,7 +80,7 @@ export class UserService {
 
         }),
         catchError(this.handleError('login', {}))
-      )
+      );
 
   }
 
@@ -133,7 +133,7 @@ export class UserService {
 
         observer.complete();
 
-      })
+      });
 
     });
 
@@ -143,7 +143,7 @@ export class UserService {
   /**
    * getHeaders
    *
-   * Get headers for use with node-fetch
+   * Get headers for use with http requests
    *
    * @param withJWT   Boolean   Attach users JWT
    * @return httpOptions
@@ -185,8 +185,19 @@ export class UserService {
       // the JWT needs refreshing
       this.refreshToken();
 
-    })
+    });
 
+  }
+
+
+  /**
+   * getUsersJWT
+   *
+   *  Used by other services to access the users current JWT
+   *  for authentication against other APIs
+   */
+  getUsersJWT(): JsonWebToken {
+    return this.usersJWT;
   }
 
 
