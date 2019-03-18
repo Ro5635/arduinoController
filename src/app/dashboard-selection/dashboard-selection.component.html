@@ -1,0 +1,25 @@
+<section class="pageContainer">
+
+  <div class="mat-display-1">
+    <h1>Dashboards</h1>
+
+  </div>
+
+  <div *ngIf="dashboards.length > 0">
+
+    <p>Please select a dashboard</p>
+
+    <mat-action-list class="dashboardsList_container">
+      <button mat-list-item *ngFor="let dashboard of dashboards" class="dashboardsList_container-dashboard">
+        <mat-icon matListIcon>dashboard</mat-icon>
+        <h3 matLine> {{dashboard.name}} </h3>
+        <p matLine>
+          <span> {{dashboard.board}} </span>
+          <span class="demo-2"> -- {{dashboard.board}} </span>
+        </p>
+      </button>
+    </mat-action-list>
+
+  </div>
+
+</section>

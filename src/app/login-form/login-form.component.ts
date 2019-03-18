@@ -1,5 +1,6 @@
 import {Component, OnInit} from '@angular/core';
 import {FormBuilder, FormControl, FormGroup, Validators} from "@angular/forms";
+import {Router} from '@angular/router';
 import {UserService} from "../user.service";
 import {LoginResourceResponse} from "./LoginResourceResponse";
 
@@ -14,7 +15,7 @@ export class LoginFormComponent implements OnInit {
   // Boolean for deriving if loading UI elements should be shown
   isAwaitingLoginResponse: Boolean = false;
 
-  constructor(private _formBuilder: FormBuilder, private userService: UserService) {
+  constructor(private _formBuilder: FormBuilder, private userService: UserService, private router: Router) {
   }
 
   ngOnInit() {
@@ -42,7 +43,7 @@ export class LoginFormComponent implements OnInit {
         this.isAwaitingLoginResponse = false;
 
         if (loginResponse.success) {
-          alert('YAY');
+          this.router.navigate(['/dashboard/select']);
           // Need to route to the dashboard selection page...
 
         } else {

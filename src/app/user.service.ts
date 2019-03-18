@@ -14,6 +14,7 @@ export class UserService {
   usersServiceAPIURL = 'https://user-service.speedyiot.tech';
   usersJWT: JsonWebToken;
   currentUser: User;
+  isLoggedIn: Boolean = false;
 
   constructor(private http: HttpClient) {
   }
@@ -116,11 +117,13 @@ export class UserService {
           // Request a user so to populate the cache
           this.getUserFromService();
 
+          this.isLoggedIn = true;
           observer.next({success: true});
 
         } else {
           // ToDO: Handle this in some way, logout...
           console.error('Failed to get refresh token');
+          this.isLoggedIn = false;
           observer.error(new Error('Failed to refresh JWT'));
 
         }

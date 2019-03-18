@@ -7,11 +7,11 @@ const helper = new JwtHelperService();
  *
  */
 export class JsonWebToken {
-  private readonly rawToken: String;
+  private readonly rawToken: string;
   private readonly decodedToken: object;
   private readonly expirationDate: Date;
 
-  constructor(rawToken: String) {
+  constructor(rawToken: string) {
 
     this.rawToken = rawToken;
 
@@ -30,7 +30,7 @@ export class JsonWebToken {
 
   }
 
-  getRawToken(): String {
+  getRawToken(): string {
     return this.rawToken;
   }
 
@@ -47,7 +47,7 @@ export class JsonWebToken {
    *
    * Calls next on observable when token is in need of refresh
    */
-  tokenRefreshTrigger(): Observable {
+  tokenRefreshTrigger(): Observable<undefined> {
     return new Observable( observer => {
       const currentTimeStamp = new Date();
 

@@ -32,10 +32,12 @@ import {DashboardComponent} from './dashboard/dashboard.component';
 import {DashboardContainerComponent} from './dashboard-container/dashboard-container.component';
 import {BoardSelectionContainerComponent} from './BoardComponents/board-selection-container/board-selection-container.component';
 import {BoardConfiguratorComponent} from './BoardComponents/board-configurator/board-configurator.component';
-import { BoardProgrammerComponent } from './BoardComponents/board-programmer/board-programmer.component';
-import { BoardSaveComponent } from './BoardComponents/board-save/board-save.component';
-import { SliderControlComponent } from './slider-control/slider-control.component';
-import { LoginFormComponent } from './login-form/login-form.component';
+import {BoardProgrammerComponent} from './BoardComponents/board-programmer/board-programmer.component';
+import {BoardSaveComponent} from './BoardComponents/board-save/board-save.component';
+import {SliderControlComponent} from './slider-control/slider-control.component';
+import {LoginFormComponent} from './login-form/login-form.component';
+import {DashboardSelectionComponent} from './dashboard-selection/dashboard-selection.component';
+import {MatListModule} from "@angular/material";
 
 @NgModule({
   declarations: [
@@ -51,6 +53,7 @@ import { LoginFormComponent } from './login-form/login-form.component';
     BoardSaveComponent,
     SliderControlComponent,
     LoginFormComponent,
+    DashboardSelectionComponent,
 
   ],
   imports: [
@@ -75,7 +78,8 @@ import { LoginFormComponent } from './login-form/login-form.component';
     MatBadgeModule,
     MatSnackBarModule,
     DragDropModule,
-    MatSliderModule
+    MatSliderModule,
+    MatListModule
   ],
   providers: [],
   entryComponents: [
