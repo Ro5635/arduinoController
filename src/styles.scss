@@ -1,6 +1,7 @@
 /* You can add global styles to this file, and also import other style files */
 //Angular Material Theme
 @import "~@angular/material/prebuilt-themes/indigo-pink.css";
+@import url('https://fonts.googleapis.com/css?family=Poppins|Roboto');
 
 body {
   margin: 0;
@@ -25,4 +26,12 @@ body {
 .pageContainer {
   width: 80%;
   margin: 0 auto;
+}
+
+.titleFont {
+  font-family: 'Poppins', sans-serif;
+}
+html {
+  font-family: 'Roboto', sans-serif;
+
 }
