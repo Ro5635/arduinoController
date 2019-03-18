@@ -2,5 +2,20 @@
   &-dashboard {
     text-align: left;
 
+    &-title {
+      padding-left: 16px;
+
+    }
+
+    &-content {
+      width: 100%;
+      display: flex;
+      justify-content: space-evenly;
+
+      &-button {
+        padding-right: 16px;
+
+      }
+    }
   }
 }

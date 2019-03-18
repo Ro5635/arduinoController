@@ -3,6 +3,7 @@ import {FormBuilder, FormControl, FormGroup, Validators} from "@angular/forms";
 import {Router} from '@angular/router';
 import {UserService} from "../user.service";
 import {LoginResourceResponse} from "./LoginResourceResponse";
+import {MatSnackBar} from "@angular/material";
 
 @Component({
   selector: 'app-login-form',
@@ -14,8 +15,9 @@ export class LoginFormComponent implements OnInit {
 
   // Boolean for deriving if loading UI elements should be shown
   isAwaitingLoginResponse: Boolean = false;
+  hadAFailedLogin: Boolean = false;
 
-  constructor(private _formBuilder: FormBuilder, private userService: UserService, private router: Router) {
+  constructor(private _formBuilder: FormBuilder, private userService: UserService, private router: Router, private snackBar: MatSnackBar) {
   }
 
   ngOnInit() {
@@ -31,6 +33,17 @@ export class LoginFormComponent implements OnInit {
 
     const handleFailedAuthentication = () => {
       this.isAwaitingLoginResponse = false;
+
+      // Reset login form
+      this.loginForm.get('emailFormControl').reset();
+      this.loginForm.get('passwordFormControl').reset();
+
+      // Notify User
+      this.snackBar.open('Incorrect Account Details', 'Login', {
+        duration: 4000,
+      });
+
+      this.hadAFailedLogin = true;
 
     };
 

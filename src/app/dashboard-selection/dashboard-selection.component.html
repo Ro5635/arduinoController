@@ -5,21 +5,50 @@
 
   </div>
 
+  <button mat-raised-button>Create New Dashboard</button>
+
   <div *ngIf="dashboards.length > 0">
 
     <p>Please select a dashboard</p>
 
-    <mat-action-list class="dashboardsList_container">
-      <button mat-list-item *ngFor="let dashboard of dashboards" class="dashboardsList_container-dashboard">
-        <mat-icon matListIcon>dashboard</mat-icon>
-        <h3 matLine> {{dashboard.name}} </h3>
-        <p matLine>
-          <span> {{dashboard.board}} </span>
-          <span class="demo-2"> -- {{dashboard.board}} </span>
-        </p>
-      </button>
-    </mat-action-list>
+
+    <mat-accordion>
+      <mat-expansion-panel *ngFor="let dashboard of dashboards" class="dashboardsList_container-dashboard">
+        <mat-expansion-panel-header>
+
+          <mat-panel-title>
+            <mat-icon matListIcon>dashboard</mat-icon>
+            <div class="dashboardsList_container-dashboard-title">{{dashboard.name}}</div>
+          </mat-panel-title>
+
+          <mat-panel-description>
+            Board: {{dashboard.board}}
+
+          </mat-panel-description>
+        </mat-expansion-panel-header>
+
+        <div class="dashboardsList_container-dashboard-content">
+
+          <button mat-raised-button>
+            <mat-icon matListIcon class="dashboardsList_container-dashboard-content-button">widgets</mat-icon>
+            Load Dashboard
+          </button>
+          <button mat-raised-button>
+            <mat-icon matListIcon class="dashboardsList_container-dashboard-content-button">settings</mat-icon>
+            Settings
+          </button>
+          <button mat-raised-button>
+            <mat-icon matListIcon class="dashboardsList_container-dashboard-content-button">clear</mat-icon>
+            Delete Dashboard
+          </button>
+
+        </div>
+
+      </mat-expansion-panel>
+
+    </mat-accordion>
 
   </div>
 
 </section>
+

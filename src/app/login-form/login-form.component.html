@@ -36,6 +36,10 @@
         <mat-spinner class="additionalScreenContent-spinner"></mat-spinner>
       </div>
 
+      <div *ngIf="hadAFailedLogin">
+        <h4>Supplied login details do not match</h4>
+      </div>
+
     </div>
 
   </div>

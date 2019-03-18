@@ -37,7 +37,7 @@ import {BoardSaveComponent} from './BoardComponents/board-save/board-save.compon
 import {SliderControlComponent} from './slider-control/slider-control.component';
 import {LoginFormComponent} from './login-form/login-form.component';
 import {DashboardSelectionComponent} from './dashboard-selection/dashboard-selection.component';
-import {MatListModule} from "@angular/material";
+import {MatExpansionModule, MatListModule} from "@angular/material";
 
 @NgModule({
   declarations: [
@@ -79,7 +79,8 @@ import {MatListModule} from "@angular/material";
     MatSnackBarModule,
     DragDropModule,
     MatSliderModule,
-    MatListModule
+    MatListModule,
+    MatExpansionModule
   ],
   providers: [],
   entryComponents: [
