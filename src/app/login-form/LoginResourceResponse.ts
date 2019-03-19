@@ -1,4 +1,4 @@
 export class LoginResourceResponse {
-  success:    Boolean;
-  jwt:    String;
+  success: boolean;
+  jwt: string;
 }

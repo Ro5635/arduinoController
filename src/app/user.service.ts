@@ -5,6 +5,10 @@ import {tap, catchError, map} from 'rxjs/operators';
 import {LoginResourceResponse} from './login-form/LoginResourceResponse';
 import {JsonWebToken} from './JsonWebToken';
 import {User} from './User';
+import {StdGraphQLResponseFormat} from "./APIResponseTypes/StdGraphQLResponseFormat";
+import {UserService_getUserResponse} from "./APIResponseTypes/UserService_getUserResponse";
+import {UserService_getRefreshToken} from "./APIResponseTypes/UserService_getRefreshToken";
+import {UserService_login} from "./APIResponseTypes/UserService_login";
 
 
 @Injectable({
@@ -14,7 +18,7 @@ export class UserService {
   private usersServiceAPIURL = 'https://user-service.speedyiot.tech';
   private usersJWT: JsonWebToken;
   private currentUser: User;
-  private isLoggedIn: Boolean = false;
+  private isLoggedIn: boolean = false;
 
   constructor(private http: HttpClient) {
   }
@@ -27,7 +31,7 @@ export class UserService {
    *
    * @param forceFromService Boolean to force refresh from service
    */
-  getUser(forceFromService: boolean = false): Observable {
+  getUser(forceFromService: boolean = false): Observable<User> {
     return new Observable(observer => {
       if (this.currentUser && !forceFromService) {
         observer.next(this.currentUser);
@@ -54,14 +58,14 @@ export class UserService {
    * @param userEmail  string 'rob@example.com'
    * @param userPassword  string raw password  'greenEggsAndHam!'
    */
-  attemptLogin(userEmail: string, userPassword: string): Observable {
+  attemptLogin(userEmail: string, userPassword: string): Observable<any> {
 
     // Requests success and JWT from querying login graphQL resource
     const postBody = `{"query":"{ login(email: \\"${userEmail}\\", password: \\"${userPassword}\\") { success\\n    jwt}}"}`;
 
     return this.http.post(`${this.usersServiceAPIURL}/login`, postBody, this.getHeaders())
       .pipe(
-        map(response => response.data.login),
+        map((response: UserService_login) => response.data.login),
         tap((loginResponse: LoginResourceResponse) => {
 
           if (loginResponse.success) {
@@ -93,7 +97,7 @@ export class UserService {
    *
    * Refreshes the current token by requesting a new one from the service
    */
-  refreshToken(): Observable {
+  refreshToken(): Observable<object> {
     return new Observable(observer => {
 
       // The ID in this query is currently ignored, but required.
@@ -101,7 +105,7 @@ export class UserService {
 
       this.http.post(`${this.usersServiceAPIURL}/login/refresh`, postBody, this.getHeaders(true))
         .pipe(
-          map(response => response.data.getRefreshToken),
+          map((response: UserService_getRefreshToken) => response.data.getRefreshToken),
           tap((refreshResponse: LoginResourceResponse) => {
 
             if (refreshResponse.success) {
@@ -114,7 +118,7 @@ export class UserService {
 
           }),
           catchError(this.handleError('login', {}))
-        ).subscribe(refreshResponse => {
+        ).subscribe((refreshResponse: LoginResourceResponse) => {
 
         if (refreshResponse.success) {
 
@@ -209,7 +213,7 @@ export class UserService {
    *
    * Gets a User object from the user service
    */
-  private getUserFromService(): Observable {
+  private getUserFromService(): Observable<User> {
     return new Observable(observer => {
 
       const postBody = ` {"query":"{ getUser(id: null) {id\\n name\\n    dashboards\\n subscriptions}}"}`;
@@ -217,10 +221,10 @@ export class UserService {
       // Make HTTP call to the users service for the user object
       this.http.post(`${this.usersServiceAPIURL}/graphql`, postBody, this.getHeaders(true))
         .pipe(
-          map(response => response.data.getUser),
+          map((response: UserService_getUserResponse) => response.data.getUser),
           catchError(this.handleError('login', {}))
         )
-        .subscribe(userResponse => {
+        .subscribe((userResponse: User)=> {
 
           // Set the current user to the received user object
           this.currentUser = new User(userResponse.id, userResponse.name, userResponse.dashboards, userResponse.subscriptions);

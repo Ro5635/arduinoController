@@ -4,6 +4,7 @@ import {Observable, of} from 'rxjs';
 import {tap, catchError, map} from 'rxjs/operators';
 import {Dashboard} from './Dashboard';
 import {UserService} from './user.service';
+import {StdGraphQLResponseFormat} from "./APIResponseTypes/StdGraphQLResponseFormat";
 
 @Injectable({
   providedIn: 'root'
@@ -20,10 +21,10 @@ export class DashboardService {
    *
    * @param dashboardIDArray
    */
-  getDashboards(dashboardIDArray: [String]): Observable<Dashboard> {
+  getDashboards(dashboardIDArray: [String]): Observable<Dashboard[]> {
     return new Observable(observer => {
 
-      let postBodyArray: [string] = [];
+      let postBodyArray = [];
 
       postBodyArray.push('{"query":" {');
 
@@ -39,10 +40,10 @@ export class DashboardService {
       const postBody  = postBodyArray.join('');
 
       this.http.post(this.dashboardResourceURL, postBody, this.getHeaders(true))
-        .pipe(map(response => response.data))
+        .pipe(map((response: StdGraphQLResponseFormat) => response.data))
         .subscribe((dashboardsObject) => {
-          console.log(dashboardsObject);
-          let dashboardsArray: [Dashboard] = [];
+
+          let dashboardsArray: Dashboard[] = [];
 
           for (let key in dashboardsObject) {
             dashboardsArray.push(dashboardsObject[key]);

@@ -19,7 +19,7 @@ let mainWindow;
 
 async function createWindow() {
   // Create the browser window.
-  mainWindow = new BrowserWindow({width: 800, height: 750, frame: false});
+  mainWindow = new BrowserWindow({width: 1500, height: 750, frame: false});
 
   // Hide the menu bar
   // mainWindow.setMenuBarVisibility(false);

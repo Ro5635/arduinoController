@@ -11,7 +11,7 @@ import {Dashboard} from "../Dashboard";
 })
 export class DashboardSelectionComponent implements OnInit {
 
-  dashboards: [Dashboard] = [];
+  dashboards = [];
 
   constructor(private dashboardService: DashboardService, private usersService: UserService) { }
 
