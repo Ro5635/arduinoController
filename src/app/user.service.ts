@@ -11,10 +11,10 @@ import {User} from './User';
   providedIn: 'root'
 })
 export class UserService {
-  usersServiceAPIURL = 'https://user-service.speedyiot.tech';
-  usersJWT: JsonWebToken;
-  currentUser: User;
-  isLoggedIn: Boolean = false;
+  private usersServiceAPIURL = 'https://user-service.speedyiot.tech';
+  private usersJWT: JsonWebToken;
+  private currentUser: User;
+  private isLoggedIn: Boolean = false;
 
   constructor(private http: HttpClient) {
   }
@@ -66,6 +66,9 @@ export class UserService {
 
           if (loginResponse.success) {
             console.log(`Successfully authenticated user`);
+
+            // Update login state to logged in
+            this.isLoggedIn = true;
 
             this.storeNewJWT(loginResponse.jwt);
 
@@ -229,6 +232,15 @@ export class UserService {
         });
 
     });
+  }
+
+  /**
+   * isUserAuthenticated
+   *
+   * Returns a boolean representing if the user is currently authenticated
+   */
+  isUserAuthenticated(): boolean{
+    return this.isLoggedIn;
   }
 
 

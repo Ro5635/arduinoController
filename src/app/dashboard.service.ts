@@ -16,6 +16,7 @@ export class DashboardService {
 
 
   /**
+   * getDashboards
    *
    * @param dashboardIDArray
    */

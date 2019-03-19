@@ -5,12 +5,13 @@ import {DashboardContainerComponent} from "./dashboard-container/dashboard-conta
 import {BoardConfiguratorComponent} from "./BoardComponents/board-configurator/board-configurator.component";
 import {LoginFormComponent} from "./login-form/login-form.component";
 import {DashboardSelectionComponent} from "./dashboard-selection/dashboard-selection.component";
+import {AuthGuardService} from "./guards/auth-guard.service";
 
 const routes: Routes = [
   {path: '', component: LoginFormComponent},
-  {path: 'dashboard', component: DashboardContainerComponent},
+  {path: 'dashboard', component: DashboardContainerComponent, canActivate: [AuthGuardService]},
   {path: 'login', component: LoginFormComponent},
-  {path: 'dashboard/select', component: DashboardSelectionComponent}
+  {path: 'dashboard/select', component: DashboardSelectionComponent, canActivate: [AuthGuardService]}
 ];
 
 @NgModule({
