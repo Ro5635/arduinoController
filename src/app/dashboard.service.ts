@@ -1,4 +1,4 @@
-import { Injectable } from '@angular/core';
+import {Injectable} from '@angular/core';
 import {HttpClient, HttpHeaders} from '@angular/common/http';
 import {Observable, of} from 'rxjs';
 import {tap, catchError, map} from 'rxjs/operators';
@@ -11,21 +11,48 @@ import {UserService} from './user.service';
 export class DashboardService {
   dashboardResourceURL = 'https://dashboard-service.speedyiot.tech/graphql';
 
-  constructor(private http: HttpClient, private usersService: UserService) { }
+  constructor(private http: HttpClient, private usersService: UserService) {
+  }
 
-  getDashboard(dashboardID: String): Observable<Dashboard> {
-    return new Observable( observer => {
 
-      // const postBody = ``;
-      //
-      // this.http.post(this.dashboardResourceURL, postBody)
-      //   .pipe(map(response => response.data))
-      //   .subscribe((dashboard: Dashboard) => {
-      //
-      //
-      // });
+  /**
+   *
+   * @param dashboardIDArray
+   */
+  getDashboards(dashboardIDArray: [String]): Observable<Dashboard> {
+    return new Observable(observer => {
 
-      observer.complete();
+      let postBodyArray: [string] = [];
+
+      postBodyArray.push('{"query":" {');
+
+      let dashboardIndex = 0;
+      for (let dashboardID of dashboardIDArray) {
+        postBodyArray.push(`dash_${dashboardIndex}: getDashboard(boardID: \\"${dashboardID}\\"){\\n  id \\n  name\\n  widgets {\\n    type\\n    name\\n    id\\n    state\\n    boardPin\\n  }\\n  \\n  board {\\n    boardID\\n    name\\n    boardBrandName\\n    comPort\\n    fqbn\\n    \\n  }\\n  \\n}\\n`);
+        dashboardIndex++;
+
+      }
+
+      postBodyArray.push(`}"}`);
+
+      const postBody  = postBodyArray.join('');
+
+      this.http.post(this.dashboardResourceURL, postBody, this.getHeaders(true))
+        .pipe(map(response => response.data))
+        .subscribe((dashboardsObject) => {
+          console.log(dashboardsObject);
+          let dashboardsArray: [Dashboard] = [];
+
+          for (let key in dashboardsObject) {
+            dashboardsArray.push(dashboardsObject[key]);
+
+          }
+
+          observer.next(dashboardsArray);
+          observer.complete();
+
+        });
+
     });
   }
 

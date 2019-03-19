@@ -28,7 +28,7 @@ export class LoginFormComponent implements OnInit {
     });
   }
 
-  async attemptUserLogin(userEmail: String, userPassword: String) {
+  async attemptUserLogin(userEmail: string, userPassword: string) {
     console.log('Attempting login');
 
     const handleFailedAuthentication = () => {

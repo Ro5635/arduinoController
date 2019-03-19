@@ -1,4 +1,8 @@
 import { Component, OnInit } from '@angular/core';
+import {DashboardService} from "../dashboard.service";
+import {UserService} from "../user.service";
+import {User} from "../User";
+import {Dashboard} from "../Dashboard";
 
 @Component({
   selector: 'app-dashboard-selection',
@@ -7,11 +11,21 @@ import { Component, OnInit } from '@angular/core';
 })
 export class DashboardSelectionComponent implements OnInit {
 
-  dashboards = [{name: 'Roberts', board: 'Arduino Uno'}, {name: 'Bens', board: 'Arduino Mega'}];
+  dashboards: [Dashboard] = [];
 
-  constructor() { }
+  constructor(private dashboardService: DashboardService, private usersService: UserService) { }
 
   ngOnInit() {
+    this.usersService.getUser().subscribe((user: User) => {
+
+      this.dashboardService.getDashboards(user.dashboards).subscribe((dashboards: [Dashboard]) => {
+        console.log('In this call back');
+
+        this.dashboards = dashboards;
+
+      });
+
+    });
   }
 
 }
