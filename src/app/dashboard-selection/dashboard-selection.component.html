@@ -9,23 +9,32 @@
 
     <div class="dashboardPageHeader-side">
       <p class="dashboardPageHeader-textBlock">
-      In order to interact with your micro-controller you need to create a dashboard, on a dashboard you can create widgets to allow you control your micro-controller such as an Arduino. Once you have created a dashboard you can load it from below.
+        In order to interact with your micro-controller you need to create a dashboard, on a dashboard you can create
+        widgets to allow you control your micro-controller such as an Arduino. Once you have created a dashboard you can
+        load it from below.
 
       </p>
 
     </div>
     <div class="dashboardPageHeader-side">
-      <button mat-button class="dashboardPageHeader-button"><mat-icon matListIcon class="">add</mat-icon>Create New Dashboard</button>
+      <button mat-button class="dashboardPageHeader-button">
+        <mat-icon matListIcon class="">add</mat-icon>
+        Create New Dashboard
+      </button>
 
     </div>
   </div>
 
-  <div *ngIf="dashboards.length > 0">
+  <div>
 
     <p>Saved Dashboards</p>
 
+    <div *ngIf="isLoadingDashboards">
+      <mat-progress-bar mode="query"></mat-progress-bar>
+    </div>
 
-    <mat-accordion>
+
+    <mat-accordion *ngIf="!isLoadingDashboards && dashboards.length > 0">
       <mat-expansion-panel *ngFor="let dashboard of dashboards" class="dashboardsList_container-dashboard">
         <mat-expansion-panel-header>
 

@@ -13,13 +13,17 @@ export class DashboardSelectionComponent implements OnInit {
 
   dashboards = [];
 
+  // Boolean used drive loading spinner for dashboards
+  isLoadingDashboards = false;
+
   constructor(private dashboardService: DashboardService, private usersService: UserService) { }
 
   ngOnInit() {
     this.usersService.getUser().subscribe((user: User) => {
+      this.isLoadingDashboards = true;
 
       this.dashboardService.getDashboards(user.dashboards).subscribe((dashboards: [Dashboard]) => {
-        console.log('In this call back');
+        this.isLoadingDashboards = false;
 
         this.dashboards = dashboards;
 
