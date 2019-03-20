@@ -40,11 +40,11 @@
 
           <mat-panel-title>
             <mat-icon matListIcon>dashboard</mat-icon>
-            <div class="dashboardsList_container-dashboard-title">{{dashboard.name}}</div>
+            <div class="dashboardsList_container-dashboard-title">{{dashboard.getName()}}</div>
           </mat-panel-title>
 
           <mat-panel-description>
-            Board: {{dashboard.board.boardBrandName}}
+            Board: {{dashboard.getBoard().boardBrandName}}
 
           </mat-panel-description>
         </mat-expansion-panel-header>
@@ -59,7 +59,7 @@
             <mat-icon matListIcon class="dashboardsList_container-dashboard-content-button">settings</mat-icon>
             Settings
           </button>
-          <button mat-raised-button>
+          <button mat-raised-button (click)="deleteDashboard(dashboard.getID())">
             <mat-icon matListIcon class="dashboardsList_container-dashboard-content-button">clear</mat-icon>
             Delete Dashboard
           </button>
