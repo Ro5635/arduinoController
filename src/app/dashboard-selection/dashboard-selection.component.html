@@ -44,7 +44,7 @@
           </mat-panel-title>
 
           <mat-panel-description>
-            Board: {{dashboard.getBoard().boardBrandName}}
+            <div *ngIf="dashboard.getBoard()">Board: {{dashboard.getBoard().boardBrandName}}</div>
 
           </mat-panel-description>
         </mat-expansion-panel-header>

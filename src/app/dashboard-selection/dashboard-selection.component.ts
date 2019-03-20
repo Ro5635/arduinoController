@@ -60,7 +60,26 @@ export class DashboardSelectionComponent implements OnInit {
 
   }
 
+
+  /**
+   * removeDashboardFromDashboardsArray
+   *
+   * Remove the supplied dashboardID from the dashboards array
+   * 
+   * @param dashboardID
+   */
   private removeDashboardFromDashboardsArray(dashboardID: string) {
+
+    this.dashboards = this.dashboards.filter((currentDashboard: Dashboard) => {
+
+      if (currentDashboard.getID() === dashboardID) {
+        // Do not want to add current dashboard to array
+
+      } else {
+        return currentDashboard;
+      }
+
+    });
 
   }
 
