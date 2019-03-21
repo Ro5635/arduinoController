@@ -21,6 +21,7 @@ export class UserService {
   private isLoggedIn: boolean = false;
 
   constructor(private http: HttpClient) {
+    this.attemptResumeSession();
   }
 
 
@@ -101,9 +102,9 @@ export class UserService {
     return new Observable(observer => {
 
       // The ID in this query is currently ignored, but required.
-      const postBody = `{"query":"{\ngetRefreshToken(id: \"5635\"){success, newJWT}}"}`;
+      const postBody = `{"query":"{getRefreshToken (id: \\"test\\"){success, jwt, errorDescription}}"}`;
 
-      this.http.post(`${this.usersServiceAPIURL}/login/refresh`, postBody, this.getHeaders(true))
+      this.http.post(`${this.usersServiceAPIURL}/graphql`, postBody, this.getHeaders(true))
         .pipe(
           map((response: UserService_getRefreshToken) => response.data.getRefreshToken),
           tap((refreshResponse: LoginResourceResponse) => {
@@ -148,6 +149,36 @@ export class UserService {
 
 
   /**
+   * attemptResumeSession
+   *
+   * Attempts to resume an existing session by getting a JWT out of local storage
+   *
+   */
+  private attemptResumeSession() {
+    const existingRawJWT = localStorage.getItem('userJWT');
+
+    if(existingRawJWT) {
+
+      const existingToken = new JsonWebToken(existingRawJWT);
+
+      if (!existingToken.isExpired()) {
+        console.log('Using existing authentication token');
+        this.storeNewJWT(existingRawJWT);
+        // Set state to be logged in
+        this.isLoggedIn = true;
+
+        // Refresh the token to ensure that it is current
+        this.refreshToken().subscribe(result => {
+          });
+      }
+
+    }
+
+
+  }
+
+
+  /**
    * getHeaders
    *
    * Get headers for use with http requests
@@ -187,10 +218,13 @@ export class UserService {
   private storeNewJWT(newJWT: string): void {
     this.usersJWT = new JsonWebToken(newJWT);
 
+    // Persist the JWT to the browsers local storage
+    localStorage.setItem('userJWT', this.usersJWT.getRawToken());
+
     // Subscribe to the tokens refresh trigger
     this.usersJWT.tokenRefreshTrigger().subscribe(trigger => {
       // the JWT needs refreshing
-      this.refreshToken();
+      this.refreshToken().subscribe();
 
     });
 
@@ -224,7 +258,7 @@ export class UserService {
           map((response: UserService_getUserResponse) => response.data.getUser),
           catchError(this.handleError('login', {}))
         )
-        .subscribe((userResponse: User)=> {
+        .subscribe((userResponse: User) => {
 
           // Set the current user to the received user object
           this.currentUser = new User(userResponse.id, userResponse.name, userResponse.dashboards, userResponse.subscriptions);
@@ -243,7 +277,7 @@ export class UserService {
    *
    * Returns a boolean representing if the user is currently authenticated
    */
-  isUserAuthenticated(): boolean{
+  isUserAuthenticated(): boolean {
     return this.isLoggedIn;
   }
 
