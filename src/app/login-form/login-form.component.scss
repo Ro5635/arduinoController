@@ -39,6 +39,11 @@
     width: 50%;
     display: flex;
     justify-content: space-between;
+    flex-wrap: wrap;
+
+    button {
+      margin-top: 5px;
+    }
   }
 
   &-fieldTypeGroupSeparation {
