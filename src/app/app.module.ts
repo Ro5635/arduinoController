@@ -28,17 +28,18 @@ import {ButtonControlComponentComponent} from './button-control-component/button
 
 import {NgxElectronModule} from 'ngx-electron';
 import {ControlComponentComponent} from './control-component/control-component.component';
-import {DashboardComponent} from './dashboard/dashboard.component';
-import {DashboardContainerComponent} from './dashboard-container/dashboard-container.component';
+import {DashboardComponent} from './dashboard/dashboard-component/dashboard.component';
+import {DashboardContainerComponent} from './dashboard/dashboard-container/dashboard-container.component';
 import {BoardSelectionContainerComponent} from './BoardComponents/board-selection-container/board-selection-container.component';
 import {BoardConfiguratorComponent} from './BoardComponents/board-configurator/board-configurator.component';
 import {BoardProgrammerComponent} from './BoardComponents/board-programmer/board-programmer.component';
 import {BoardSaveComponent} from './BoardComponents/board-save/board-save.component';
 import {SliderControlComponent} from './slider-control/slider-control.component';
 import {LoginFormComponent} from './login-form/login-form.component';
-import {DashboardSelectionComponent} from './dashboard-selection/dashboard-selection.component';
+import {DashboardSelectionComponent} from './dashboard/dashboard-selection/dashboard-selection.component';
 import {MatExpansionModule, MatListModule} from "@angular/material";
 import { ConfirmDialogueComponent } from './dialogues/confirm-dialogue/confirm-dialogue.component';
+import { DashboardCreationComponent } from './dashboard/dashboard-creation-component/dashboard-creation/dashboard-creation.component';
 
 @NgModule({
   declarations: [
@@ -56,6 +57,7 @@ import { ConfirmDialogueComponent } from './dialogues/confirm-dialogue/confirm-d
     LoginFormComponent,
     DashboardSelectionComponent,
     ConfirmDialogueComponent,
+    DashboardCreationComponent,
 
   ],
   imports: [

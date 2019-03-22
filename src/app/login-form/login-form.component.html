@@ -7,14 +7,14 @@
 
     </div>
 
-    <mat-form-field class="login-form-container-fullWidth">
+    <mat-form-field class="login-form-container-fullWidth login-form-container-textInput">
       <input matInput type="email" placeholder="Email" formControlName="emailFormControl">
       <mat-error *ngIf="loginForm.get('emailFormControl').invalid && loginForm.get('emailFormControl').touched">
         Please enter a valid email address
       </mat-error>
     </mat-form-field>
 
-    <mat-form-field class="login-form-container-fullWidth">
+    <mat-form-field class="login-form-container-fullWidth login-form-container-textInput">
       <input matInput placeholder="Password" type="password" formControlName="passwordFormControl">
     </mat-form-field>
 

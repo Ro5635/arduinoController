@@ -35,14 +35,19 @@
   &-fullWidth {
     width: 100%;
   }
-  &-halfWidth {
-    width: 50%;
-    display: flex;
-    justify-content: space-between;
-    flex-wrap: wrap;
 
+  &-textInput {
+    // Set a max width of the text fields so that it looks acceptable on a wide screen
+    max-width: 650px;
+
+  }
+
+  &-halfWidth {
+
+    // Login Buttons
     button {
       margin-top: 5px;
+      margin-right: 25px;
     }
   }
 

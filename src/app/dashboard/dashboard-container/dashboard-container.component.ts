@@ -1,6 +1,6 @@
 import {Component, OnInit} from '@angular/core';
-import {SessionDataServiceService} from "../session-data-service.service";
-import {Board} from "../BoardClasses/Board";
+import {SessionDataServiceService} from "../../session-data-service.service";
+import {Board} from "../../BoardClasses/Board";
 
 @Component({
   selector: 'app-dashboard-container',

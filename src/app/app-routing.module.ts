@@ -1,10 +1,10 @@
 import {NgModule} from '@angular/core';
 import {Routes, RouterModule} from '@angular/router';
 
-import {DashboardContainerComponent} from "./dashboard-container/dashboard-container.component";
+import {DashboardContainerComponent} from "./dashboard/dashboard-container/dashboard-container.component";
 import {BoardConfiguratorComponent} from "./BoardComponents/board-configurator/board-configurator.component";
 import {LoginFormComponent} from "./login-form/login-form.component";
-import {DashboardSelectionComponent} from "./dashboard-selection/dashboard-selection.component";
+import {DashboardSelectionComponent} from "./dashboard/dashboard-selection/dashboard-selection.component";
 import {AuthGuardService} from "./guards/auth-guard.service";
 
 const routes: Routes = [

@@ -1,10 +1,10 @@
 import {Component, OnInit} from '@angular/core';
-import {DashboardService} from "../dashboard.service";
-import {UserService} from "../user.service";
-import {User} from "../User";
-import {Dashboard} from "../Dashboard";
+import {DashboardService} from "../../dashboard.service";
+import {UserService} from "../../user.service";
+import {User} from "../../User";
+import {Dashboard} from "../../Dashboard";
 import {MatDialog, MatSnackBar} from "@angular/material";
-import {ConfirmDialogueComponent} from "../dialogues/confirm-dialogue/confirm-dialogue.component";
+import {ConfirmDialogueComponent} from "../../dialogues/confirm-dialogue/confirm-dialogue.component";
 
 @Component({
   selector: 'app-dashboard-selection',

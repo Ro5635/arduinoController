@@ -1,11 +1,11 @@
 import {Component, Input, OnInit} from '@angular/core';
 import {MatDialog} from '@angular/material';
-import {CreateControlDialogueComponent} from '../create-control-dialogue/create-control-dialogue.component';
+import {CreateControlDialogueComponent} from '../../create-control-dialogue/create-control-dialogue.component';
 
-import {Board} from "../BoardClasses/Board";
-import {ControlConfiguration} from '../controlConfiguration';
-import {BoardRequest} from "../BoardClasses/boardRequest";
-import {BoardBrokerServiceService} from "../board-broker-service.service";
+import {Board} from "../../BoardClasses/Board";
+import {ControlConfiguration} from '../../controlConfiguration';
+import {BoardRequest} from "../../BoardClasses/boardRequest";
+import {BoardBrokerServiceService} from "../../board-broker-service.service";
 import {CdkDragDrop, moveItemInArray, transferArrayItem} from "@angular/cdk/drag-drop";
 
 @Component({
