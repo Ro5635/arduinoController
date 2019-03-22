@@ -3,7 +3,8 @@ import {DashboardService} from "../dashboard.service";
 import {UserService} from "../user.service";
 import {User} from "../User";
 import {Dashboard} from "../Dashboard";
-import {MatSnackBar} from "@angular/material";
+import {MatDialog, MatSnackBar} from "@angular/material";
+import {ConfirmDialogueComponent} from "../dialogues/confirm-dialogue/confirm-dialogue.component";
 
 @Component({
   selector: 'app-dashboard-selection',
@@ -17,7 +18,7 @@ export class DashboardSelectionComponent implements OnInit {
   // Boolean used drive loading spinner for dashboards
   isLoadingDashboards = false;
 
-  constructor(private dashboardService: DashboardService, private usersService: UserService, private snackBar: MatSnackBar) {
+  constructor(private dashboardService: DashboardService, private usersService: UserService, private snackBar: MatSnackBar, public dialog: MatDialog) {
   }
 
   ngOnInit() {
@@ -34,7 +35,32 @@ export class DashboardSelectionComponent implements OnInit {
     });
   }
 
+  confirmDeleteDashboard(dashboardID): void {
+    const dialogRef = this.dialog.open(ConfirmDialogueComponent, {
+      width: '250px',
+      data: {dialogueBodyText: 'This action is permanent, are you sure you want to proceed?', dialogueTitle: 'Delete Dashboard?'}
+    });
+
+    dialogRef.afterClosed().subscribe(result => {
+      if(result.userConfirmed) {
+        console.log('User confirmed request for dashboard delete');
+        this.deleteDashboard(dashboardID);
+
+      } else {
+        console.log('User canceled request for dashboard deletion');
+      }
+
+    });
+  }
+
+  /**
+   * deleteDashboard
+   *
+   * Delete a users dashboard
+   * @param dashboardID   string
+   */
   deleteDashboard(dashboardID: string) {
+
     this.dashboardService.deleteDashboard(dashboardID)
       .subscribe(result => {
         if (result.success) {

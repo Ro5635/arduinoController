@@ -38,6 +38,7 @@ import {SliderControlComponent} from './slider-control/slider-control.component'
 import {LoginFormComponent} from './login-form/login-form.component';
 import {DashboardSelectionComponent} from './dashboard-selection/dashboard-selection.component';
 import {MatExpansionModule, MatListModule} from "@angular/material";
+import { ConfirmDialogueComponent } from './dialogues/confirm-dialogue/confirm-dialogue.component';
 
 @NgModule({
   declarations: [
@@ -54,6 +55,7 @@ import {MatExpansionModule, MatListModule} from "@angular/material";
     SliderControlComponent,
     LoginFormComponent,
     DashboardSelectionComponent,
+    ConfirmDialogueComponent,
 
   ],
   imports: [
@@ -84,7 +86,8 @@ import {MatExpansionModule, MatListModule} from "@angular/material";
   ],
   providers: [],
   entryComponents: [
-    CreateControlDialogueComponent
+    CreateControlDialogueComponent,
+    ConfirmDialogueComponent
   ],
   bootstrap: [AppComponent]
 })
