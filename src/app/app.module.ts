@@ -39,7 +39,7 @@ import {LoginFormComponent} from './login-form/login-form.component';
 import {DashboardSelectionComponent} from './dashboard/dashboard-selection/dashboard-selection.component';
 import {MatExpansionModule, MatListModule} from "@angular/material";
 import { ConfirmDialogueComponent } from './dialogues/confirm-dialogue/confirm-dialogue.component';
-import { DashboardCreationComponent } from './dashboard/dashboard-creation-component/dashboard-creation/dashboard-creation.component';
+import { DashboardCreationComponent } from './dashboard/dashboard-creation/dashboard-creation-component/dashboard-creation.component';
 
 @NgModule({
   declarations: [
@@ -89,7 +89,8 @@ import { DashboardCreationComponent } from './dashboard/dashboard-creation-compo
   providers: [],
   entryComponents: [
     CreateControlDialogueComponent,
-    ConfirmDialogueComponent
+    ConfirmDialogueComponent,
+    DashboardCreationComponent
   ],
   bootstrap: [AppComponent]
 })

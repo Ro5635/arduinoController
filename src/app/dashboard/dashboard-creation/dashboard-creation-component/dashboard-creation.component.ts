@@ -1,4 +1,6 @@
 import { Component, OnInit } from '@angular/core';
+import {FormControl} from "@angular/forms";
+import {MatDialogRef} from "@angular/material";
 
 @Component({
   selector: 'app-dashboard-creation',
@@ -6,10 +8,20 @@ import { Component, OnInit } from '@angular/core';
   styleUrls: ['./dashboard-creation.component.scss']
 })
 export class DashboardCreationComponent implements OnInit {
+  dashboardName = new FormControl('');
 
-  constructor() { }
+  constructor(public dialogRef: MatDialogRef<DashboardCreationComponent>) { }
 
   ngOnInit() {
+  }
+
+  createDashboard(): void {
+
+  }
+
+  close(): void {
+    this.dialogRef.close();
+
   }
 
 }

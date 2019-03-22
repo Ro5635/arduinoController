@@ -5,6 +5,7 @@ import {User} from "../../User";
 import {Dashboard} from "../../Dashboard";
 import {MatDialog, MatSnackBar} from "@angular/material";
 import {ConfirmDialogueComponent} from "../../dialogues/confirm-dialogue/confirm-dialogue.component";
+import {DashboardCreationComponent} from "../dashboard-creation/dashboard-creation-component/dashboard-creation.component";
 
 @Component({
   selector: 'app-dashboard-selection',
@@ -22,8 +23,10 @@ export class DashboardSelectionComponent implements OnInit {
   }
 
   ngOnInit() {
+
+    this.isLoadingDashboards = true;
+
     this.usersService.getUser().subscribe((user: User) => {
-      this.isLoadingDashboards = true;
 
       this.dashboardService.getDashboards(user.dashboards).subscribe((dashboards: [Dashboard]) => {
         this.isLoadingDashboards = false;
@@ -35,14 +38,41 @@ export class DashboardSelectionComponent implements OnInit {
     });
   }
 
-  confirmDeleteDashboard(dashboardID): void {
-    const dialogRef = this.dialog.open(ConfirmDialogueComponent, {
-      width: '250px',
-      data: {dialogueBodyText: 'This action is permanent, are you sure you want to proceed?', dialogueTitle: 'Delete Dashboard?'}
+
+  createDashboardDialogue(): void {
+    const dialogRef = this.dialog.open(DashboardCreationComponent, {
+      width: '450px',
+      data: {
+      }
     });
 
     dialogRef.afterClosed().subscribe(result => {
-      if(result.userConfirmed) {
+
+
+    });
+
+  }
+
+
+  /**
+   * confirmDeleteDashboard
+   *
+   * Ask the user for confirmation that they wish to delete a dashboard, on their confirmation
+   * call the deletion of the dashboard.
+   *
+   * @param dashboardID strings
+   */
+  confirmDeleteDashboard(dashboardID): void {
+    const dialogRef = this.dialog.open(ConfirmDialogueComponent, {
+      width: '250px',
+      data: {
+        dialogueBodyText: 'This action is permanent, are you sure you want to proceed?',
+        dialogueTitle: 'Delete Dashboard?'
+      }
+    });
+
+    dialogRef.afterClosed().subscribe(result => {
+      if (result.userConfirmed) {
         console.log('User confirmed request for dashboard delete');
         this.deleteDashboard(dashboardID);
 
@@ -91,7 +121,7 @@ export class DashboardSelectionComponent implements OnInit {
    * removeDashboardFromDashboardsArray
    *
    * Remove the supplied dashboardID from the dashboards array
-   * 
+   *
    * @param dashboardID
    */
   private removeDashboardFromDashboardsArray(dashboardID: string) {

@@ -49,6 +49,11 @@ export class UserService {
   }
 
 
+  registerNewDashboard() {
+
+  }
+
+
   /**
    * attemptLogin
    *
