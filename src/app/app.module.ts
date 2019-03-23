@@ -61,8 +61,8 @@ import { DashboardCreationComponent } from './dashboard/dashboard-creation/dashb
 
   ],
   imports: [
-    BrowserModule,
     BrowserAnimationsModule,
+    BrowserModule,
     HttpClientModule,
     MatButtonModule,
     MatIconModule,

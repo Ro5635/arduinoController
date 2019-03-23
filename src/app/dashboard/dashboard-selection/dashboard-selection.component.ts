@@ -42,8 +42,7 @@ export class DashboardSelectionComponent implements OnInit {
   createDashboardDialogue(): void {
     const dialogRef = this.dialog.open(DashboardCreationComponent, {
       width: '450px',
-      data: {
-      }
+      data: {}
     });
 
     dialogRef.afterClosed().subscribe(result => {
