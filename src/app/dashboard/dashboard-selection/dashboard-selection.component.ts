@@ -52,6 +52,7 @@ export class DashboardSelectionComponent implements OnInit {
         console.log('User requested creation of a new dashboard');
 
         this.createDashboard(userResponse.dashboardName).subscribe( (newDashboardID: string) => {
+          // Take the user to the new dashboards settings page
 
         });
 
@@ -74,6 +75,11 @@ export class DashboardSelectionComponent implements OnInit {
    */
   private createDashboard(dashboardName: string): Observable<string> {
     return new Observable(observer => {
+
+      // Show a snackbar notification of successful dashboard creation
+      this.snackBar.open('Successfully created new dashboard', 'Dashboard', {
+        duration: 4000,
+      });
 
       this.usersService.registerNewDashboard().subscribe((newDashboardID: string) => {
 
