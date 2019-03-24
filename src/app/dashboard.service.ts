@@ -11,6 +11,7 @@ import {UserService_RegisterDashboardResponse_GraphQL} from "./APIResponseTypes/
 import {UserService_RegisterDashboardResponse} from "./APIResponseTypes/UserService_RegisterDashboardResponse";
 import {DashboardUpdateInput} from "./DashboardUpdateInput";
 import {StandardRequestResponse} from "./APIResponseTypes/StandardRequestResponse";
+import {DashboardService_updateDashboardResponse} from "./APIResponseTypes/DashboardService_updateDashboard";
 
 @Injectable({
   providedIn: 'root'
@@ -117,7 +118,7 @@ export class DashboardService {
 
       this.http.post(`${this.dashboardResourceURL}/graphql`, postBody, this.getHeaders(true))
         .pipe(
-          map((response: StdGraphQLResponseFormat) => response.data),
+          map((response: DashboardService_updateDashboardResponse) => response.data.updateDashboard),
           catchError(this.handleError('updateDashboard', {}))
         ).subscribe((updateDashboardResponse: StandardRequestResponse) => {
 

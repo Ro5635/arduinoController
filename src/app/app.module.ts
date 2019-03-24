@@ -40,6 +40,7 @@ import {DashboardSelectionComponent} from './dashboard/dashboard-selection/dashb
 import {MatExpansionModule, MatListModule} from "@angular/material";
 import { ConfirmDialogueComponent } from './dialogues/confirm-dialogue/confirm-dialogue.component';
 import { DashboardCreationComponent } from './dashboard/dashboard-creation/dashboard-creation-component/dashboard-creation.component';
+import { DashboardSettingsComponent } from './dashboard/dashboard-settings/dashboard-settings.component';
 
 @NgModule({
   declarations: [
@@ -58,6 +59,7 @@ import { DashboardCreationComponent } from './dashboard/dashboard-creation/dashb
     DashboardSelectionComponent,
     ConfirmDialogueComponent,
     DashboardCreationComponent,
+    DashboardSettingsComponent,
 
   ],
   imports: [

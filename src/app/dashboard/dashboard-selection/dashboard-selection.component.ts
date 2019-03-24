@@ -8,6 +8,7 @@ import {ConfirmDialogueComponent} from "../../dialogues/confirm-dialogue/confirm
 import {DashboardCreationComponent} from "../dashboard-creation/dashboard-creation-component/dashboard-creation.component";
 import {Observable} from "rxjs";
 import {DashboardUpdateInput} from "../../DashboardUpdateInput";
+import {Router} from "@angular/router";
 
 @Component({
   selector: 'app-dashboard-selection',
@@ -21,7 +22,7 @@ export class DashboardSelectionComponent implements OnInit {
   // Boolean used drive loading spinner for dashboards
   isLoadingDashboards = false;
 
-  constructor(private dashboardService: DashboardService, private usersService: UserService, private snackBar: MatSnackBar, public dialog: MatDialog) {
+  constructor(private dashboardService: DashboardService, private usersService: UserService, private snackBar: MatSnackBar, public dialog: MatDialog, private router: Router) {
   }
 
   ngOnInit() {
@@ -53,6 +54,7 @@ export class DashboardSelectionComponent implements OnInit {
 
         this.createDashboard(userResponse.dashboardName).subscribe( (newDashboardID: string) => {
           // Take the user to the new dashboards settings page
+          this.router.navigate(['/dashboard/settings', newDashboardID]);
 
         });
 

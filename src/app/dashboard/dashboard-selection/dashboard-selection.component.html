@@ -55,10 +55,12 @@
             <mat-icon matListIcon class="dashboardsList_container-dashboard-content-button">widgets</mat-icon>
             Load Dashboard
           </button>
-          <button mat-raised-button>
-            <mat-icon matListIcon class="dashboardsList_container-dashboard-content-button">settings</mat-icon>
-            Settings
-          </button>
+          <a [routerLink]="['/dashboard/settings', dashboard.getID()]">
+            <button mat-raised-button>
+              <mat-icon matListIcon class="dashboardsList_container-dashboard-content-button">settings</mat-icon>
+              Settings
+            </button>
+          </a>
           <button mat-raised-button (click)="confirmDeleteDashboard(dashboard.getID())">
             <mat-icon matListIcon class="dashboardsList_container-dashboard-content-button">clear</mat-icon>
             Delete Dashboard
