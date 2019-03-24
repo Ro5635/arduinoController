@@ -9,8 +9,8 @@
   </mat-form-field>
 
   <div class="actionButtons">
-    <button mat-raised-button color="primary" class="actionButtons-button">Create Dashboard</button>
-    <button mat-raised-button class="actionButtons-button" (click)="close()" >Cancel</button>
+    <button mat-raised-button color="primary" class="actionButtons-button" [disabled]="dashboardName.invalid" (click)="emitCreateDashboard()">Create Dashboard</button>
+    <button mat-raised-button class="actionButtons-button" (click)="close()">Cancel</button>
 
   </div>
 

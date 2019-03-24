@@ -7,6 +7,10 @@ import {UserService} from './user.service';
 import {StdGraphQLResponseFormat} from "./APIResponseTypes/StdGraphQLResponseFormat";
 import {DashboardService_deleteDashboardResponse} from "./APIResponseTypes/DashboardService_deleteDashboardResponse";
 import {DashboardService_deleteDashboard} from "./APIResponseTypes/DashboardService_deleteDashboard";
+import {UserService_RegisterDashboardResponse_GraphQL} from "./APIResponseTypes/UserService_RegisterDashboardResponse_GraphQL";
+import {UserService_RegisterDashboardResponse} from "./APIResponseTypes/UserService_RegisterDashboardResponse";
+import {DashboardUpdateInput} from "./DashboardUpdateInput";
+import {StandardRequestResponse} from "./APIResponseTypes/StandardRequestResponse";
 
 @Injectable({
   providedIn: 'root'
@@ -49,9 +53,16 @@ export class DashboardService {
 
           for (let key in dashboardsObject) {
             const dashboardData = dashboardsObject[key];
-            const newDashboard: Dashboard = new Dashboard(dashboardData.id, dashboardData.name, dashboardData.board, dashboardData.widgets);
-            dashboardsArray.push(newDashboard);
 
+            // Only proceed if there is a dashboard returned for this key
+            if (dashboardData) {
+              const newDashboard: Dashboard = new Dashboard(dashboardData.id, dashboardData.name, dashboardData.board, dashboardData.widgets);
+              dashboardsArray.push(newDashboard);
+
+            } else {
+              console.log('Failed to get a dashboard');
+
+            }
           }
 
           observer.next(dashboardsArray);
@@ -71,7 +82,7 @@ export class DashboardService {
   deleteDashboard(dashboardID: string): Observable<DashboardService_deleteDashboardResponse> {
     return new Observable<DashboardService_deleteDashboardResponse>(observer => {
 
-      const postBody = `{"query":"mutation {\\n  deleteDashboard(boardID: \\"${dashboardID}\\"){success,errorDescription}\\n}"}`;
+      const postBody = `{"query":"mutation {deleteDashboard(boardID: \\"${dashboardID}\\"){success,errorDescription}\\n}"}`;
 
       this.http.post(this.dashboardResourceURL, postBody, this.getHeaders(true))
         .pipe(map((response: DashboardService_deleteDashboard) => response.data.deleteDashboard))
@@ -83,6 +94,45 @@ export class DashboardService {
           observer.complete();
 
         });
+    });
+  }
+
+
+  updateDashboard(dashboardUpdates: DashboardUpdateInput): Observable {
+    return new Observable(observer => {
+
+      // Basic validation
+      if (!dashboardUpdates.id) {
+        console.error('Update to dashboard was requested without an dashboardID');
+        observer.error(new Error('No DashboardID was provided to updateDashboard request'));
+      }
+
+      let query = `mutation ($dashboardUpdates: DashboardInput!){updateDashboard(dashboardUpdates: $dashboardUpdates){errorDescription,success}}`;
+
+      const variables = {dashboardUpdates};
+
+      // Build the postBody for the graphQL request
+      const postBody = JSON.stringify({query, variables});
+
+
+      this.http.post(`${this.dashboardResourceURL}/graphql`, postBody, this.getHeaders(true))
+        .pipe(
+          map((response: StdGraphQLResponseFormat) => response.data),
+          catchError(this.handleError('updateDashboard', {}))
+        ).subscribe((updateDashboardResponse: StandardRequestResponse) => {
+
+          if (updateDashboardResponse.success) {
+            // Updates applied successfully
+            observer.next(true);
+            return observer.complete();
+
+          }
+
+          observer.error(new Error('Failed to update dashboard'));
+
+      });
+
+
     });
   }
 
@@ -114,6 +164,27 @@ export class DashboardService {
     };
 
 
+  }
+
+
+  /**
+   * Handle Http operation that failed.
+   * Let the app continue.
+   * @param operation - name of the operation that failed
+   * @param result - optional value to return as the observable result
+   */
+  private handleError<T>(operation = 'operation', result?: T) {
+    return (error: any): Observable<T> => {
+
+      // TODO: send the error to remote logging infrastructure
+      console.error(error); // log to console instead
+
+      // TODO: better job of transforming error for user consumption
+      console.log(`${operation} failed: ${error.message}`);
+
+      // Let the app keep running by returning an empty result.
+      return of(result as T);
+    };
   }
 
 }

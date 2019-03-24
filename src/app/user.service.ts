@@ -5,10 +5,12 @@ import {tap, catchError, map} from 'rxjs/operators';
 import {LoginResourceResponse} from './login-form/LoginResourceResponse';
 import {JsonWebToken} from './JsonWebToken';
 import {User} from './User';
-import {StdGraphQLResponseFormat} from "./APIResponseTypes/StdGraphQLResponseFormat";
 import {UserService_getUserResponse} from "./APIResponseTypes/UserService_getUserResponse";
 import {UserService_getRefreshToken} from "./APIResponseTypes/UserService_getRefreshToken";
 import {UserService_login} from "./APIResponseTypes/UserService_login";
+import {Dashboard} from "./Dashboard";
+import {UserService_RegisterDashboardResponse_GraphQL} from "./APIResponseTypes/UserService_RegisterDashboardResponse_GraphQL";
+import {UserService_RegisterDashboardResponse} from "./APIResponseTypes/UserService_RegisterDashboardResponse";
 
 
 @Injectable({
@@ -49,8 +51,47 @@ export class UserService {
   }
 
 
-  registerNewDashboard() {
+  /**
+   * registerNewDashboard
+   *
+   * Registers a new dashboard to the user, will resolve the new dashboardID
+   * @return Observable DashbaordID<String>
+   */
+  registerNewDashboard(): Observable<string> {
+    return new Observable(observer => {
 
+      // Requests success and JWT from querying login graphQL resource
+       const query = `mutation ($newDashboardName: String!) {
+        registerNewDashboard(dashboard: {name: $newDashboardName} ) {
+          success
+          errorDescription
+          newDashboardID
+        }}`;
+
+       const variables = {"newDashboardName": "New_Name"};
+
+      const postBody = JSON.stringify({query, variables});
+
+
+      this.http.post(`${this.usersServiceAPIURL}/graphql`, postBody, this.getHeaders(true))
+        .pipe(
+          map((response: UserService_RegisterDashboardResponse_GraphQL) => response.data.registerNewDashboard),
+          catchError(this.handleError('registerNewDashboard', {}))
+        ).subscribe((registerDashboardResponse: UserService_RegisterDashboardResponse) => {
+
+          if (registerDashboardResponse.success) {
+            // Successfully registered a new dashboard, resolve the new dashboardID to the caller
+            observer.next(registerDashboardResponse.newDashboardID);
+          } else {
+            console.error(`Call to register a new dashboard failed, error: ${registerDashboardResponse.errorDescription}`);
+
+          }
+
+        observer.complete();
+
+      });
+
+    });
   }
 
 
@@ -162,7 +203,7 @@ export class UserService {
   private attemptResumeSession() {
     const existingRawJWT = localStorage.getItem('userJWT');
 
-    if(existingRawJWT) {
+    if (existingRawJWT) {
 
       const existingToken = new JsonWebToken(existingRawJWT);
 
@@ -174,7 +215,7 @@ export class UserService {
 
         // Refresh the token to ensure that it is current
         this.refreshToken().subscribe(result => {
-          });
+        });
       }
 
     }

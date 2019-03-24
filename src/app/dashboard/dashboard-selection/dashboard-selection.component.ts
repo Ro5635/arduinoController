@@ -6,6 +6,8 @@ import {Dashboard} from "../../Dashboard";
 import {MatDialog, MatSnackBar} from "@angular/material";
 import {ConfirmDialogueComponent} from "../../dialogues/confirm-dialogue/confirm-dialogue.component";
 import {DashboardCreationComponent} from "../dashboard-creation/dashboard-creation-component/dashboard-creation.component";
+import {Observable} from "rxjs";
+import {DashboardUpdateInput} from "../../DashboardUpdateInput";
 
 @Component({
   selector: 'app-dashboard-selection',
@@ -45,11 +47,63 @@ export class DashboardSelectionComponent implements OnInit {
       data: {}
     });
 
-    dialogRef.afterClosed().subscribe(result => {
+    dialogRef.afterClosed().subscribe(userResponse => {
+      if (userResponse.createNewDashboard) {
+        console.log('User requested creation of a new dashboard');
 
+        this.createDashboard(userResponse.dashboardName).subscribe( (newDashboardID: string) => {
 
+        });
+
+      }
     });
+  }
 
+  /**
+   * createDashboard
+   *
+   * Call the backend API's required to register a new dashboard to a user
+   * and then update it's name and then navigate the user to edit that dashboard
+   *
+   * If no dashboardName is supplied then dashboard creation will only require a single service call
+   * and likely much faster
+   *
+   * Due to the fragmentation of the services this cannot be completed in a single call.
+   *
+   * @param dashboardName string  optional string name for new dashboard
+   */
+  private createDashboard(dashboardName: string): Observable<string> {
+    return new Observable(observer => {
+
+      this.usersService.registerNewDashboard().subscribe((newDashboardID: string) => {
+
+        if (!dashboardName) {
+          // No name supplied, dashboard creation process finished for this call
+          observer.next(newDashboardID);
+          return observer.complete();
+
+        }
+
+        // Crate the dashboard updates object for updating the name on the new dashboard
+        const dashboardUpdates: DashboardUpdateInput = {
+          id: newDashboardID,
+          name: dashboardName
+        };
+
+        // Need to get an updated auth token with this new dashboardID in the grants
+        this.usersService.refreshToken().subscribe(() => {
+
+          // Call the dashboard_service and set the name of the new dashboard
+          this.dashboardService.updateDashboard(dashboardUpdates).subscribe(result => {
+
+            observer.next(newDashboardID);
+            return observer.complete();
+
+          });
+
+        });
+      })// So many brackets  :(
+    });
   }
 
 
