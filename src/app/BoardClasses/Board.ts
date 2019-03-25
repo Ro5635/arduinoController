@@ -49,11 +49,15 @@ export class Board {
   }
 
   /**
+   * getPins
    *
-   * @param provisioned
-   * @param pinMode
+   * Returns an array of pins that match the provided filter criteria
+   *
+   * @param provisioned  boolean
+   * @param pinMode string optional filter examples: 'DIGITAL', 'ANALOG', 'PWM'
+   * @param rawPinNameArray boolean option  should response be of raw form ['33', '55', '33'] or Object form [BoardPin]
    */
-  getPins(provisioned: boolean, pinMode: string = undefined) {
+  getPins(provisioned: boolean, pinMode: string = undefined, rawPinNameArray = true) {
     if (provisioned === undefined) {
       console.error('Failed to complete getPins method signature, missing provisioned: boolean');
       return [];
@@ -77,6 +81,10 @@ export class Board {
     // Handle potential pinMode filtering
     if (pinMode === undefined) {
       // No pinMode filter to be applied
+      if (rawPinNameArray) {
+        return this.convertBoardPinsToPinNameArray(filteredPinArray);
+
+      }
       return filteredPinArray;
 
     } else {
@@ -84,9 +92,35 @@ export class Board {
       filteredPinArray = filteredPinArray.filter(pin => pin.modeIsSupported(pinMode));
 
       // Return the array after the additional filter
+      console.log('FILTERED PINS ARRAY');
+      console.log(filteredPinArray);
+      if (rawPinNameArray) {
+        return this.convertBoardPinsToPinNameArray(filteredPinArray);
+      }
       return filteredPinArray;
 
+
     }
+
+  }
+
+
+  /**
+   * convertBoardPinsToPinNameArray
+   *
+   * Converts an array of BoardPins into an array of pin names
+   * outputs ['A2', 3, 5, 6]
+   * @param boardPinsArray  [BoardPin]
+   */
+  private convertBoardPinsToPinNameArray(boardPinsArray) {
+    let pinsNameArray = [];
+
+    for (let pin of boardPinsArray) {
+      pinsNameArray.push(pin.pinName);
+
+    }
+
+    return pinsNameArray;
 
   }
 
@@ -146,6 +180,32 @@ export class Board {
     console.error('Failed to find pin');
     //return failure to free passed pin name
     return false;
+
+  }
+
+  /**
+   * getSerialised
+   *
+   * Gets the state of the Board in a serialised form in a JSON object, as expected by the BoardInput type on the
+   * graphQL API's
+   */
+  getSerialised() {
+    let serialisedForm = {};
+
+    serialisedForm['boardID'] = 'NotImplementedYet';
+    serialisedForm['boardBrandName'] = this.boardBrandName;
+    serialisedForm['digitalPins'] = this.getPins(false, 'DIGITAL');
+    serialisedForm['analogPins'] = this.getPins(false, 'ANALOG');
+    serialisedForm['pwmPins'] = this.getPins(false, 'PWM');
+    serialisedForm['fqbn'] = this.fqbn;
+
+    // Additional params should be provided by sub classes
+    // serialisedForm['name'] = this.
+    // serialisedForm['comPort'] = '';
+    console.log('SERIALISED FROM');
+    console.log(JSON.stringify(serialisedForm));
+    return serialisedForm;
+
 
   }
 
