@@ -92,13 +92,10 @@ export class Board {
       filteredPinArray = filteredPinArray.filter(pin => pin.modeIsSupported(pinMode));
 
       // Return the array after the additional filter
-      console.log('FILTERED PINS ARRAY');
-      console.log(filteredPinArray);
       if (rawPinNameArray) {
         return this.convertBoardPinsToPinNameArray(filteredPinArray);
       }
       return filteredPinArray;
-
 
     }
 
@@ -202,8 +199,7 @@ export class Board {
     // Additional params should be provided by sub classes
     // serialisedForm['name'] = this.
     // serialisedForm['comPort'] = '';
-    console.log('SERIALISED FROM');
-    console.log(JSON.stringify(serialisedForm));
+
     return serialisedForm;
 
 
