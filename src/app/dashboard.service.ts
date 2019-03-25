@@ -11,7 +11,7 @@ import {UserService_RegisterDashboardResponse_GraphQL} from "./APIResponseTypes/
 import {UserService_RegisterDashboardResponse} from "./APIResponseTypes/UserService_RegisterDashboardResponse";
 import {DashboardUpdateInput} from "./DashboardUpdateInput";
 import {StandardRequestResponse} from "./APIResponseTypes/StandardRequestResponse";
-import {DashboardService_updateDashboardResponse} from "./APIResponseTypes/DashboardService_updateDashboard";
+import {DashboardService_updateDashboardResponse} from "./APIResponseTypes/DashboardService_updateDashboardResponse";
 
 @Injectable({
   providedIn: 'root'
@@ -99,13 +99,20 @@ export class DashboardService {
   }
 
 
-  updateDashboard(dashboardUpdates: DashboardUpdateInput): Observable {
+  /**
+   * updateDashboard
+   *
+   * Updates a dashboard, requires a DashboardUpdateInput, this must have the dashboardID specified
+   *
+   * @param dashboardUpdates
+   */
+  updateDashboard(dashboardUpdates: DashboardUpdateInput): Observable<boolean> {
     return new Observable(observer => {
 
       // Basic validation
       if (!dashboardUpdates.id) {
         console.error('Update to dashboard was requested without an dashboardID');
-        observer.error(new Error('No DashboardID was provided to updateDashboard request'));
+        return observer.error(new Error('No DashboardID was provided to updateDashboard request'));
       }
 
       let query = `mutation ($dashboardUpdates: DashboardInput!){updateDashboard(dashboardUpdates: $dashboardUpdates){errorDescription,success}}`;

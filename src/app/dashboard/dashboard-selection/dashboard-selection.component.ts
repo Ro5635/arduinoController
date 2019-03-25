@@ -93,10 +93,10 @@ export class DashboardSelectionComponent implements OnInit {
         }
 
         // Crate the dashboard updates object for updating the name on the new dashboard
-        const dashboardUpdates: DashboardUpdateInput = {
-          id: newDashboardID,
-          name: dashboardName
-        };
+        const dashboardUpdates: DashboardUpdateInput = new DashboardUpdateInput();
+
+        dashboardUpdates['id'] = newDashboardID;
+        dashboardUpdates['name'] = dashboardName;
 
         // Need to get an updated auth token with this new dashboardID in the grants
         this.usersService.refreshToken().subscribe(() => {

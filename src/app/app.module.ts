@@ -37,10 +37,12 @@ import {BoardSaveComponent} from './BoardComponents/board-save/board-save.compon
 import {SliderControlComponent} from './slider-control/slider-control.component';
 import {LoginFormComponent} from './login-form/login-form.component';
 import {DashboardSelectionComponent} from './dashboard/dashboard-selection/dashboard-selection.component';
-import {MatExpansionModule, MatListModule} from "@angular/material";
+import {MatExpansionModule, MatListModule, MatTabsModule} from "@angular/material";
 import { ConfirmDialogueComponent } from './dialogues/confirm-dialogue/confirm-dialogue.component';
 import { DashboardCreationComponent } from './dashboard/dashboard-creation/dashboard-creation-component/dashboard-creation.component';
 import { DashboardSettingsComponent } from './dashboard/dashboard-settings/dashboard-settings.component';
+import { DashboardSettingsCoreComponent } from './dashboard/dashboard-settings-core/dashboard-settings-core.component';
+import { BoardDetailsComponent } from './board-details/board-details.component';
 
 @NgModule({
   declarations: [
@@ -60,6 +62,8 @@ import { DashboardSettingsComponent } from './dashboard/dashboard-settings/dashb
     ConfirmDialogueComponent,
     DashboardCreationComponent,
     DashboardSettingsComponent,
+    DashboardSettingsCoreComponent,
+    BoardDetailsComponent,
 
   ],
   imports: [
@@ -86,7 +90,8 @@ import { DashboardSettingsComponent } from './dashboard/dashboard-settings/dashb
     DragDropModule,
     MatSliderModule,
     MatListModule,
-    MatExpansionModule
+    MatExpansionModule,
+    MatTabsModule
   ],
   providers: [],
   entryComponents: [

@@ -1,0 +1,21 @@
+<p>
+  To update your dashboard change the details below:
+</p>
+
+<form [formGroup]="dashboardDetailsForm" class="dashboardDetailsForm">
+
+  <mat-form-field class="">
+    <input matInput type="text" placeholder="Dashboard Name:" formControlName="name">
+    <button mat-button *ngIf="dashboardDetailsForm.get('name')" matSuffix mat-icon-button
+            aria-label="Clear" (click)="dashboardDetailsForm.get('name').setValue('')">
+      <mat-icon>close</mat-icon>
+    </button>
+  </mat-form-field>
+  <br>
+
+  <div class="dashboardDetailsForm-saveButton">
+    <button mat-raised-button color="primary" [disabled]="dashboardDetailsForm.pristine"
+            (click)="saveDashboardDetails()">Save Changes
+    </button>
+  </div>
+</form>

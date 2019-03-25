@@ -12,4 +12,22 @@ export class ConnectedBoard extends Board {
 
   }
 
+  /**
+   * getSerialised
+   *
+   * gets a serialised representation of the board
+   * Call parent class for serialisation of core fields
+   */
+  getSerialised() {
+    // Get the serialisedBoard from parent
+    let serialisedBoard = super.getSerialised();
+
+    // Now add sub class specific attributes
+    serialisedBoard['comPort'] = this.comPort;
+    serialisedBoard['name'] = 'NOT_IMPLEMENTED_YET';
+
+    return serialisedBoard;
+
+  }
+
 }

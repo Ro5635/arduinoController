@@ -3,10 +3,12 @@
  *
  * Class representing the inputs to the updateDashborad resource
  */
+import {Board} from "./BoardClasses/Board";
+
 export class DashboardUpdateInput {
   id: string;
   name: string;
-  // board: BoardInput;  // Commented out until implementation at later point
+  board: object;
   // widgets: [[WidgetInput]]
 
 }
