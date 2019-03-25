@@ -1,6 +1,12 @@
 <mat-toolbar class="app-toolbar" color="primary">
   <mat-toolbar-row>
-    <span>Arduino Controller</span>
+    <span class="titleFont">Arduino Controller</span>
+    <button mat-button [matMenuTriggerFor]="menu" class="titleFont">Menu</button>
+    <mat-menu #menu="matMenu" class="mainMenu">
+      <a class="mainMenu" routerLink="/dashboard/select"><button mat-menu-item>Dashboards Home</button></a>
+      <a class="mainMenu"><button mat-menu-item>Log Out</button></a>
+    </mat-menu>
+
     <span class="app-toolbar-spacer"></span>
     <span class="not-dragable">
 
@@ -25,3 +31,4 @@
 <div [@routeAnimations]="o && o.activatedRouteData">
   <router-outlet #o="outlet"></router-outlet>
 </div>
+
