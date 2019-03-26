@@ -16,6 +16,8 @@ export class DashboardContainerComponent implements OnInit {
 
   ngOnInit() {
     this.currentBoard = this.sessionDataServiceService.board;
+
+    console.error('THIS IS BEING USED');
   }
 
 }

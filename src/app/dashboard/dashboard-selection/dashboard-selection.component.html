@@ -51,10 +51,12 @@
 
         <div class="dashboardsList_container-dashboard-content">
 
+          <a [routerLink]="['/dashboard/view/', dashboard.getID()]">
           <button mat-raised-button>
             <mat-icon matListIcon class="dashboardsList_container-dashboard-content-button">widgets</mat-icon>
             Load Dashboard
           </button>
+          </a>
           <a [routerLink]="['/dashboard/settings', dashboard.getID()]">
             <button mat-raised-button>
               <mat-icon matListIcon class="dashboardsList_container-dashboard-content-button">settings</mat-icon>

@@ -12,6 +12,7 @@ import {UserService_RegisterDashboardResponse} from "./APIResponseTypes/UserServ
 import {DashboardUpdateInput} from "./DashboardUpdateInput";
 import {StandardRequestResponse} from "./APIResponseTypes/StandardRequestResponse";
 import {DashboardService_updateDashboardResponse} from "./APIResponseTypes/DashboardService_updateDashboardResponse";
+import {ConnectedBoard} from "./BoardClasses/ConnectedBoard";
 
 @Injectable({
   providedIn: 'root'
@@ -37,7 +38,7 @@ export class DashboardService {
 
       let dashboardIndex = 0;
       for (let dashboardID of dashboardIDArray) {
-        postBodyArray.push(`dash_${dashboardIndex}: getDashboard(boardID: \\"${dashboardID}\\"){\\n  id \\n  name\\n  widgets {\\n    type\\n    name\\n    id\\n    state\\n    boardPin\\n  }\\n  \\n  board {\\n    boardID\\n    name\\n    boardBrandName\\n    comPort\\n    fqbn\\n    \\n  }\\n  \\n}\\n`);
+        postBodyArray.push(`dash_${dashboardIndex}: getDashboard(boardID: \\"${dashboardID}\\"){\\n  id \\n  name\\n  widgets {\\n    type\\n    name\\n    id\\n    state\\n    boardPin\\n  }\\n  \\n  board {boardID, name, boardBrandName, comPort, fqbn, digitalPins, analogPins, pwmPins }\\n  \\n}\\n`);
         dashboardIndex++;
 
       }
@@ -57,7 +58,23 @@ export class DashboardService {
 
             // Only proceed if there is a dashboard returned for this key
             if (dashboardData) {
-              const newDashboard: Dashboard = new Dashboard(dashboardData.id, dashboardData.name, dashboardData.board, dashboardData.widgets);
+
+              // Create the dashboard's Board from the supplied board data
+              const boardData = dashboardData.board;
+
+
+              let newBoard;
+
+              // If there is a board available in this dash instantiate it
+              if (boardData) {
+                newBoard = new ConnectedBoard(boardData.boardBrandName, boardData.digitalPins, boardData.analogPins, boardData.pwmPins, boardData.fqbn, boardData.comPort, 'NOTIMPLEMENTEDYET');
+
+              } else {
+                newBoard = undefined;
+              }
+
+
+              const newDashboard: Dashboard = new Dashboard(dashboardData.id, dashboardData.name, newBoard, dashboardData.widgets);
               dashboardsArray.push(newDashboard);
 
             } else {

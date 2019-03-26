@@ -1,12 +1,18 @@
 import {Component, Input, OnInit} from '@angular/core';
 import {MatDialog} from '@angular/material';
-import {CreateControlDialogueComponent} from '../../create-control-dialogue/create-control-dialogue.component';
 
-import {Board} from "../../BoardClasses/Board";
 import {ControlConfiguration} from '../../controlConfiguration';
 import {BoardRequest} from "../../BoardClasses/boardRequest";
 import {BoardBrokerServiceService} from "../../board-broker-service.service";
 import {CdkDragDrop, moveItemInArray, transferArrayItem} from "@angular/cdk/drag-drop";
+import {Observable} from "rxjs";
+import {ActivatedRoute, Router} from "@angular/router";
+import {Dashboard} from "../../Dashboard";
+import {DashboardService} from "../../dashboard.service";
+import {ConnectedBoard} from "../../BoardClasses/ConnectedBoard";
+import {ConfirmBoardForLoadDialogueComponent} from "../../dialogues/confirm-board-for-load-dialogue/confirm-board-for-load-dialogue.component";
+import {CreateControlDialogueComponent} from "../../create-control-dialogue/create-control-dialogue.component";
+import {BoardConfiguratorDialogueWrapperComponent} from "../../BoardComponents/board-configurator-dialogue-wrapper/board-configurator-dialogue-wrapper.component";
 
 @Component({
   selector: 'app-dashboard',
@@ -14,13 +20,22 @@ import {CdkDragDrop, moveItemInArray, transferArrayItem} from "@angular/cdk/drag
   styleUrls: ['./dashboard.component.scss']
 })
 export class DashboardComponent implements OnInit {
+  dashboardID: string;
+  currentDashboard: Dashboard;
 
-  constructor(public dialog: MatDialog, private boardBrokerServiceService: BoardBrokerServiceService) {
+  // Connected board is pulled out of the dashboard and stored as the ConnectedBoard type
+  currentBoard: ConnectedBoard;
+
+  constructor(public dialog: MatDialog, private boardBrokerServiceService: BoardBrokerServiceService, private route: ActivatedRoute, private dashboardService: DashboardService, private router: Router) {
   }
 
-  @Input() currentBoard: Board;
 
   ngOnInit() {
+    // Get dashboardID from route params
+    this.dashboardID = this.route.snapshot.params.dashboardID;
+
+    this.loadConfiguration(this.dashboardID).subscribe();
+
   }
 
   // Controls present on the dashboard
@@ -40,7 +55,185 @@ export class DashboardComponent implements OnInit {
 
   }
 
+  /**
+   * loadConfiguration
+   *
+   * Load configuration into the dashboards state, calls the load of dashboard and micro-controller
+   *
+   * @param dashboardID string
+   */
+  private loadConfiguration(dashboardID: string): Observable<boolean> {
+    return new Observable(observer => {
 
+      // Fetch the details of the selected dashboard from the server
+      this.loadDashboard(dashboardID).subscribe(() => {
+
+        // Load the users micro-controller
+        this.loadDashboardMicroController().subscribe(() => {
+          observer.next();
+          observer.complete();
+
+        }, err => {
+          console.error('Failed to load the micro-controller for the dashboard');
+          console.error(err);
+
+          console.log('Starting configure new Board process');
+          this.configureNewBoard().subscribe(() => {
+            observer.next();
+            observer.complete();
+
+          }, err => {
+            console.error('Failed to configure a new micro-controller board');
+            console.error(err);
+
+            return observer.error('Failed to load dashboard micro-controller');
+
+          });
+
+        })
+
+      }, err => {
+        console.error('Call to load dashboard failed');
+        console.error(err);
+        return observer.error('Failed to load configuration');
+
+      });
+
+    });
+  }
+
+
+  /**
+   * loadDashboard
+   *
+   * Loads the dashboard from the supplied dashboardID into the state of the component
+   *
+   * @param dashboardID string
+   */
+  private loadDashboard(dashboardID: string) {
+    return new Observable(observer => {
+
+      this.dashboardService.getDashboards([dashboardID]).subscribe((dashboardsArray: [Dashboard]) => {
+        this.currentDashboard = dashboardsArray[0];
+        observer.next();
+        return observer.complete();
+
+      }, err => {
+        console.error('Failed to load the dashboard');
+        console.error(err);
+        return observer.error('Failed to load the dashboard');
+
+      })
+    });
+  }
+
+
+  /**
+   * loadDashboardMicroController
+   *
+   * Loads the dashboard's micro-controller into the boardBroker service
+   */
+  private loadDashboardMicroController() {
+    return new Observable(observer => {
+
+      if (this.currentDashboard.getBoard()) {
+        this.currentBoard = this.currentDashboard.getBoard();
+
+
+        // Have found a board, confirm with the user that they wish to load this board.
+        const dialogRef = this.dialog.open(ConfirmBoardForLoadDialogueComponent, {
+          width: '450px',
+          data: {board: this.currentBoard}
+        });
+
+        dialogRef.afterClosed().subscribe(userResponse => {
+          if (userResponse.confirmBoardLoad) {
+
+            this.setBoardOnService().subscribe(() => {
+              observer.next(true);
+              observer.complete();
+
+            }, err => {
+              console.error('Unable to setup dashboard with current board');
+              console.error(err);
+              observer.error('Unable to setup dashboard with current board');
+
+            })
+
+
+          } else {
+
+            this.configureNewBoard().subscribe(() => {
+
+              this.setBoardOnService().subscribe(() => {
+                observer.next(true);
+                observer.complete();
+
+              }, err => {
+                console.error('Unable to setup dashboard with current board');
+                console.error(err);
+                observer.error('Unable to setup dashboard with current board');
+
+              })
+
+
+            }, err => {
+              observer.error(err);
+            })
+
+            // this.router.navigate(['/dashboard/settings', this.dashboardID]);
+
+          }
+
+        });
+
+
+      } else {
+        // Need to prompt the user to set up a micro-controller
+        console.error('Not loaded a board!');
+
+
+      }
+
+
+    });
+  }
+
+
+  setBoardOnService(): Observable<boolean> {
+    return new Observable(observer => {
+      this.boardBrokerServiceService.setBoard(this.currentBoard).subscribe(() => {
+        // Current board successfully set on boardBrokerService
+        observer.next(true);
+        observer.complete();
+
+      }, err => {
+        console.error(err);
+        observer.error('Failed to set current board');
+
+      });
+
+    });
+  }
+
+  configureNewBoard(): Observable<boolean> {
+    return new Observable(observer => {
+
+      const dialogRef = this.dialog.open(BoardConfiguratorDialogueWrapperComponent, {
+        width: '750px',
+        data: {currentDashboard: this.currentDashboard}
+      });
+
+      dialogRef.afterClosed().subscribe(() => {
+        console.log('IT WORKED!!!!!');
+      });
+
+
+    });
+  }
+
+
+  // // Prepped for removal
   async openDialog() {
     const dialogRef = this.dialog.open(CreateControlDialogueComponent, {
       width: '250px',
@@ -66,10 +259,10 @@ export class DashboardComponent implements OnInit {
     if (event.previousContainer === event.container) {
       moveItemInArray(event.container.data, event.previousIndex, event.currentIndex);
     } else {
-    transferArrayItem(event.previousContainer.data,
-      event.container.data,
-      event.previousIndex,
-      event.currentIndex);
+      transferArrayItem(event.previousContainer.data,
+        event.container.data,
+        event.previousIndex,
+        event.currentIndex);
     }
   }
 

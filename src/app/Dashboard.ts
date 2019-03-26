@@ -1,4 +1,4 @@
-import {Board} from './BoardClasses/Board';
+import {ConnectedBoard} from "./BoardClasses/ConnectedBoard";
 
 /**
  * Dashboard
@@ -8,10 +8,10 @@ import {Board} from './BoardClasses/Board';
 export class Dashboard {
   private readonly id: string;
   private name: string;
-  private board: Board;
+  private board: ConnectedBoard;
   // widgets: [[Widget]]
 
-  constructor(id: string, name: string, board: Board, widgets) {
+  constructor(id: string, name: string, board: ConnectedBoard, widgets) {
     this.id = id;
     this.name = name;
     this.board = board;
@@ -26,11 +26,11 @@ export class Dashboard {
     return this.name;
   }
 
-  getBoard(): Board {
+  getBoard(): ConnectedBoard {
     return this.board;
   }
 
-  setBoard(newBoard: Board) {
+  setBoard(newBoard: ConnectedBoard) {
     this.board = newBoard;
   }
 

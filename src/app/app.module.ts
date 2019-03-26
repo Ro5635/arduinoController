@@ -43,6 +43,8 @@ import { DashboardCreationComponent } from './dashboard/dashboard-creation/dashb
 import { DashboardSettingsComponent } from './dashboard/dashboard-settings/dashboard-settings.component';
 import { DashboardSettingsCoreComponent } from './dashboard/dashboard-settings-core/dashboard-settings-core.component';
 import { BoardDetailsComponent } from './board-details/board-details.component';
+import { ConfirmBoardForLoadDialogueComponent } from './dialogues/confirm-board-for-load-dialogue/confirm-board-for-load-dialogue.component';
+import { BoardConfiguratorDialogueWrapperComponent } from './BoardComponents/board-configurator-dialogue-wrapper/board-configurator-dialogue-wrapper.component';
 
 @NgModule({
   declarations: [
@@ -64,6 +66,8 @@ import { BoardDetailsComponent } from './board-details/board-details.component';
     DashboardSettingsComponent,
     DashboardSettingsCoreComponent,
     BoardDetailsComponent,
+    ConfirmBoardForLoadDialogueComponent,
+    BoardConfiguratorDialogueWrapperComponent,
 
   ],
   imports: [
@@ -98,7 +102,9 @@ import { BoardDetailsComponent } from './board-details/board-details.component';
   entryComponents: [
     CreateControlDialogueComponent,
     ConfirmDialogueComponent,
-    DashboardCreationComponent
+    DashboardCreationComponent,
+    ConfirmBoardForLoadDialogueComponent,
+    BoardConfiguratorDialogueWrapperComponent
   ],
   bootstrap: [AppComponent]
 })

@@ -12,7 +12,7 @@
   <mat-step>
     <ng-template matStepLabel>Save Board</ng-template>
 
-    <app-board-save [selectedBoardConfig]="selectedBoardConfig"></app-board-save>
+    <app-board-save [selectedBoardConfig]="selectedBoardConfig" (saveCompletedEventEmitter)="boardConfigurationProcessCompleted()" ></app-board-save>
 
   </mat-step>
 

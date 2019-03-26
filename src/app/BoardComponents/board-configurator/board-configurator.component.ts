@@ -1,9 +1,8 @@
-import {Component, Input, OnInit} from '@angular/core';
+import {Component, EventEmitter, Input, OnInit, Output} from '@angular/core';
 import {ConnectedBoard} from "../../BoardClasses/ConnectedBoard";
 import {Dashboard} from "../../Dashboard";
 import {DashboardService} from "../../dashboard.service";
 import {DashboardUpdateInput} from "../../DashboardUpdateInput";
-import {Board} from "../../BoardClasses/Board";
 
 @Component({
   selector: 'app-board-configurator',
@@ -13,6 +12,7 @@ import {Board} from "../../BoardClasses/Board";
 export class BoardConfiguratorComponent implements OnInit {
   selectedBoardConfig: ConnectedBoard;
   @Input() currentDashboard: Dashboard;
+  @Output() boardSetupCompleteEventEmitter = new EventEmitter();
 
   constructor(private dashboardService: DashboardService) { }
 
@@ -36,6 +36,19 @@ export class BoardConfiguratorComponent implements OnInit {
       console.error(err);
 
     });
+
+  }
+
+
+  /**
+   * boardConfigurationProcessCompleted
+   *
+   * Called when the board configuration pipeline is finished
+   */
+  boardConfigurationProcessCompleted(): void {
+    // Emit an event on the setup complete event emitter
+    this.boardSetupCompleteEventEmitter.emit(true);
+
 
   }
 

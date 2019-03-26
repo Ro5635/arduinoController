@@ -49,4 +49,9 @@ export class DashboardSettingsComponent implements OnInit {
     })
   }
 
+  boardSetupCompleteEvent(): void {
+    // Swallow event
+
+  }
+
 }

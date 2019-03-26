@@ -30,7 +30,7 @@
           <h3 class="titleFont">Select a new board:</h3>
 
           <mat-card>
-            <app-board-configurator [currentDashboard]="currentDashboard"></app-board-configurator>
+            <app-board-configurator [currentDashboard]="currentDashboard" (boardSetupCompleteEventEmitter)="boardSetupCompleteEvent()"></app-board-configurator>
           </mat-card>
 
         </div>

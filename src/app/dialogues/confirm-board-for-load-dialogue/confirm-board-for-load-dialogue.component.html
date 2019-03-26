@@ -1,0 +1,23 @@
+
+<div>
+  <h2 class="titleFont">Load Board?</h2>
+</div>
+
+<div>
+  <p>The following board will be loaded, this will involve wiping the contents of the micro-controller to initiate the controller application</p>
+
+
+  <mat-list role="list">
+    <mat-list-item role="listitem">Micro-Controler Name: {{currentBoard.boardBrandName}}</mat-list-item>
+    <mat-list-item role="listitem">Com Port: {{currentBoard.comPort}}</mat-list-item>
+  </mat-list>
+
+  <p>Are you sure you wish to proceed?</p>
+</div>
+
+<div class="boardLoadButtons">
+
+  <button mat-raised-button color="primary" class="boardLoadButtons-button" (click)="userBoardLoadResponse(true)">Proceed</button>
+  <button mat-raised-button class="boardLoadButtons-button" (click)="userBoardLoadResponse(false)">Change Board</button>
+
+</div>

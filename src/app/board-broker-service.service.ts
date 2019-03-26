@@ -1,17 +1,20 @@
 import {Injectable} from '@angular/core';
-import {Observable, of} from 'rxjs';
 import {ElectronService} from "ngx-electron";
 import {BoardRequest} from "./BoardClasses/boardRequest";
 import {ArduinoCLIBoard} from "./BoardClasses/ArduinoCLIBoard";
-import {UserBoard} from "./BoardClasses/UserBoard";
 import {ConnectedBoard} from "./BoardClasses/ConnectedBoard";
+import {Observable} from "rxjs";
 
+/**
+ * TODO: re-write at a later time to use rxjs observables for consistency with all the other services
+ * within this application
+ */
 
 @Injectable({
   providedIn: 'root'
 })
 export class BoardBrokerServiceService {
-  currentBoard: UserBoard;
+  currentBoard: ConnectedBoard;
 
   constructor(private _electronService: ElectronService) {
 
@@ -167,20 +170,23 @@ export class BoardBrokerServiceService {
    *
    * @param targetBoard
    */
-  setBoard(targetBoard: UserBoard): Promise<void> {
-    return new Promise((resolve, reject) => {
+  setBoard(targetBoard: ConnectedBoard): Observable<void> {
+    return new Observable(observer => {
       this.serialPortOpen = false;
       this.currentBoard = targetBoard;
       this.openSerialPort()
         .then(() => {
-          resolve();
+          observer.next();
+          observer.complete();
         })
         .catch((err) => {
           console.error(err);
-          reject()
+          observer.error('Failed to set board');
         })
 
     });
+
+
   }
 
   /**

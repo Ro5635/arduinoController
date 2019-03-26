@@ -30,6 +30,8 @@ exports.getSerialHelper = (comPortName) => {
   const parser = new Readline();
   newPort.pipe(parser);
 
+  parser.
+
   // For now just dump all responses to the console
   parser.on('data', line => {
     console.log(line);
