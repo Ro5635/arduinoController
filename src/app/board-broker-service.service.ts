@@ -164,6 +164,45 @@ export class BoardBrokerServiceService {
   }
 
   /**
+   * closeSerialPort
+   *
+   * Requests the closure of the currently active serial port
+   *
+   * If the serial port is already closed then this will simply resolve
+   */
+  closeSerialPort(): Observable<void> {
+    return new Observable<void>( observer => {
+      if (this.serialPortOpen) {
+        this._electronService.ipcRenderer.send('serialOperations', [{
+          taskName: 'closePort'
+        }]);
+
+        // Register a listener
+        this._electronService.ipcRenderer.on('serialOperations-closePort', (event, message) => {
+          if (message.success) {
+            this.serialPortOpen = false;
+            console.log('Serial port closed successfully');
+
+            observer.next();
+            return observer.complete();
+          }
+
+          console.log('Serial port close request responded with failure');
+          return observer.error();
+
+        });
+
+
+      } else {
+        // Serial port not open, resolve
+        return observer.error();
+      }
+
+
+    });
+  }
+
+  /**
    * setBoard
    *
    * Set the board for the service to target

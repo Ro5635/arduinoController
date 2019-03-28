@@ -39,6 +39,13 @@ export class DashboardComponent implements OnInit {
 
   }
 
+  ngOnDestroy() {
+    this.boardBrokerServiceService.closeSerialPort().subscribe( () => {}, err => {
+      console.log('Failed to shutdown dashboard cleanly');
+    });
+  }
+
+
   // Controls present on the dashboard
   controlsCol1: Array<ControlConfiguration> = [];
   controlsCol2: Array<ControlConfiguration> = [];
