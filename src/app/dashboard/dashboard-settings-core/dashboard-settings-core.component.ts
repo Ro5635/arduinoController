@@ -30,7 +30,7 @@ export class DashboardSettingsCoreComponent implements OnInit {
    *
    * Saves changes made to dashboard details on the dashboardDetailsForm
    */
-  private saveDashboardDetails() {
+  public saveDashboardDetails() {
     let dashboardUpdates: DashboardUpdateInput = new DashboardUpdateInput();
 
     dashboardUpdates['id'] = this.currentDashboard.getID();

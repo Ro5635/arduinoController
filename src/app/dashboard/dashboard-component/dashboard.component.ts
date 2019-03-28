@@ -1,4 +1,4 @@
-import {Component, Input, OnInit} from '@angular/core';
+import {Component, OnInit} from '@angular/core';
 import {MatDialog} from '@angular/material';
 
 import {ControlConfiguration} from '../../controlConfiguration';
@@ -34,6 +34,7 @@ export class DashboardComponent implements OnInit {
     // Get dashboardID from route params
     this.dashboardID = this.route.snapshot.params.dashboardID;
 
+    // Load the dashboard into the view
     this.loadConfiguration(this.dashboardID).subscribe();
 
   }
@@ -78,7 +79,7 @@ export class DashboardComponent implements OnInit {
           console.error(err);
 
           console.log('Starting configure new Board process');
-          this.configureNewBoard().subscribe(() => {
+          this.configureNewBoardWizard().subscribe(() => {
             observer.next();
             observer.complete();
 
@@ -131,7 +132,8 @@ export class DashboardComponent implements OnInit {
   /**
    * loadDashboardMicroController
    *
-   * Loads the dashboard's micro-controller into the boardBroker service
+   * Loads the dashboard's micro-controller into the boardBroker service, if there is no board defined for this
+   * dashboard then this will throw an error.
    */
   private loadDashboardMicroController() {
     return new Observable(observer => {
@@ -149,7 +151,7 @@ export class DashboardComponent implements OnInit {
         dialogRef.afterClosed().subscribe(userResponse => {
           if (userResponse.confirmBoardLoad) {
 
-            this.setBoardOnService().subscribe(() => {
+            this.setBoardOnService(this.currentBoard).subscribe(() => {
               observer.next(true);
               observer.complete();
 
@@ -163,35 +165,19 @@ export class DashboardComponent implements OnInit {
 
           } else {
 
-            this.configureNewBoard().subscribe(() => {
+            // User wishes to load a differnt board
+            this.configureNewBoardWizard().subscribe( () => {
+              observer.next(true);
+              observer.complete();
 
-              this.setBoardOnService().subscribe(() => {
-                observer.next(true);
-                observer.complete();
-
-              }, err => {
-                console.error('Unable to setup dashboard with current board');
-                console.error(err);
-                observer.error('Unable to setup dashboard with current board');
-
-              })
-
-
-            }, err => {
-              observer.error(err);
             })
-
-            // this.router.navigate(['/dashboard/settings', this.dashboardID]);
-
           }
-
         });
-
 
       } else {
         // Need to prompt the user to set up a micro-controller
-        console.error('Not loaded a board!');
-
+        console.error('Cannot load the dashboards micro-controller, board not defined.');
+        observer.error('Cannot load dashboard, board not defined.');
 
       }
 
@@ -200,9 +186,16 @@ export class DashboardComponent implements OnInit {
   }
 
 
-  setBoardOnService(): Observable<boolean> {
+  /**
+   * setBoardOnService
+   *
+   * Set a board on the service
+   *
+   * @param currentBoard ConnectedBoard  the board to be set in the service
+   */
+  setBoardOnService(currentBoard: ConnectedBoard): Observable<boolean> {
     return new Observable(observer => {
-      this.boardBrokerServiceService.setBoard(this.currentBoard).subscribe(() => {
+      this.boardBrokerServiceService.setBoard(currentBoard).subscribe(() => {
         // Current board successfully set on boardBrokerService
         observer.next(true);
         observer.complete();
@@ -216,7 +209,17 @@ export class DashboardComponent implements OnInit {
     });
   }
 
-  configureNewBoard(): Observable<boolean> {
+
+  /**
+   * configureNewBoardWizard
+   *
+   * Gets the user to configure a new board for use with this dashboard
+   *
+   * WARNING: THIS CURRENTLY EDITS THE PASSED DASHBOARD DIRECTLY
+   *
+   * TODO: Refactor this to emit the new Board, not mutate the currentDashboard
+   */
+  configureNewBoardWizard(): Observable<boolean> {
     return new Observable(observer => {
 
       const dialogRef = this.dialog.open(BoardConfiguratorDialogueWrapperComponent, {
@@ -225,7 +228,9 @@ export class DashboardComponent implements OnInit {
       });
 
       dialogRef.afterClosed().subscribe(() => {
-        console.log('IT WORKED!!!!!');
+        // Re-run the initial dashboard set up
+        this.loadConfiguration(this.dashboardID).subscribe();
+
       });
 
 
