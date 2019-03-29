@@ -1,6 +1,6 @@
 <mat-toolbar>
   <mat-toolbar-row class="secondaryToolbar">
-    <span>{{currentDashboard.getName()}}</span>
+    <span *ngIf="currentDashboard">{{currentDashboard.getName()}}</span>
     <button class="createControlButton" mat-button (click)="createNewComponent()"><mat-icon>add</mat-icon>Create Widget</button>
   </mat-toolbar-row>
 </mat-toolbar>

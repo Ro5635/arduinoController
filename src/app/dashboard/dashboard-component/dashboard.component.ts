@@ -256,7 +256,7 @@ export class DashboardComponent implements OnInit {
   createNewComponent(){
     const dialogRef = this.dialog.open(NewWidgetComponent, {
       width: '650px',
-      data: {}
+      data: {currentBoard: this.currentBoard, currentDashboard: this.currentDashboard}
     });
 
     dialogRef.afterClosed().subscribe((result: ControlConfiguration) => {

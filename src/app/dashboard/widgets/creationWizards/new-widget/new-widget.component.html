@@ -5,14 +5,48 @@
 
   </div>
 
-  <p>Widgets are used to allow you to interact with your micro-controller, to create one select a widget type below.</p>
-
-  <mat-list class="widgetsList">
-    <h3 mat-subheader>Widgets</h3>
-    <mat-list-item *ngFor="let widget of widgets" (click)="test()" class="widgetsList-Type">
-      <mat-icon mat-list-icon>launch</mat-icon>
-        <h4 mat-line>{{widget.name}}</h4>
-    </mat-list-item>
-  </mat-list>
 
 </section>
+
+
+<mat-horizontal-stepper [linear]="true" #stepper>
+  <mat-step [stepControl]="firstFormGroup">
+    <!--<form [formGroup]="selectWidgetType">-->
+
+
+    <p>Widgets are used to allow you to interact with your micro-controller, to create one select a widget type
+      below.</p>
+
+    <app-select-widget-type [widgets]="widgets"
+                            (selectWidgetTypeEventEmitter)="selectedWidgetEvent($event, stepper)"></app-select-widget-type>
+
+    <!--</form>-->
+  </mat-step>
+
+  <mat-step [stepControl]="configureWidget">
+    <div [ngSwitch]="selectedNewWidgetType">
+      <app-create-button-widget-wizard *ngSwitchCase="'Button'" [currentBoard]="currentBoard" [currentDashboard]="currentDashboard"></app-create-button-widget-wizard>
+
+    </div>
+
+    <!--<form [formGroup]="configureWidget">-->
+    <!--<ng-template matStepLabel>Fill out your address</ng-template>-->
+    <!--<mat-form-field>-->
+    <!--<input matInput placeholder="Address" formControlName="secondCtrl" required>-->
+    <!--</mat-form-field>-->
+    <!--<div>-->
+    <!--<button mat-button matStepperPrevious>Back</button>-->
+    <!--<button mat-button matStepperNext>Next</button>-->
+    <!--</div>-->
+    <!--</form>-->
+  </mat-step>
+
+  <!--<mat-step>-->
+  <!--<ng-template matStepLabel>Done</ng-template>-->
+  <!--You are now done.-->
+  <!--<div>-->
+  <!--<button mat-button matStepperPrevious>Back</button>-->
+  <!--<button mat-button (click)="stepper.reset()">Reset</button>-->
+  <!--</div>-->
+  <!--</mat-step>-->
+</mat-horizontal-stepper>

@@ -46,6 +46,8 @@ import { BoardDetailsComponent } from './board-details/board-details.component';
 import { ConfirmBoardForLoadDialogueComponent } from './dialogues/confirm-board-for-load-dialogue/confirm-board-for-load-dialogue.component';
 import { BoardConfiguratorDialogueWrapperComponent } from './BoardComponents/board-configurator-dialogue-wrapper/board-configurator-dialogue-wrapper.component';
 import { NewWidgetComponent } from './dashboard/widgets/creationWizards/new-widget/new-widget.component';
+import { SelectWidgetTypeComponent } from './dashboard/widgets/select-widget-type/select-widget-type.component';
+import { CreateButtonWidgetWizardComponent } from './dashboard/widgets/creationWizards/create-button-widget-wizard/create-button-widget-wizard.component';
 
 @NgModule({
   declarations: [
@@ -70,6 +72,8 @@ import { NewWidgetComponent } from './dashboard/widgets/creationWizards/new-widg
     ConfirmBoardForLoadDialogueComponent,
     BoardConfiguratorDialogueWrapperComponent,
     NewWidgetComponent,
+    SelectWidgetTypeComponent,
+    CreateButtonWidgetWizardComponent,
 
   ],
   imports: [
