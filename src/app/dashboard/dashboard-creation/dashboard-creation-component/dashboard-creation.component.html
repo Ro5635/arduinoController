@@ -1,0 +1,17 @@
+<h1 mat-dialog-title>Create Dashboard</h1>
+
+<div mat-dialog-content class="createDashboardDialogueContent">
+  <p>Enter a name for the new dashboard:</p>
+
+  <mat-form-field class="">
+    <input matInput type="text" placeholder="Dashboard Name" name="dashboardName" [formControl]="dashboardName">
+
+  </mat-form-field>
+
+  <div class="actionButtons">
+    <button mat-raised-button color="primary" class="actionButtons-button" [disabled]="dashboardName.invalid" (click)="emitCreateDashboard()">Create Dashboard</button>
+    <button mat-raised-button class="actionButtons-button" (click)="close()">Cancel</button>
+
+  </div>
+
+</div>

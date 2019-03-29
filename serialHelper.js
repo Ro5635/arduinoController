@@ -1,6 +1,14 @@
 /**
  * SerialHelper
  *
+ * Provides a serial helper that has the following functions:
+ *
+ *  writeLine(line: string)
+ *    writes the provided string to the serial port as a line, terminated with a new line character.
+ *
+ *  closePort(): Promise<>
+ *      Closes the active serial port
+ *
  */
 
 const SerialPort = require('serialport');
@@ -16,29 +24,67 @@ function getSerialHelper(serialPort) {
   return {
     writeLine: (line) => {
       serialPort.write(line + '\n');
+    },
+    closePort: () => {
+      return new Promise((resolve, reject) => {
+        serialPort.close(err => {
+          if (err) {
+            console.error('Failed to close serial port');
+            console.error(err);
+            return reject('Failed to close serial port');
+
+          }
+
+          console.log('Closed serial port successfully');
+          return resolve();
+
+        })
+      });
     }
   };
 
 
 }
 
+/**
+ * getSerialHelper
+ *
+ * Gets a new serial port
+ *
+ * @param comPortName  string Example "COM4"
+ * @param baudRate  number board rate for new port, example: 115200
+ * @return {Promise<any>}
+ */
+exports.getSerialHelper = (comPortName, baudRate) => {
+  return new Promise((resolve, reject) => {
 
-exports.getSerialHelper = (comPortName) => {
+    const newPort = new SerialPort(comPortName, {"baudRate": baudRate}, err => {
+      if (err) {
+        console.error('failed to open serial port');
+        console.error(err);
 
-  const newPort = new SerialPort(comPortName, {baudRate: 115200});
+        return reject(new Error('Failed to open serial port'));
 
-  const parser = new Readline();
-  newPort.pipe(parser);
+      }
+    });
 
-  // For now just dump all responses to the console
-  parser.on('data', line => {
-    console.log(line);
+    const parser = new Readline();
+    newPort.pipe(parser);
+
+    // parser.
+
+    // For now just dump all responses to the console
+    parser.on('data', line => {
+      console.log(line);
+
+    });
+
+
+    // get a new serial helper with the new port
+    return resolve(getSerialHelper(newPort));
 
   });
 
-
-  // get a new serial helper with the new port
-  return getSerialHelper(newPort);
 
 };
 

@@ -1,0 +1,52 @@
+<section class="pageContainer">
+
+  <div class="mat-display-1">
+    <h1 class="titleFont">Dashboard Settings</h1>
+
+  </div>
+
+  <div *ngIf="!currentDashboard" class="dashboardLoadingBlock">
+    <h4 class="titleFont">Getting Dashboard</h4>
+    <mat-progress-bar mode="query"></mat-progress-bar>
+
+  </div>
+
+  <div *ngIf="currentDashboard">
+
+    <h2 class="titleFont">{{currentDashboard.getName()}}</h2>
+
+
+    <mat-tab-group>
+      <mat-tab label="Core Settings">
+        <div class="tabContent">
+          <app-dashboard-settings-core [currentDashboard]="currentDashboard"></app-dashboard-settings-core>
+        </div>
+      </mat-tab>
+      <mat-tab label="Connected MicroController">
+        <div class="tabContent">
+
+          <app-board-details [board]="currentDashboard.getBoard()"></app-board-details>
+
+          <h3 class="titleFont">Select a new board:</h3>
+
+          <mat-card>
+            <app-board-configurator [currentDashboard]="currentDashboard" (boardSetupCompleteEventEmitter)="boardSetupCompleteEvent()"></app-board-configurator>
+          </mat-card>
+
+        </div>
+      </mat-tab>
+      <mat-tab label="Active Widgets">
+        <div class="tabContent">Coming soon...</div>
+      </mat-tab>
+      <mat-tab label="Saved Data">
+        <div class="tabContent">Coming soon...</div>
+      </mat-tab>
+      <mat-tab label="Subscriptions">
+        <div class="tabContent"> Coming soon...</div>
+      </mat-tab>
+    </mat-tab-group>
+
+
+  </div>
+
+</section>

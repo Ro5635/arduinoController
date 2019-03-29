@@ -2,6 +2,7 @@ import {BrowserModule} from '@angular/platform-browser';
 import {NgModule} from '@angular/core';
 
 import {BrowserAnimationsModule} from '@angular/platform-browser/animations';
+import {HttpClientModule} from "@angular/common/http";
 
 import {MatButtonModule} from '@angular/material/button';
 import {MatIconModule} from '@angular/material/icon';
@@ -27,13 +28,23 @@ import {ButtonControlComponentComponent} from './button-control-component/button
 
 import {NgxElectronModule} from 'ngx-electron';
 import {ControlComponentComponent} from './control-component/control-component.component';
-import {DashboardComponent} from './dashboard/dashboard.component';
-import {DashboardContainerComponent} from './dashboard-container/dashboard-container.component';
+import {DashboardComponent} from './dashboard/dashboard-component/dashboard.component';
+import {DashboardContainerComponent} from './dashboard/dashboard-container/dashboard-container.component';
 import {BoardSelectionContainerComponent} from './BoardComponents/board-selection-container/board-selection-container.component';
 import {BoardConfiguratorComponent} from './BoardComponents/board-configurator/board-configurator.component';
-import { BoardProgrammerComponent } from './BoardComponents/board-programmer/board-programmer.component';
-import { BoardSaveComponent } from './BoardComponents/board-save/board-save.component';
-import { SliderControlComponent } from './slider-control/slider-control.component';
+import {BoardProgrammerComponent} from './BoardComponents/board-programmer/board-programmer.component';
+import {BoardSaveComponent} from './BoardComponents/board-save/board-save.component';
+import {SliderControlComponent} from './slider-control/slider-control.component';
+import {LoginFormComponent} from './login-form/login-form.component';
+import {DashboardSelectionComponent} from './dashboard/dashboard-selection/dashboard-selection.component';
+import {MatExpansionModule, MatListModule, MatMenuModule, MatTabsModule} from "@angular/material";
+import { ConfirmDialogueComponent } from './dialogues/confirm-dialogue/confirm-dialogue.component';
+import { DashboardCreationComponent } from './dashboard/dashboard-creation/dashboard-creation-component/dashboard-creation.component';
+import { DashboardSettingsComponent } from './dashboard/dashboard-settings/dashboard-settings.component';
+import { DashboardSettingsCoreComponent } from './dashboard/dashboard-settings-core/dashboard-settings-core.component';
+import { BoardDetailsComponent } from './board-details/board-details.component';
+import { ConfirmBoardForLoadDialogueComponent } from './dialogues/confirm-board-for-load-dialogue/confirm-board-for-load-dialogue.component';
+import { BoardConfiguratorDialogueWrapperComponent } from './BoardComponents/board-configurator-dialogue-wrapper/board-configurator-dialogue-wrapper.component';
 
 @NgModule({
   declarations: [
@@ -48,11 +59,21 @@ import { SliderControlComponent } from './slider-control/slider-control.componen
     BoardProgrammerComponent,
     BoardSaveComponent,
     SliderControlComponent,
+    LoginFormComponent,
+    DashboardSelectionComponent,
+    ConfirmDialogueComponent,
+    DashboardCreationComponent,
+    DashboardSettingsComponent,
+    DashboardSettingsCoreComponent,
+    BoardDetailsComponent,
+    ConfirmBoardForLoadDialogueComponent,
+    BoardConfiguratorDialogueWrapperComponent,
 
   ],
   imports: [
-    BrowserModule,
     BrowserAnimationsModule,
+    BrowserModule,
+    HttpClientModule,
     MatButtonModule,
     MatIconModule,
     MatToolbarModule,
@@ -71,11 +92,19 @@ import { SliderControlComponent } from './slider-control/slider-control.componen
     MatBadgeModule,
     MatSnackBarModule,
     DragDropModule,
-    MatSliderModule
+    MatSliderModule,
+    MatListModule,
+    MatExpansionModule,
+    MatTabsModule,
+    MatMenuModule
   ],
   providers: [],
   entryComponents: [
-    CreateControlDialogueComponent
+    CreateControlDialogueComponent,
+    ConfirmDialogueComponent,
+    DashboardCreationComponent,
+    ConfirmBoardForLoadDialogueComponent,
+    BoardConfiguratorDialogueWrapperComponent
   ],
   bootstrap: [AppComponent]
 })

@@ -1,6 +1,6 @@
 import {Component, OnInit} from '@angular/core';
-import {SessionDataServiceService} from "../session-data-service.service";
-import {Board} from "../BoardClasses/Board";
+import {SessionDataServiceService} from "../../session-data-service.service";
+import {Board} from "../../BoardClasses/Board";
 
 @Component({
   selector: 'app-dashboard-container',
@@ -16,6 +16,8 @@ export class DashboardContainerComponent implements OnInit {
 
   ngOnInit() {
     this.currentBoard = this.sessionDataServiceService.board;
+
+    console.error('THIS IS BEING USED');
   }
 
 }

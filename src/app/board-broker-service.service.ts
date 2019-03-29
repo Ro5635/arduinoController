@@ -1,17 +1,20 @@
 import {Injectable} from '@angular/core';
-import {Observable, of} from 'rxjs';
 import {ElectronService} from "ngx-electron";
 import {BoardRequest} from "./BoardClasses/boardRequest";
 import {ArduinoCLIBoard} from "./BoardClasses/ArduinoCLIBoard";
-import {UserBoard} from "./BoardClasses/UserBoard";
 import {ConnectedBoard} from "./BoardClasses/ConnectedBoard";
+import {Observable} from "rxjs";
 
+/**
+ * TODO: re-write at a later time to use rxjs observables for consistency with all the other services
+ * within this application
+ */
 
 @Injectable({
   providedIn: 'root'
 })
 export class BoardBrokerServiceService {
-  currentBoard: UserBoard;
+  currentBoard: ConnectedBoard;
 
   constructor(private _electronService: ElectronService) {
 
@@ -161,26 +164,68 @@ export class BoardBrokerServiceService {
   }
 
   /**
+   * closeSerialPort
+   *
+   * Requests the closure of the currently active serial port
+   *
+   * If the serial port is already closed then this will simply resolve
+   */
+  closeSerialPort(): Observable<void> {
+    return new Observable<void>( observer => {
+      if (this.serialPortOpen) {
+        this._electronService.ipcRenderer.send('serialOperations', [{
+          taskName: 'closePort'
+        }]);
+
+        // Register a listener
+        this._electronService.ipcRenderer.on('serialOperations-closePort', (event, message) => {
+          if (message.success) {
+            this.serialPortOpen = false;
+            console.log('Serial port closed successfully');
+
+            observer.next();
+            return observer.complete();
+          }
+
+          console.log('Serial port close request responded with failure');
+          return observer.error();
+
+        });
+
+
+      } else {
+        // Serial port not open, resolve
+        return observer.error();
+      }
+
+
+    });
+  }
+
+  /**
    * setBoard
    *
    * Set the board for the service to target
    *
    * @param targetBoard
    */
-  setBoard(targetBoard: UserBoard): Promise<void> {
-    return new Promise((resolve, reject) => {
+  setBoard(targetBoard: ConnectedBoard): Observable<void> {
+    return new Observable(observer => {
       this.serialPortOpen = false;
       this.currentBoard = targetBoard;
       this.openSerialPort()
         .then(() => {
-          resolve();
+          observer.next();
+          observer.complete();
         })
         .catch((err) => {
           console.error(err);
-          reject()
+          observer.error('Failed to set board');
         })
 
     });
+
+
   }
 
   /**

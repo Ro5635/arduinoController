@@ -2,7 +2,7 @@
   <h2>Board Selection</h2>
   <form [formGroup]="boardSelectionForm">
 
-    <p>Please plug your board into this computer via USB and press search, then select the board you wish to use</p>
+    <p>Please plug your board into this computer via USB and then press 'Search For Connected Boards', then select the board you wish to use</p>
 
     <div class="connectedBoardSelection">
       <div class="connectedBoardSelection_selectInput">
@@ -24,7 +24,7 @@
 
     </div>
 
-    <div class="connectedBoardSelection_loading" *ngIf="loadingBoards">Loading Boards
+    <div class="connectedBoardSelection_loading" *ngIf="loadingBoards">Scanning Your Computer For Connected Boards
       <mat-progress-bar mode="query"></mat-progress-bar>
     </div>
 

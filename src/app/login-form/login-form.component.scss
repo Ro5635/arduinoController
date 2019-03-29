@@ -1,0 +1,58 @@
+.login-form-pageContainer {
+  height: 35vh;
+  width: 80%;
+  margin: 0 auto;
+
+  &-additionalScreenContent {
+    height: 100%;
+    width: 45%;
+    display: inline-block;
+    vertical-align: top;
+
+  }
+}
+
+// Block to contain ads or loading info
+.additionalScreenContent {
+  height: 100%;
+  width: 100%;
+  text-align: center;
+
+  display: flex;
+  justify-content: space-around;
+  flex-direction: column;
+
+  &-spinner {
+    margin: auto;
+  }
+}
+
+.login-form-container {
+  display: inline-block;
+  min-width: 150px;
+  width: 50%;
+
+  &-fullWidth {
+    width: 100%;
+  }
+
+  &-textInput {
+    // Set a max width of the text fields so that it looks acceptable on a wide screen
+    max-width: 650px;
+
+  }
+
+  &-halfWidth {
+
+    // Login Buttons
+    button {
+      margin-top: 5px;
+      margin-right: 25px;
+    }
+  }
+
+  &-fieldTypeGroupSeparation {
+    margin-top: 5%;
+  }
+}
+

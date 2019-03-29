@@ -1,0 +1,8 @@
+<h1 mat-dialog-title>{{data.dialogueTitle}}</h1>
+<div mat-dialog-content>
+  <p>{{data.dialogueBodyText}}</p>
+</div>
+<div mat-dialog-actions>
+  <button mat-button (click)="sendUserSelectionAndClose(false)">Cancel</button>
+  <button mat-button (click)="sendUserSelectionAndClose(true)" cdkFocusInitial>Confirm</button>
+</div>

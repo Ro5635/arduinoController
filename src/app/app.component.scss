@@ -9,6 +9,14 @@
 .app-toolbar {
   -webkit-app-region: drag;
   -webkit-user-select: none;
+  // Make "sticky" at top
+  position: fixed;
+  top: 0
+}
+
+.toolbarVerticalSpaceHolder {
+  width: 100%;
+  height: 64px;
 }
 
 .toolBarButton {
@@ -18,4 +26,13 @@
 
 .toolBarButton:hover {
   transform: scale(0.85);
+}
+
+.mainMenu {
+  text-decoration: none;
+
+}
+
+.mainMenuContainer {
+  margin-left: 25px;
 }

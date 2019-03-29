@@ -19,7 +19,7 @@ let mainWindow;
 
 async function createWindow() {
   // Create the browser window.
-  mainWindow = new BrowserWindow({width: 800, height: 750, frame: false});
+  mainWindow = new BrowserWindow({width: 1500, height: 750, frame: false});
 
   // Hide the menu bar
   // mainWindow.setMenuBarVisibility(false);
@@ -71,10 +71,37 @@ ipcMain.on('serialOperations', async function (event, tasks) {
     for (let task of tasks) {
       switch (task.taskName) {
         case 'openPort':
-          serialHelper = serialHelperProvider.getSerialHelper(task.comPort);
-          // Report back to UI
-          // TODO: handle failure to open serial port
+          try {
+            serialHelper = await serialHelperProvider.getSerialHelper(task.comPort, 115200);
+
+          } catch (err) {
+            console.error('Call to open serial port failed');
+            console.error(err);
+
+            mainWindow.webContents.send('serialOperations-openPort', {success: false});
+
+          }
+
           mainWindow.webContents.send('serialOperations-openPort', {success: true});
+          break;
+
+        case 'closePort':
+
+          console.log('Request received to close serial port');
+
+          try {
+            await serialHelper.closePort();
+
+            // Closed successfully
+            mainWindow.webContents.send('serialOperations-closePort', {success: true});
+
+          } catch (err) {
+              console.error('Failure in call to close serial port');
+              console.error(err);
+              // Report back up to the app
+              mainWindow.webContents.send('serialOperations-closePort', {success: false});
+          }
+
           break;
 
         case 'writeLine':
