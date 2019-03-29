@@ -39,6 +39,13 @@ export class DashboardComponent implements OnInit {
 
   }
 
+  /**
+   * ngOnDestroy
+   *
+   * Angular lifecycle - called on unload of the dashboard
+   *
+   * Closes the active serial port, this is required the serial port can be used later
+   */
   ngOnDestroy() {
     this.boardBrokerServiceService.closeSerialPort().subscribe( () => {}, err => {
       console.log('Failed to shutdown dashboard cleanly');

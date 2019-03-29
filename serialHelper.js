@@ -1,6 +1,14 @@
 /**
  * SerialHelper
  *
+ * Provides a serial helper that has the following functions:
+ *
+ *  writeLine(line: string)
+ *    writes the provided string to the serial port as a line, terminated with a new line character.
+ *
+ *  closePort(): Promise<>
+ *      Closes the active serial port
+ *
  */
 
 const SerialPort = require('serialport');
