@@ -1,0 +1,14 @@
+.widgetsList {
+  width: 80%;
+
+
+  &-Type {
+    cursor: pointer;
+  }
+  &-Type:hover {
+    // TAKEN DIRECTLY FROM NG INDIGO-PINK PRE BUILT ACTIVE BACKGROUND COLOUR
+    // THIS WILL NOT UPDATE WITH CHANGES TO THE THEME
+    // TODO: Replace with SASS Variable
+    background-color: rgba(0,0,0,.04);
+  }
+}

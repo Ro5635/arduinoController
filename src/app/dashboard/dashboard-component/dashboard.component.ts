@@ -13,6 +13,7 @@ import {ConnectedBoard} from "../../BoardClasses/ConnectedBoard";
 import {ConfirmBoardForLoadDialogueComponent} from "../../dialogues/confirm-board-for-load-dialogue/confirm-board-for-load-dialogue.component";
 import {CreateControlDialogueComponent} from "../../create-control-dialogue/create-control-dialogue.component";
 import {BoardConfiguratorDialogueWrapperComponent} from "../../BoardComponents/board-configurator-dialogue-wrapper/board-configurator-dialogue-wrapper.component";
+import {NewWidgetComponent} from "../widgets/creationWizards/new-widget/new-widget.component";
 
 @Component({
   selector: 'app-dashboard',
@@ -252,6 +253,16 @@ export class DashboardComponent implements OnInit {
   }
 
 
+  createNewComponent(){
+    const dialogRef = this.dialog.open(NewWidgetComponent, {
+      width: '650px',
+      data: {}
+    });
+
+    dialogRef.afterClosed().subscribe((result: ControlConfiguration) => {
+    });
+
+  }
   // // Prepped for removal
   async openDialog() {
     const dialogRef = this.dialog.open(CreateControlDialogueComponent, {

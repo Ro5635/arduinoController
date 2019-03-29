@@ -1,5 +1,12 @@
+<mat-toolbar>
+  <mat-toolbar-row class="secondaryToolbar">
+    <span>{{currentDashboard.getName()}}</span>
+    <button class="createControlButton" mat-button (click)="createNewComponent()"><mat-icon>add</mat-icon>Create Widget</button>
+  </mat-toolbar-row>
+</mat-toolbar>
+
 <section>
-  <button class="createControlButton" mat-raised-button (click)="openDialog()">Create Control</button>
+
 
   <div cdkDropListGroup class="dashboardColumns">
 

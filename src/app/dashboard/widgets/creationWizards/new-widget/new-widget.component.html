@@ -1,0 +1,18 @@
+<section>
+
+  <div class="">
+    <h2 class="titleFont">Create Widget</h2>
+
+  </div>
+
+  <p>Widgets are used to allow you to interact with your micro-controller, to create one select a widget type below.</p>
+
+  <mat-list class="widgetsList">
+    <h3 mat-subheader>Widgets</h3>
+    <mat-list-item *ngFor="let widget of widgets" (click)="test()" class="widgetsList-Type">
+      <mat-icon mat-list-icon>launch</mat-icon>
+        <h4 mat-line>{{widget.name}}</h4>
+    </mat-list-item>
+  </mat-list>
+
+</section>
