@@ -1,5 +1,6 @@
 import {ConnectedBoard} from "./BoardClasses/ConnectedBoard";
 import {Widget} from "./Widget";
+const minWidgetXIndex = 1;
 
 /**
  * Dashboard
@@ -10,13 +11,24 @@ export class Dashboard {
   private readonly id: string;
   private name: string;
   private board: ConnectedBoard;
-  widgets: [[Widget]];
+  widgets: Widget[[Widget]];
 
   constructor(id: string, name: string, board: ConnectedBoard, widgets) {
     this.id = id;
     this.name = name;
     this.board = board;
     this.widgets = widgets;
+
+    if (!this.widgets) {
+      this.widgets = [[], []];
+
+    } else if (this.widgets.length === minWidgetXIndex ) {
+      console.log('Widgets did not have the minimum minWidgetXIndex, adding empty array.');
+      this.widgets.push([]);
+
+    }
+
+
 
   }
 

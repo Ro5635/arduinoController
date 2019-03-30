@@ -5,31 +5,31 @@
   </mat-toolbar-row>
 </mat-toolbar>
 
-<section>
+<section *ngIf="currentDashboard">
 
 
   <div cdkDropListGroup class="dashboardColumns">
 
-    <div cdkDropList [cdkDropListData]="controlsCol1"
+    <div cdkDropList [cdkDropListData]="currentDashboard.widgets[0]"
          (cdkDropListDropped)="drop($event)"
          class="boardControls dashboardColumns_Col-1">
 
       <app-control-component cdkDrag
                              class="boardControls-control"
-                             *ngFor="let control of controlsCol1"
-                             [controlConfiguration]="control"
+                             *ngFor="let control of currentDashboard.widgets[0]"
+                             [widget]="control"
                              (boardRequest)="boardRequest($event)"></app-control-component>
 
     </div>
 
 
-    <div cdkDropList [cdkDropListData]="controlsCol2"
+    <div cdkDropList [cdkDropListData]="currentDashboard.widgets[1]"
          (cdkDropListDropped)="drop($event)"
          class="boardControls dashboardColumns_Col-2">
 
       <app-control-component cdkDrag class="boardControls-control"
-                             *ngFor="let control of controlsCol2"
-                             [controlConfiguration]="control"
+                             *ngFor="let control of currentDashboard.widgets[1]"
+                             [widget]="control"
                              (boardRequest)="boardRequest($event)"></app-control-component>
     </div>
 

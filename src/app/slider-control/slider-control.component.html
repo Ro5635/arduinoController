@@ -1,12 +1,12 @@
 <div>
-  <h2>{{this.controlConfiguration?.name}}</h2>
+  <h2>{{this.widget?.name}}</h2>
 </div>
 <div class="sliderComponent">
   <mat-icon>brightness_1</mat-icon>
   <mat-slider
     class="sliderComponent_powerSlider"
     thumbLabel
-    (change)="makeBoardRequest({controlType: this.controlConfiguration.controlType, boardPin: this.controlConfiguration.boardPin, newState: $event.value})"
+    (change)="makeBoardRequest({controlType: this.widget.type, boardPin: this.widget.boardPin, newState: $event.value})"
     tickInterval="5"
     min="0"S
     max="255"></mat-slider>

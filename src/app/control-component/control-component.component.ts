@@ -1,6 +1,6 @@
 import {Component, OnInit, Input, Output, EventEmitter} from '@angular/core';
-import {ControlConfiguration} from "../controlConfiguration";
 import {BoardRequest} from "../BoardClasses/boardRequest";
+import {Widget} from "../Widget";
 
 // This component just passes events up from the controls to the its parent
 
@@ -12,7 +12,7 @@ import {BoardRequest} from "../BoardClasses/boardRequest";
 export class ControlComponentComponent implements OnInit {
 
   constructor() { }
-  @Input() controlConfiguration: ControlConfiguration;
+  @Input()  widget: Widget;
   @Output() boardRequest = new EventEmitter<BoardRequest>();
 
   passBoardRequest(payload: BoardRequest) {

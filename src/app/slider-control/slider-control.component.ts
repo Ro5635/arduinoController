@@ -1,6 +1,6 @@
 import {Component, EventEmitter, Input, OnInit, Output} from '@angular/core';
-import {ControlConfiguration} from "../controlConfiguration";
 import {BoardRequest} from "../BoardClasses/boardRequest";
+import {Widget} from "../Widget";
 
 @Component({
   selector: 'app-slider-control',
@@ -8,7 +8,7 @@ import {BoardRequest} from "../BoardClasses/boardRequest";
   styleUrls: ['./slider-control.component.scss']
 })
 export class SliderControlComponent implements OnInit {
-  @Input() controlConfiguration: ControlConfiguration;
+  @Input() widget: Widget;
   @Output() boardRequest = new EventEmitter<BoardRequest>();
 
   constructor() { }

@@ -1,4 +1,4 @@
-import {Component, Input, OnInit} from '@angular/core';
+import {Component, EventEmitter, Input, OnInit, Output} from '@angular/core';
 import {ConnectedBoard} from "../../../../BoardClasses/ConnectedBoard";
 import {FormBuilder, FormControl, FormGroup, Validators} from "@angular/forms";
 import {PIN_STATES} from "../../../../BoardClasses/PIN_STATES_ENUM";
@@ -13,6 +13,7 @@ import {Widget} from "../../../../Widget";
 export class CreateButtonWidgetWizardComponent implements OnInit {
   @Input() currentBoard: ConnectedBoard;
   @Input() currentDashboard: Dashboard;
+  @Output() newWidgetEventEmitter: EventEmitter = new EventEmitter();
   buttonCreationForm: FormGroup;
 
   constructor(private _formBuilder: FormBuilder) {}
@@ -25,16 +26,13 @@ export class CreateButtonWidgetWizardComponent implements OnInit {
   }
 
   createButtonWidget(selectedPin: string, buttonName: string){
-    const newWidget = new Widget('button', buttonName, 'NOTIMPLEMENTED', {},selectedPin);
+    const newWidget = new Widget('Button', buttonName, 'NOTIMPLEMENTED', {}, selectedPin);
 
     // Set the pin as provisioned
     this.currentBoard.provisionPin(selectedPin, PIN_STATES.OUTPUT);
 
-    // Add the widget to the dashboard
-    this.currentDashboard.addNewWidget(newWidget);
-
-
-    // Update the backend service
+    // Emit the new Widget for generic new Widget processes
+    this.newWidgetEventEmitter.emit(newWidget);
 
   }
 

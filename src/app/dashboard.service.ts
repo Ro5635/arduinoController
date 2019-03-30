@@ -73,6 +73,10 @@ export class DashboardService {
                 newBoard = undefined;
               }
 
+              if (!dashboardData.widgets) {
+                dashboardData.widgets = [[]];
+              }
+
 
               const newDashboard: Dashboard = new Dashboard(dashboardData.id, dashboardData.name, newBoard, dashboardData.widgets);
               dashboardsArray.push(newDashboard);

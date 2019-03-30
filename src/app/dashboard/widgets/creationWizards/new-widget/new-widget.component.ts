@@ -2,6 +2,7 @@ import {Component, Inject, OnInit} from '@angular/core';
 import {MAT_DIALOG_DATA, MatDialogRef, MatStepper} from "@angular/material";
 import {ConnectedBoard} from "../../../../BoardClasses/ConnectedBoard";
 import {Dashboard} from "../../../../Dashboard";
+import {Widget} from "../../../../Widget";
 
 @Component({
   selector: 'app-new-widget',
@@ -27,6 +28,17 @@ export class NewWidgetComponent implements OnInit {
   selectedWidgetEvent(selectedWidgetName: string, stepper: MatStepper) {
     this.selectedNewWidgetType = selectedWidgetName;
     stepper.next();
+
+
+  }
+
+  newWidgetEventConsumer(newWidget: Widget){
+
+    // Add the widget to the dashboard
+    this.currentDashboard.addNewWidget(newWidget);
+
+    // Save the new widget to the backend
+    //TODO: Persist Widget to backend
 
 
   }

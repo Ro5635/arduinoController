@@ -25,7 +25,7 @@
 
   <mat-step [stepControl]="configureWidget">
     <div [ngSwitch]="selectedNewWidgetType">
-      <app-create-button-widget-wizard *ngSwitchCase="'Button'" [currentBoard]="currentBoard" [currentDashboard]="currentDashboard"></app-create-button-widget-wizard>
+      <app-create-button-widget-wizard *ngSwitchCase="'Button'" (newWidgetEventEmitter)="newWidgetEventConsumer($event)" [currentBoard]="currentBoard" [currentDashboard]="currentDashboard"></app-create-button-widget-wizard>
 
     </div>
 
