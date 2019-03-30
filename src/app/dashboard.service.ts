@@ -125,6 +125,8 @@ export class DashboardService {
    *
    * Updates a dashboard, requires a DashboardUpdateInput, this must have the dashboardID specified
    *
+   * TODO: More inelegant updates to dashboard widgets in place of current wholesale replacement
+   *
    * @param dashboardUpdates
    */
   updateDashboard(dashboardUpdates: DashboardUpdateInput): Observable<boolean> {

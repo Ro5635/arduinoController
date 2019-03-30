@@ -4,6 +4,7 @@ import {FormBuilder, FormControl, FormGroup, Validators} from "@angular/forms";
 import {PIN_STATES} from "../../../../BoardClasses/PIN_STATES_ENUM";
 import {Dashboard} from "../../../../Dashboard";
 import {Widget} from "../../../../Widget";
+import { v4 as uuid } from 'uuid';
 
 @Component({
   selector: 'app-create-button-widget-wizard',
@@ -26,7 +27,7 @@ export class CreateButtonWidgetWizardComponent implements OnInit {
   }
 
   createButtonWidget(selectedPin: string, buttonName: string){
-    const newWidget = new Widget('Button', buttonName, 'NOTIMPLEMENTED', {}, selectedPin);
+    const newWidget = new Widget('Button', buttonName, uuid(), {}, selectedPin);
 
     // Set the pin as provisioned
     this.currentBoard.provisionPin(selectedPin, PIN_STATES.OUTPUT);

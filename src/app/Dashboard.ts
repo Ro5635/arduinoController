@@ -1,5 +1,6 @@
 import {ConnectedBoard} from "./BoardClasses/ConnectedBoard";
 import {Widget} from "./Widget";
+
 const minWidgetXIndex = 1;
 
 /**
@@ -22,12 +23,11 @@ export class Dashboard {
     if (!this.widgets) {
       this.widgets = [[], []];
 
-    } else if (this.widgets.length === minWidgetXIndex ) {
+    } else if (this.widgets.length === minWidgetXIndex) {
       console.log('Widgets did not have the minimum minWidgetXIndex, adding empty array.');
       this.widgets.push([]);
 
     }
-
 
 
   }
@@ -51,6 +51,34 @@ export class Dashboard {
   addNewWidget(newWidget: Widget) {
     this.widgets[0].push(newWidget);
 
+  }
+
+  /**
+   * removeWidget
+   *
+   * Remove a widget by ID from the dashboard
+   *
+   * @param widgetID: string
+   */
+  removeWidget(widgetID: string) {
+    let filteredWidgets = [];
+    let columns = this.widgets;
+
+    for (let column of columns) {
+      let filteredColumn = column.filter(function (widget: Widget) {
+
+        if (widget.id === widgetID) {
+          return;
+        } else {
+          return true;
+        }
+
+      });
+
+      filteredWidgets.push(filteredColumn);
+    }
+
+    this.widgets = filteredWidgets;
   }
 
 }

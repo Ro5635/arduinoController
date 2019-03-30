@@ -1,0 +1,36 @@
+<div>
+
+  <form [formGroup]="sliderCreationForm">
+
+    <mat-form-field class="">
+      <input matInput placeholder="Widget Name" value="" formControlName="sliderName" name="sliderName" required>
+    </mat-form-field>
+
+    <h4>Micro-Controller Pin</h4>
+    <p>Select the pin that you want to bind this widget to from the available pins below.</p>
+    <p>Only the PWM pins from your micro-controller are available, this is because a slider can represent a value of 0 to 255.</p>
+    <mat-form-field>
+      <mat-label>Micro-Controller Pin</mat-label>
+      <mat-select formControlName="pin">
+        <mat-option *ngFor="let pin of currentBoard.getPins(false, 'PWM')" [value]="pin">
+          {{pin}}
+        </mat-option>
+      </mat-select>
+    </mat-form-field>
+
+  </form>
+
+  <div class="optionButtons">
+
+    <button mat-button [disabled]="sliderCreationForm.invalid" (click)="createSliderWidget(sliderCreationForm.get('pin').value, sliderCreationForm.get('sliderName').value)">
+      <mat-icon>check</mat-icon>
+      Create
+    </button>
+    <button mat-button>
+      <mat-icon>cancel</mat-icon>
+      Cancel
+    </button>
+
+  </div>
+
+</div>

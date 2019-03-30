@@ -3,6 +3,8 @@ import {MAT_DIALOG_DATA, MatDialogRef, MatStepper} from "@angular/material";
 import {ConnectedBoard} from "../../../../BoardClasses/ConnectedBoard";
 import {Dashboard} from "../../../../Dashboard";
 import {Widget} from "../../../../Widget";
+import {DashboardService} from "../../../../dashboard.service";
+import {DashboardUpdateInput} from "../../../../DashboardUpdateInput";
 
 @Component({
   selector: 'app-new-widget',
@@ -15,7 +17,7 @@ export class NewWidgetComponent implements OnInit {
   currentDashboard: Dashboard;
   widgets = [{name: "Button"}, {name: "Slider"}, {name: "Traffic Light"}, {name: "Graph"}];
 
-  constructor(public dialogRef: MatDialogRef<NewWidgetComponent>,  @Inject(MAT_DIALOG_DATA) public data) {
+  constructor(public dialogRef: MatDialogRef<NewWidgetComponent>,  @Inject(MAT_DIALOG_DATA) public data, private dashboardService: DashboardService) {
     this.currentBoard = data.currentBoard;
     this.currentDashboard = data.currentDashboard;
 
@@ -38,7 +40,21 @@ export class NewWidgetComponent implements OnInit {
     this.currentDashboard.addNewWidget(newWidget);
 
     // Save the new widget to the backend
-    //TODO: Persist Widget to backend
+    let dashboardUpdate = new DashboardUpdateInput();
+
+    dashboardUpdate.id = this.currentDashboard.getID();
+
+    dashboardUpdate.widgets = this.currentDashboard.widgets;
+
+    this.dashboardService.updateDashboard(dashboardUpdate).subscribe( () => {
+      console.log('Service updated with new widget successfully');
+
+    }, err => {
+      console.error('Call to update dashboard with new widget failed, service not updated.');
+      console.error(err);
+    });
+
+    this.dialogRef.close();
 
 
   }

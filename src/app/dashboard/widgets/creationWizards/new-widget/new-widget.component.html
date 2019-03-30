@@ -26,27 +26,10 @@
   <mat-step [stepControl]="configureWidget">
     <div [ngSwitch]="selectedNewWidgetType">
       <app-create-button-widget-wizard *ngSwitchCase="'Button'" (newWidgetEventEmitter)="newWidgetEventConsumer($event)" [currentBoard]="currentBoard" [currentDashboard]="currentDashboard"></app-create-button-widget-wizard>
+      <app-slider-widget-wizard *ngSwitchCase="'Slider'" (newWidgetEventEmitter)="newWidgetEventConsumer($event)" [currentBoard]="currentBoard" [currentDashboard]="currentDashboard"></app-slider-widget-wizard>
 
     </div>
 
-    <!--<form [formGroup]="configureWidget">-->
-    <!--<ng-template matStepLabel>Fill out your address</ng-template>-->
-    <!--<mat-form-field>-->
-    <!--<input matInput placeholder="Address" formControlName="secondCtrl" required>-->
-    <!--</mat-form-field>-->
-    <!--<div>-->
-    <!--<button mat-button matStepperPrevious>Back</button>-->
-    <!--<button mat-button matStepperNext>Next</button>-->
-    <!--</div>-->
-    <!--</form>-->
   </mat-step>
 
-  <!--<mat-step>-->
-  <!--<ng-template matStepLabel>Done</ng-template>-->
-  <!--You are now done.-->
-  <!--<div>-->
-  <!--<button mat-button matStepperPrevious>Back</button>-->
-  <!--<button mat-button (click)="stepper.reset()">Reset</button>-->
-  <!--</div>-->
-  <!--</mat-step>-->
 </mat-horizontal-stepper>

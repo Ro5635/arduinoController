@@ -1,5 +1,5 @@
 import {Component, OnInit} from '@angular/core';
-import {MatDialog} from '@angular/material';
+import {MatDialog, MatSnackBar} from '@angular/material';
 
 import {ControlConfiguration} from '../../controlConfiguration';
 import {BoardRequest} from "../../BoardClasses/boardRequest";
@@ -11,9 +11,9 @@ import {Dashboard} from "../../Dashboard";
 import {DashboardService} from "../../dashboard.service";
 import {ConnectedBoard} from "../../BoardClasses/ConnectedBoard";
 import {ConfirmBoardForLoadDialogueComponent} from "../../dialogues/confirm-board-for-load-dialogue/confirm-board-for-load-dialogue.component";
-import {CreateControlDialogueComponent} from "../../create-control-dialogue/create-control-dialogue.component";
 import {BoardConfiguratorDialogueWrapperComponent} from "../../BoardComponents/board-configurator-dialogue-wrapper/board-configurator-dialogue-wrapper.component";
 import {NewWidgetComponent} from "../widgets/creationWizards/new-widget/new-widget.component";
+import {DashboardUpdateInput} from "../../DashboardUpdateInput";
 
 @Component({
   selector: 'app-dashboard',
@@ -23,11 +23,12 @@ import {NewWidgetComponent} from "../widgets/creationWizards/new-widget/new-widg
 export class DashboardComponent implements OnInit {
   dashboardID: string;
   currentDashboard: Dashboard;
+  SNACKBAR_DURATION = 4000;
 
   // Connected board is pulled out of the dashboard and stored as the ConnectedBoard type
   currentBoard: ConnectedBoard;
 
-  constructor(public dialog: MatDialog, private boardBrokerServiceService: BoardBrokerServiceService, private route: ActivatedRoute, private dashboardService: DashboardService, private router: Router) {
+  constructor(public dialog: MatDialog, private boardBrokerServiceService: BoardBrokerServiceService, private route: ActivatedRoute, private dashboardService: DashboardService, private router: Router, private snackBar: MatSnackBar) {
   }
 
 
@@ -48,15 +49,12 @@ export class DashboardComponent implements OnInit {
    * Closes the active serial port, this is required the serial port can be used later
    */
   ngOnDestroy() {
-    this.boardBrokerServiceService.closeSerialPort().subscribe( () => {}, err => {
+    this.boardBrokerServiceService.closeSerialPort().subscribe(() => {
+    }, err => {
       console.log('Failed to shutdown dashboard cleanly');
     });
   }
 
-
-  // Controls present on the dashboard
-  controlsCol1: Array<ControlConfiguration> = [];
-  controlsCol2: Array<ControlConfiguration> = [];
 
   /**
    * boardRequest
@@ -181,7 +179,7 @@ export class DashboardComponent implements OnInit {
           } else {
 
             // User wishes to load a differnt board
-            this.configureNewBoardWizard().subscribe( () => {
+            this.configureNewBoardWizard().subscribe(() => {
               observer.next(true);
               observer.complete();
 
@@ -253,7 +251,12 @@ export class DashboardComponent implements OnInit {
   }
 
 
-  createNewComponent(){
+  /**
+   * createNewComponent
+   *
+   * Handles a user request to create a new widget, starts the UI task flow
+   */
+  createNewComponent() {
     const dialogRef = this.dialog.open(NewWidgetComponent, {
       width: '650px',
       data: {currentBoard: this.currentBoard, currentDashboard: this.currentDashboard}
@@ -263,26 +266,28 @@ export class DashboardComponent implements OnInit {
     });
 
   }
-  // // Prepped for removal
-  async openDialog() {
-    const dialogRef = this.dialog.open(CreateControlDialogueComponent, {
-      width: '250px',
-      data: {bestCake: 'LemonDrizzled', worstCake: 'Fire'}
+
+
+  /**
+   * removeWidgetEventHandler
+   *
+   * Handles requests from Widgets to remove a widget from the dashboard
+   *
+   * @param widgetID string
+   */
+  removeWidgetEventHandler(widgetID: string) {
+    this.currentDashboard.removeWidget(widgetID);
+
+    this.saveCurrentWidgetConfiguration().subscribe(() => {
+
+      // Show a snackbar notification of successful widget removal
+      this.snackBar.open('Widget Removed', 'Widget', {
+        duration: this.SNACKBAR_DURATION,
+      });
+
+
     });
 
-    dialogRef.afterClosed().subscribe((result: ControlConfiguration) => {
-      this.controlsCol1.push(result);
-
-      // Request that the board pin be updated
-      this.boardBrokerServiceService.setPinConfiguration(result.boardPin, 'OUTPUT')
-        .then(() => {
-
-        }).catch(err => {
-        console.error(err);
-        console.error('Failed to set pin');
-
-      })
-    });
   }
 
   drop(event: CdkDragDrop<ControlConfiguration[]>) {
@@ -294,6 +299,38 @@ export class DashboardComponent implements OnInit {
         event.previousIndex,
         event.currentIndex);
     }
+
+    this.saveCurrentWidgetConfiguration().subscribe(() => {
+
+    })
   }
 
+
+  /**
+   * saveCurrentWidgetConfiguration
+   *
+   * Save The current widget configuration to the backend
+   */
+  private saveCurrentWidgetConfiguration() {
+    return new Observable(observer => {
+      // Persist the updates to the layout of the dashboard
+      let dashboardUpdate = new DashboardUpdateInput();
+
+      dashboardUpdate.id = this.currentDashboard.getID();
+      dashboardUpdate.widgets = this.currentDashboard.widgets;
+
+      this.dashboardService.updateDashboard(dashboardUpdate).subscribe(() => {
+        console.log('Dashboard configuration update saved');
+        observer.next();
+        observer.complete();
+
+      }, err => {
+        console.error('Failed to put updated dashboard configuration to backend');
+        console.error(err);
+        observer.error(new Error('Failed to put updated dashboard configuration to backend'));
+
+      })
+
+    });
+  }
 }

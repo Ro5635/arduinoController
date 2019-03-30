@@ -14,12 +14,19 @@ export class ControlComponentComponent implements OnInit {
   constructor() { }
   @Input()  widget: Widget;
   @Output() boardRequest = new EventEmitter<BoardRequest>();
+  @Output() removeWidgetEventEmitter = new EventEmitter();
 
   passBoardRequest(payload: BoardRequest) {
     this.boardRequest.emit(payload);
   }
 
   ngOnInit() {
+  }
+
+  removeWidget(widgetID: string) {
+    // Emit event to parent, will handle task.
+    this.removeWidgetEventEmitter.emit(widgetID);
+
   }
 
 }

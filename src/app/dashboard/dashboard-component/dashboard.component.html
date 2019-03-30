@@ -18,6 +18,7 @@
                              class="boardControls-control"
                              *ngFor="let control of currentDashboard.widgets[0]"
                              [widget]="control"
+                             (removeWidgetEventEmitter)="removeWidgetEventHandler($event)"
                              (boardRequest)="boardRequest($event)"></app-control-component>
 
     </div>
@@ -30,6 +31,7 @@
       <app-control-component cdkDrag class="boardControls-control"
                              *ngFor="let control of currentDashboard.widgets[1]"
                              [widget]="control"
+                             (removeWidgetEventEmitter)="removeWidgetEventHandler($event)"
                              (boardRequest)="boardRequest($event)"></app-control-component>
     </div>
 
