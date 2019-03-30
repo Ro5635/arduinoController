@@ -1,0 +1,35 @@
+<section>
+
+  <div class="">
+    <h2 class="titleFont">Create Widget</h2>
+
+  </div>
+
+
+</section>
+
+
+<mat-horizontal-stepper [linear]="true" #stepper>
+  <mat-step [stepControl]="firstFormGroup">
+    <!--<form [formGroup]="selectWidgetType">-->
+
+
+    <p>Widgets are used to allow you to interact with your micro-controller, to create one select a widget type
+      below.</p>
+
+    <app-select-widget-type [widgets]="widgets"
+                            (selectWidgetTypeEventEmitter)="selectedWidgetEvent($event, stepper)"></app-select-widget-type>
+
+    <!--</form>-->
+  </mat-step>
+
+  <mat-step [stepControl]="configureWidget">
+    <div [ngSwitch]="selectedNewWidgetType">
+      <app-create-button-widget-wizard *ngSwitchCase="'Button'" (newWidgetEventEmitter)="newWidgetEventConsumer($event)" [currentBoard]="currentBoard" [currentDashboard]="currentDashboard"></app-create-button-widget-wizard>
+      <app-slider-widget-wizard *ngSwitchCase="'Slider'" (newWidgetEventEmitter)="newWidgetEventConsumer($event)" [currentBoard]="currentBoard" [currentDashboard]="currentDashboard"></app-slider-widget-wizard>
+
+    </div>
+
+  </mat-step>
+
+</mat-horizontal-stepper>

@@ -1,0 +1,7 @@
+<mat-list class="widgetsList">
+  <h3 mat-subheader>Widgets</h3>
+  <mat-list-item *ngFor="let widget of widgets" (click)="emitSelectedWidget(widget.name)" class="widgetsList-Type">
+    <mat-icon mat-list-icon>launch</mat-icon>
+    <h4 mat-line>{{widget.name}}</h4>
+  </mat-list-item>
+</mat-list>

@@ -1,6 +1,6 @@
 import { Component, OnInit, Input, Output, EventEmitter } from '@angular/core';
-import {ControlConfiguration} from "../controlConfiguration";
 import {BoardRequest} from '../BoardClasses/boardRequest';
+import {Widget} from "../Widget";
 
 @Component({
   selector: 'app-button-control-component',
@@ -8,16 +8,28 @@ import {BoardRequest} from '../BoardClasses/boardRequest';
   styleUrls: ['./button-control-component.component.scss']
 })
 export class ButtonControlComponentComponent implements OnInit {
-  @Input() controlConfiguration: ControlConfiguration;
+  @Input() widget: Widget;
   @Output() boardRequest = new EventEmitter<BoardRequest>();
-
-  makeBoardRequest(payload: BoardRequest) {
-    this.boardRequest.emit(payload);
-  }
 
   constructor() {}
 
   ngOnInit() {
+
   }
+
+  handleUserRequest(payload: BoardRequest) {
+
+    // Update the widgets state
+    let currentState = false;
+    if (payload.newState === 1) {
+      currentState = true;
+    }
+
+    this.widget.state = {pinState: currentState};
+
+    // Emit the boardRequest
+    this.boardRequest.emit(payload);
+  }
+
 
 }

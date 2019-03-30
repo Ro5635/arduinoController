@@ -45,6 +45,10 @@ import { DashboardSettingsCoreComponent } from './dashboard/dashboard-settings-c
 import { BoardDetailsComponent } from './board-details/board-details.component';
 import { ConfirmBoardForLoadDialogueComponent } from './dialogues/confirm-board-for-load-dialogue/confirm-board-for-load-dialogue.component';
 import { BoardConfiguratorDialogueWrapperComponent } from './BoardComponents/board-configurator-dialogue-wrapper/board-configurator-dialogue-wrapper.component';
+import { NewWidgetComponent } from './dashboard/widgets/creationWizards/new-widget/new-widget.component';
+import { SelectWidgetTypeComponent } from './dashboard/widgets/select-widget-type/select-widget-type.component';
+import { CreateButtonWidgetWizardComponent } from './dashboard/widgets/creationWizards/create-button-widget-wizard/create-button-widget-wizard.component';
+import { SliderWidgetWizardComponent } from './dashboard/widgets/creationWizards/slider-widget-wizard/slider-widget-wizard.component';
 
 @NgModule({
   declarations: [
@@ -68,6 +72,10 @@ import { BoardConfiguratorDialogueWrapperComponent } from './BoardComponents/boa
     BoardDetailsComponent,
     ConfirmBoardForLoadDialogueComponent,
     BoardConfiguratorDialogueWrapperComponent,
+    NewWidgetComponent,
+    SelectWidgetTypeComponent,
+    CreateButtonWidgetWizardComponent,
+    SliderWidgetWizardComponent,
 
   ],
   imports: [
@@ -104,7 +112,8 @@ import { BoardConfiguratorDialogueWrapperComponent } from './BoardComponents/boa
     ConfirmDialogueComponent,
     DashboardCreationComponent,
     ConfirmBoardForLoadDialogueComponent,
-    BoardConfiguratorDialogueWrapperComponent
+    BoardConfiguratorDialogueWrapperComponent,
+    NewWidgetComponent
   ],
   bootstrap: [AppComponent]
 })

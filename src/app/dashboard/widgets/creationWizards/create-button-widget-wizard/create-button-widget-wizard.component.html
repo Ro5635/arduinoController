@@ -1,0 +1,37 @@
+<div>
+
+  <form [formGroup]="buttonCreationForm">
+
+    <mat-form-field class="">
+      <input matInput placeholder="Widget Name" value="" formControlName="buttName" name="buttName" required>
+    </mat-form-field>
+
+    <h4>Micro-Controller Pin</h4>
+    <p>Select the pin that you want to bind this widget to from the available pins below.</p>
+    <p>Only the digital pins from your micro-controller are available, this is because a button represents a binary
+      state.</p>
+    <mat-form-field>
+      <mat-label>Micro-Controller Pin</mat-label>
+      <mat-select formControlName="pin">
+        <mat-option *ngFor="let pin of currentBoard.getPins(false, 'DIGITAL')" [value]="pin">
+          {{pin}}
+        </mat-option>
+      </mat-select>
+    </mat-form-field>
+
+  </form>
+
+  <div class="optionButtons">
+
+    <button mat-button [disabled]="buttonCreationForm.invalid" (click)="createButtonWidget(buttonCreationForm.get('pin').value, buttonCreationForm.get('buttName').value)">
+      <mat-icon>check</mat-icon>
+      Create
+    </button>
+    <button mat-button>
+      <mat-icon>cancel</mat-icon>
+      Cancel
+    </button>
+
+  </div>
+
+</div>

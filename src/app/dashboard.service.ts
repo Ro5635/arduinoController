@@ -73,6 +73,10 @@ export class DashboardService {
                 newBoard = undefined;
               }
 
+              if (!dashboardData.widgets) {
+                dashboardData.widgets = [[]];
+              }
+
 
               const newDashboard: Dashboard = new Dashboard(dashboardData.id, dashboardData.name, newBoard, dashboardData.widgets);
               dashboardsArray.push(newDashboard);
@@ -120,6 +124,8 @@ export class DashboardService {
    * updateDashboard
    *
    * Updates a dashboard, requires a DashboardUpdateInput, this must have the dashboardID specified
+   *
+   * TODO: More inelegant updates to dashboard widgets in place of current wholesale replacement
    *
    * @param dashboardUpdates
    */
