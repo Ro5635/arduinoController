@@ -28,7 +28,7 @@ export class SliderWidgetWizardComponent implements OnInit {
 
   createSliderWidget(selectedPin: string, buttonName: string){
     // TODO: Handle ID Collisions
-    const newWidget = new Widget('Slider', buttonName, uuid(), {}, selectedPin);
+    const newWidget = new Widget('Slider', buttonName, uuid(), {value: 0}, selectedPin);
 
     // Set the pin as provisioned
     this.currentBoard.provisionPin(selectedPin, PIN_STATES.OUTPUT);

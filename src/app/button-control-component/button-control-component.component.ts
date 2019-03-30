@@ -11,13 +11,25 @@ export class ButtonControlComponentComponent implements OnInit {
   @Input() widget: Widget;
   @Output() boardRequest = new EventEmitter<BoardRequest>();
 
-  makeBoardRequest(payload: BoardRequest) {
-    this.boardRequest.emit(payload);
-  }
-
   constructor() {}
 
   ngOnInit() {
+
   }
+
+  handleUserRequest(payload: BoardRequest) {
+
+    // Update the widgets state
+    let currentState = false;
+    if (payload.newState === 1) {
+      currentState = true;
+    }
+
+    this.widget.state = {pinState: currentState};
+
+    // Emit the boardRequest
+    this.boardRequest.emit(payload);
+  }
+
 
 }

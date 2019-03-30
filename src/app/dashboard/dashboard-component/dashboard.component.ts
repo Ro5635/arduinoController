@@ -62,10 +62,24 @@ export class DashboardComponent implements OnInit {
    * Handle requests from the controls within this dash and pass the events on to the  boardBrokerService
    * that will handle the requested operations
    *
+   * TODO: Convert this to a Observable
+   *
    * @param passedBoardRequest  BoardRequest
    */
   async boardRequest(passedBoardRequest: BoardRequest) {
-    await this.boardBrokerServiceService.boardRequest(passedBoardRequest)
+    try {
+      await this.boardBrokerServiceService.boardRequest(passedBoardRequest);
+
+    } catch (err) {
+      console.error('Board request failed');
+    }
+
+    // Due to lack of dev time between now and FYP deadline
+    // just count this as a detection of any change and push the whole
+    // widgets to the server , this has many flaws but will do...
+    this.saveCurrentWidgetConfiguration().subscribe(() => {
+      console.log('Dashboard Widget updates pushed to server successfully');
+    });
 
   }
 

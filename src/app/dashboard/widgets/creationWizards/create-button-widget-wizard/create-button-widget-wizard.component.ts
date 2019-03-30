@@ -27,7 +27,7 @@ export class CreateButtonWidgetWizardComponent implements OnInit {
   }
 
   createButtonWidget(selectedPin: string, buttonName: string){
-    const newWidget = new Widget('Button', buttonName, uuid(), {}, selectedPin);
+    const newWidget = new Widget('Button', buttonName, uuid(), {pinState: false}, selectedPin);
 
     // Set the pin as provisioned
     this.currentBoard.provisionPin(selectedPin, PIN_STATES.OUTPUT);
