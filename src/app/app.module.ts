@@ -49,6 +49,9 @@ import { NewWidgetComponent } from './dashboard/widgets/creationWizards/new-widg
 import { SelectWidgetTypeComponent } from './dashboard/widgets/select-widget-type/select-widget-type.component';
 import { CreateButtonWidgetWizardComponent } from './dashboard/widgets/creationWizards/create-button-widget-wizard/create-button-widget-wizard.component';
 import { SliderWidgetWizardComponent } from './dashboard/widgets/creationWizards/slider-widget-wizard/slider-widget-wizard.component';
+import { SocketIoModule, SocketIoConfig } from 'ngx-socket-io';
+
+const wsConfig: SocketIoConfig = { url: 'http://localhost:5500', options: {} };
 
 @NgModule({
   declarations: [
@@ -82,6 +85,7 @@ import { SliderWidgetWizardComponent } from './dashboard/widgets/creationWizards
     BrowserAnimationsModule,
     BrowserModule,
     HttpClientModule,
+    SocketIoModule.forRoot(wsConfig),
     MatButtonModule,
     MatIconModule,
     MatToolbarModule,

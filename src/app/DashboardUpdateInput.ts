@@ -10,6 +10,6 @@ export class DashboardUpdateInput {
   id: string;
   name: string;
   board: object;
-  widgets: Widget[[Widget]];
+  widgets: Widget[][];
 
 }

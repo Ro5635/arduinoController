@@ -14,6 +14,7 @@ import {ConfirmBoardForLoadDialogueComponent} from "../../dialogues/confirm-boar
 import {BoardConfiguratorDialogueWrapperComponent} from "../../BoardComponents/board-configurator-dialogue-wrapper/board-configurator-dialogue-wrapper.component";
 import {NewWidgetComponent} from "../widgets/creationWizards/new-widget/new-widget.component";
 import {DashboardUpdateInput} from "../../DashboardUpdateInput";
+import {LiveDashboardService} from "../../live-dashboard.service";
 
 @Component({
   selector: 'app-dashboard',
@@ -28,7 +29,7 @@ export class DashboardComponent implements OnInit {
   // Connected board is pulled out of the dashboard and stored as the ConnectedBoard type
   currentBoard: ConnectedBoard;
 
-  constructor(public dialog: MatDialog, private boardBrokerServiceService: BoardBrokerServiceService, private route: ActivatedRoute, private dashboardService: DashboardService, private router: Router, private snackBar: MatSnackBar) {
+  constructor(public dialog: MatDialog, private boardBrokerServiceService: BoardBrokerServiceService, private route: ActivatedRoute, private dashboardService: DashboardService, private router: Router, private snackBar: MatSnackBar, private liveDashboardService : LiveDashboardService) {
   }
 
 
@@ -38,6 +39,16 @@ export class DashboardComponent implements OnInit {
 
     // Load the dashboard into the view
     this.loadConfiguration(this.dashboardID).subscribe();
+
+    // This is a proof of concept implementation only, this wholesale updates the widgets
+    // this is clearly much less than optimal
+    // this.liveDashboardService.registerToDashboard(this.currentDashboard.getID());
+
+    this.liveDashboardService.getDashboardWidgetUpdates().subscribe( updatedWidgets => {
+      console.log('Updated widgets received');
+      this.currentDashboard.widgets = updatedWidgets.widgets;
+
+    })
 
   }
 
@@ -80,6 +91,9 @@ export class DashboardComponent implements OnInit {
     this.saveCurrentWidgetConfiguration().subscribe(() => {
       console.log('Dashboard Widget updates pushed to server successfully');
     });
+
+    // Update peers to the change
+    this.widgetUpdatedEventHandler();
 
   }
 
@@ -304,6 +318,16 @@ export class DashboardComponent implements OnInit {
 
   }
 
+  /**
+   * widgetUpdatedEventHandler
+   *
+   * TODO: Make this far more granular, this is a proof of concept implementation
+   */
+  widgetUpdatedEventHandler(){
+    // Push the updates to the widgets to peers
+    this.liveDashboardService.sendDashboardWidgetUpdate(this.currentDashboard.widgets, this.currentDashboard.getID());
+  }
+
   drop(event: CdkDragDrop<ControlConfiguration[]>) {
     if (event.previousContainer === event.container) {
       moveItemInArray(event.container.data, event.previousIndex, event.currentIndex);
@@ -335,6 +359,10 @@ export class DashboardComponent implements OnInit {
 
       this.dashboardService.updateDashboard(dashboardUpdate).subscribe(() => {
         console.log('Dashboard configuration update saved');
+
+        // Push the updates to the peers
+        this.liveDashboardService.sendDashboardWidgetUpdate(this.currentDashboard.widgets, this.currentDashboard.getID());
+
         observer.next();
         observer.complete();
 
