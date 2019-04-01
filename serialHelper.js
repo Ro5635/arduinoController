@@ -53,9 +53,10 @@ function getSerialHelper(serialPort) {
  *
  * @param comPortName  string Example "COM4"
  * @param baudRate  number board rate for new port, example: 115200
+ * @param electronMainWindow  Electron Window Instance
  * @return {Promise<any>}
  */
-exports.getSerialHelper = (comPortName, baudRate) => {
+exports.getSerialHelper = (comPortName, baudRate, electronMainWindow) => {
   return new Promise((resolve, reject) => {
 
     const newPort = new SerialPort(comPortName, {"baudRate": baudRate}, err => {
@@ -77,6 +78,24 @@ exports.getSerialHelper = (comPortName, baudRate) => {
     parser.on('data', line => {
       console.log(line);
 
+      if(line.includes('#')) {
+        console.log('Arduino read response detected');
+        const jsonLine = line.replace('#', '');
+
+        let readResponse;
+
+        try {
+          readResponse = JSON.parse(jsonLine);
+
+          electronMainWindow.webContents.send('serialOperations-readResponse', readResponse);
+
+        } catch (err) {
+          console.error(err);
+          console.error('Failed to decode serial received line to JSON');
+
+        }
+
+      }
     });
 
 

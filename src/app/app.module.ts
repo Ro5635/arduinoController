@@ -50,6 +50,7 @@ import { SelectWidgetTypeComponent } from './dashboard/widgets/select-widget-typ
 import { CreateButtonWidgetWizardComponent } from './dashboard/widgets/creationWizards/create-button-widget-wizard/create-button-widget-wizard.component';
 import { SliderWidgetWizardComponent } from './dashboard/widgets/creationWizards/slider-widget-wizard/slider-widget-wizard.component';
 import { SocketIoModule, SocketIoConfig } from 'ngx-socket-io';
+import { CreateLiveWidgetWizardComponent } from './create-live-widget-wizard/create-live-widget-wizard.component';
 
 const wsConfig: SocketIoConfig = { url: 'http://localhost:5500', options: {} };
 
@@ -79,6 +80,7 @@ const wsConfig: SocketIoConfig = { url: 'http://localhost:5500', options: {} };
     SelectWidgetTypeComponent,
     CreateButtonWidgetWizardComponent,
     SliderWidgetWizardComponent,
+    CreateLiveWidgetWizardComponent,
 
   ],
   imports: [
