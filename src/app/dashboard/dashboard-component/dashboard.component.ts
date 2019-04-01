@@ -94,7 +94,7 @@ export class DashboardComponent implements OnInit {
     });
 
     // Update peers to the change
-    this.widgetUpdatedEventHandler();
+    // this.widgetUpdatedEventHandler();
 
   }
 
@@ -337,7 +337,7 @@ export class DashboardComponent implements OnInit {
    *
    * TODO: Make this far more granular, this is a proof of concept implementation
    */
-  widgetUpdatedEventHandler(){
+  pushAllWidgetsToPeers(){
     // Push the updates to the widgets to peers
     this.liveDashboardService.sendDashboardWidgetUpdate(this.currentDashboard.widgets, this.currentDashboard.getID());
   }
@@ -354,7 +354,9 @@ export class DashboardComponent implements OnInit {
 
     this.saveCurrentWidgetConfiguration().subscribe(() => {
 
-    })
+    });
+
+    this.pushAllWidgetsToPeers();
   }
 
 
@@ -375,7 +377,7 @@ export class DashboardComponent implements OnInit {
         console.log('Dashboard configuration update saved');
 
         // Push the updates to the peers
-        this.liveDashboardService.sendDashboardWidgetUpdate(this.currentDashboard.widgets, this.currentDashboard.getID());
+        // this.liveDashboardService.sendDashboardWidgetUpdate(this.currentDashboard.widgets, this.currentDashboard.getID());
 
         observer.next();
         observer.complete();
