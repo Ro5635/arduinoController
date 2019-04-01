@@ -51,7 +51,11 @@ import { CreateButtonWidgetWizardComponent } from './dashboard/widgets/creationW
 import { SliderWidgetWizardComponent } from './dashboard/widgets/creationWizards/slider-widget-wizard/slider-widget-wizard.component';
 import { SocketIoModule, SocketIoConfig } from 'ngx-socket-io';
 import { CreateLiveWidgetWizardComponent } from './dashboard/widgets/creationWizards/create-live-widget-wizard/create-live-widget-wizard.component';
+import { NgxEchartsModule } from 'ngx-echarts';
 import { LiveWidgetComponent } from './dashboard/widgets/live-widget/live-widget.component';
+import { GraphWidgetComponent } from './dashboard/widgets/graph-widget/graph-widget.component';
+import { GraphWidgetWizardComponent } from './dashboard/widgets/creationWizards/graph-widget-wizard/graph-widget-wizard.component';
+
 
 const wsConfig: SocketIoConfig = { url: 'http://localhost:5500', options: {} };
 
@@ -83,6 +87,8 @@ const wsConfig: SocketIoConfig = { url: 'http://localhost:5500', options: {} };
     SliderWidgetWizardComponent,
     CreateLiveWidgetWizardComponent,
     LiveWidgetComponent,
+    GraphWidgetComponent,
+    GraphWidgetWizardComponent,
 
   ],
   imports: [
@@ -112,7 +118,8 @@ const wsConfig: SocketIoConfig = { url: 'http://localhost:5500', options: {} };
     MatListModule,
     MatExpansionModule,
     MatTabsModule,
-    MatMenuModule
+    MatMenuModule,
+    NgxEchartsModule
   ],
   providers: [],
   entryComponents: [

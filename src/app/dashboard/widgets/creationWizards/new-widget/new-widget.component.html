@@ -25,6 +25,7 @@
       <app-create-button-widget-wizard *ngSwitchCase="'Button'" (newWidgetEventEmitter)="newWidgetEventConsumer($event)" [currentBoard]="currentBoard" [currentDashboard]="currentDashboard"></app-create-button-widget-wizard>
       <app-slider-widget-wizard *ngSwitchCase="'Slider'" (newWidgetEventEmitter)="newWidgetEventConsumer($event)" [currentBoard]="currentBoard" [currentDashboard]="currentDashboard"></app-slider-widget-wizard>
       <app-create-live-widget-wizard *ngSwitchCase="'Live Widget'" (newWidgetEventEmitter)="newWidgetEventConsumer($event)" [currentBoard]="currentBoard" [currentDashboard]="currentDashboard"></app-create-live-widget-wizard>
+      <app-graph-widget-wizard *ngSwitchCase="'Graph'" (newWidgetEventEmitter)="newWidgetEventConsumer($event)" [currentBoard]="currentBoard" [currentDashboard]="currentDashboard"></app-graph-widget-wizard>
 
     </div>
 
