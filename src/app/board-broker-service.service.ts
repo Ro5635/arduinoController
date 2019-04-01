@@ -25,6 +25,9 @@ export class BoardBrokerServiceService {
 
   private serialPortOpen: boolean = false;
 
+  // Represents the state that this broker service has applied to the pin
+  private pinAppliedStates = {};
+
   /**
    * boardRequest
    *
@@ -41,6 +44,12 @@ export class BoardBrokerServiceService {
 
       switch (passedBoardRequest.controlType) {
         case 'Button':
+
+          if (this.pinAppliedStates[passedBoardRequest.boardPin] !== 'OUTPUT') {
+            //TODO: Not waiting on promise ,potential to break the world...
+            this.setPinConfiguration(passedBoardRequest.boardPin, 'OUTPUT');
+          }
+
           console.log(`Requesting following line written: #12#2#${passedBoardRequest.boardPin}#${passedBoardRequest.newState}#`);
 
           this._electronService.ipcRenderer.send('serialOperations', [{
@@ -51,6 +60,12 @@ export class BoardBrokerServiceService {
           break;
 
         case 'Slider':
+
+          if (this.pinAppliedStates[passedBoardRequest.boardPin] !== 'OUTPUT') {
+            //TODO: Not waiting on promise ,potential to break the world...
+            this.setPinConfiguration(passedBoardRequest.boardPin, 'OUTPUT');
+          }
+
           console.log(`Requesting following line written: #13#2#${passedBoardRequest.boardPin}#${passedBoardRequest.newState}#`);
 
           this._electronService.ipcRenderer.send('serialOperations', [{
@@ -73,6 +88,7 @@ export class BoardBrokerServiceService {
 
   }
 
+
   /**
    * setPinConfiguration
    *
@@ -84,6 +100,9 @@ export class BoardBrokerServiceService {
    */
   async setPinConfiguration(pinName: string, newPinState: string): Promise<any> {
     await this.prepareForUse();
+
+    // Update the applied pin states
+    this.pinAppliedStates[pinName] = newPinState;
 
     return new Promise((resolve, reject) => {
       let operationID;
@@ -107,10 +126,35 @@ export class BoardBrokerServiceService {
       }]);
 
 
+
       return resolve();
 
 
     });
+
+
+  }
+
+
+  subscribeToMicroControllerReadOnInterval(widgetID: string, pinNumber: string, interval: number): Observable<any> {
+
+    // Request creation of read subscription
+    this._electronService.ipcRenderer.send('serialOperations', [{
+      taskName: 'registerAnalogReadSubscription',
+      'interval': interval,
+      pinTarget: pinNumber,
+      forWidgetID: widgetID
+    }]);
+
+    // register observable that produces the reads
+    return new Observable(observer => {
+      this._electronService.ipcRenderer.on(`serialOperations-readResponse-${pinNumber}`, (event, message) => {
+        console.log('READ RECEIVED FROM BOARD');
+        observer.next(message);
+
+      });
+
+    })
 
 
   }
@@ -171,7 +215,7 @@ export class BoardBrokerServiceService {
    * If the serial port is already closed then this will simply resolve
    */
   closeSerialPort(): Observable<void> {
-    return new Observable<void>( observer => {
+    return new Observable<void>(observer => {
       if (this.serialPortOpen) {
         this._electronService.ipcRenderer.send('serialOperations', [{
           taskName: 'closePort'

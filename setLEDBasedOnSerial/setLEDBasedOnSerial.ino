@@ -18,6 +18,7 @@ bool stringComplete = false;
 void setup() {
 
   Serial.begin(115200);
+  Serial.println("BOARD STARTED");
 
 
   inputString.reserve(200);
@@ -153,11 +154,11 @@ void handleControlSequence(int mode, int values[], int valuesLength){
     case 14:
     int value = analogReadPin(values[0]);
 
-    Serial.print("#{analogRead: {pin: ");
+    Serial.print("#{\"analogRead\": {\"pin\": ");
     Serial.print(values[0]);
-    Serial.print(", value: ");
+    Serial.print(", \"value\": ");
     Serial.print(value);
-    Serial.println("}}#");
+    Serial.println(", \"rc\": 5635}}#");
     break;
 
 

@@ -6,23 +6,31 @@
 //  pinTarget: number
 //	nextReadDue: Date
 //  serialHelper instance
+// forWidgetID: widgetID
 //
 
 let subscriptions = [];
+let serialWriteHelper;
 
-setInterval(checkForDueReads, 1000);
+setInterval(checkForDueReads, 250);
 
 function checkForDueReads() {
   for (let subscription of subscriptions) {
-    const now =  Date();
+    const now = new Date();
 
-    if (subscription.nextReadDue > now) {
+    if (subscription.nextReadDue < now) {
 
       // Update readDueDate
-      subscription.nextReadDue.setSeconds( subscription.nextReadDue.getSeconds() + subscription.interval);
+      subscription.nextReadDue.setSeconds(subscription.nextReadDue.getSeconds() + subscription.interval);
 
       // Request Read
-      subscription.serialHelper.writeLine(`#14#1#${subscription.pinTarget}`);
+      // console.log(`WRITING THIS: #14#1#${subscription.pinTarget}#`);
+      if (serialWriteHelper) {
+        serialWriteHelper(`#14#1#${subscription.pinTarget}#`);
+
+      } else {
+        console.log('Cannot write to micro-controller, not provided with serialWriteHelper');
+      }
 
     }
 
@@ -31,28 +39,53 @@ function checkForDueReads() {
 }
 
 exports.registerSubscription = (newSubscription) => {
-  if (!newSubscription.interval  || newSubscription.interval < 1) {
+  if (!newSubscription.interval || newSubscription.interval < 1) {
     console.error('Invalid subscription provided, cannot register subscription');
     console.error('Subscription missing required fields');
   }
 
-  if (newSubscription.pinTarget.indexOf("A") >= 0) {
-    // Need to convert pin number to base 10 form
-    let target = newSubscription.pinTarget;
+  // if (newSubscription.pinTarget.indexOf("A") >= 0) { // Logic moved upwards
+  //   // Need to convert pin number to base 10 form
+  //   let target = newSubscription.pinTarget;
+  //
+  //   let targetNumOnly = target.replace('A', '');
+  //
+  //   const convertedPinNum = +targetNumOnly + 54;
+  //
+  //   console.log(`Converted pin number to: ${convertedPinNum}`);
+  //   newSubscription.pinTarget = convertedPinNum;
+  //
+  // }
 
-    let targetNumOnly = target.replace('A', '');
-
-    const convertedPinNum = +targetNumOnly + 54;
-
-    console.log(`Converted pin number to: ${convertedPinNum}`);
-    newSubscription.pinTarget = convertedPinNum;
-
-  }
+  // Remove any existing subscription for this widgetID
+  subscriptions = subscriptions.filter(subscription => {
+    return subscription.forWidgetID !== newSubscription.forWidgetID;
+  });
 
   subscriptions.push(newSubscription);
 
 };
 
+
+/**
+ * provideSerialWriteHelper
+ *
+ * Provide an active serial writeline function for use communicating with the board
+ * @param newSerialWriteHelper
+ */
+exports.provideSerialWriteHelper = (newSerialWriteHelper) => {
+  serialWriteHelper = newSerialWriteHelper;
+};
+
+
+/**
+ * clearAllSubscriptions
+ *
+ * Removes all active subscriptions
+ */
+exports.clearAllSubscriptions = () => {
+  subscriptions = [];
+};
 
 
 module.exports = exports;

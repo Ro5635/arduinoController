@@ -79,15 +79,16 @@ exports.getSerialHelper = (comPortName, baudRate, electronMainWindow) => {
       console.log(line);
 
       if(line.includes('#')) {
-        console.log('Arduino read response detected');
-        const jsonLine = line.replace('#', '');
+        // Micro-controller read response detected
+        // Remove both #
+        const jsonLine = line.replace('#', '').replace('#', '');
 
         let readResponse;
 
         try {
           readResponse = JSON.parse(jsonLine);
 
-          electronMainWindow.webContents.send('serialOperations-readResponse', readResponse);
+          electronMainWindow.webContents.send(`serialOperations-readResponse-${readResponse.analogRead.pin}`, readResponse);
 
         } catch (err) {
           console.error(err);

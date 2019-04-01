@@ -15,7 +15,7 @@ export class NewWidgetComponent implements OnInit {
   selectedNewWidgetType;
   currentBoard: ConnectedBoard;
   currentDashboard: Dashboard;
-  widgets = [{name: "Button"}, {name: "Slider"}, {name: "Traffic Light"}, {name: "Graph"}];
+  widgets = [{name: "Button"}, {name: "Slider"}, {name: "Traffic Light"}, {name: "Graph"}, {name: 'Live Widget'}];
 
   constructor(public dialogRef: MatDialogRef<NewWidgetComponent>,  @Inject(MAT_DIALOG_DATA) public data, private dashboardService: DashboardService) {
     this.currentBoard = data.currentBoard;

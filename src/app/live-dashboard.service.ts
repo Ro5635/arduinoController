@@ -13,7 +13,7 @@ export class LiveDashboardService {
 
   constructor(private socket: Socket, private userService: UserService) {
 
-    const jwt = this.userService.getUsersJWT();
+    const jwt = this.userService.getUsersJWT().getRawToken();
 
     // Handle authenticating the socket on connection
     this.socket.on('connect', function () {
@@ -91,5 +91,6 @@ export class LiveDashboardService {
     return this.socket
       .fromEvent("dashWidgetUpdates")
   }
+
 
 }
