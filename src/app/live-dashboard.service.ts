@@ -121,7 +121,8 @@ export class LiveDashboardService {
    * @param widgetID: string
    * @returns Observable that provides updates for widget state
    */
-  getUpdatesForWidget(widgetID: string) {
+  getUpdatesForWidget(widgetID: string): Observable<any> {
+    console.log(`Subscribed to: dashWidgetUpdate-${widgetID}`);
     return this.socket.fromEvent(`dashWidgetUpdate-${widgetID}`);
 
   }

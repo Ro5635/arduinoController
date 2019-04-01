@@ -3,6 +3,7 @@ import {Widget} from "../../../Widget";
 import {BoardRequest} from "../../../BoardClasses/boardRequest";
 import {BoardBrokerServiceService} from "../../../board-broker-service.service";
 import {LiveDashboardService} from "../../../live-dashboard.service";
+import {WidgetUpdate} from "../../../WidgetUpdate";
 
 @Component({
   selector: 'app-live-widget',
@@ -18,6 +19,18 @@ export class LiveWidgetComponent implements OnInit {
   }
 
   ngOnInit() {
+
+    // // Subscribe to updates for this widget
+    this.liveDashboardService.getUpdatesForWidget(this.widget.id).subscribe((widgetUpdate: WidgetUpdate) => {
+      // console.log(`Update to widget ${this.widget.id} received`);
+      this.widget = widgetUpdate.widget;
+    }, err => {
+      console.error(`Failure in subscription to widget updates for widget ID: ${this.widget.id}`);
+      console.error(err);
+
+    });
+
+
     this.boardBrokerService.subscribeToMicroControllerReadOnInterval(this.widget.id, this.widget.state['pinTarget'], 2).subscribe(readResponse => {
       this.zone.run(() => {
         this.widget.state['currentValue'] = readResponse['analogRead']['value'];
@@ -34,15 +47,6 @@ export class LiveWidgetComponent implements OnInit {
       console.error(err);
     });
 
-    // // Subscribe to updates for this widget
-    // this.liveDashboardService.getUpdatesForWidget(this.widget.id).subscribe((widgetUpdate: Widget) => {
-    //   console.log(`Update to widget ${this.widget.id} received`);
-    //   this.widget = widgetUpdate;
-    // }, err => {
-    //   console.error(`Failure in subscription to widget updates for widget ID: ${this.widget.id}`);
-    //   console.error(err);
-    //
-    // })
   }
 
 
