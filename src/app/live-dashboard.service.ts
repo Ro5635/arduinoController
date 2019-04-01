@@ -50,6 +50,8 @@ export class LiveDashboardService {
       console.log('Registering to dashboard');
       this.socket.emit('registerToDashboard', {dashboardID: dashboardID});
 
+      // this.socket.removeAllListeners();
+
 
       this.socket.on('registrationCompleted', payload => {
         console.log(`Registration completed, registered to dashboard: ${payload.registeredToDash}`);
@@ -122,6 +124,13 @@ export class LiveDashboardService {
    * @returns Observable that provides updates for widget state
    */
   getUpdatesForWidget(widgetID: string): Observable<any> {
+
+    // Beta version has the widgets subscribe, as the widgets are currently whole sale replaced
+    // on an update there is a continuous re-subscription, this can be refactored out later with a
+    // better design. For now it attempts to remove any existing listener for this event.
+    console.log(`Removing all existing listeners to dashWidgetUpdate-${widgetID}`);
+    this.socket.removeAllListeners(`dashWidgetUpdate-${widgetID}`);
+
     console.log(`Subscribed to: dashWidgetUpdate-${widgetID}`);
     return this.socket.fromEvent(`dashWidgetUpdate-${widgetID}`);
 
