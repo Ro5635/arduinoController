@@ -149,7 +149,6 @@ export class BoardBrokerServiceService {
     // register observable that produces the reads
     return new Observable(observer => {
       this._electronService.ipcRenderer.on(`serialOperations-readResponse-${pinNumber}`, (event, message) => {
-        console.log('READ RECEIVED FROM BOARD');
         observer.next(message);
 
       });
@@ -184,6 +183,10 @@ export class BoardBrokerServiceService {
   }
 
   private openSerialPort(): Promise<void> {
+
+    // Clear out the applied pin states as micro-controller will have been reset
+    this.pinAppliedStates = {};
+
     return new Promise((resolve, reject) => {
       if (!this.serialPortOpen) {
         this._electronService.ipcRenderer.send('serialOperations', [{

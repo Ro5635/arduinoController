@@ -65,7 +65,7 @@ export class LiveDashboardService {
   /**
    * sendDashboardWidgetUpdate
    *
-   * Send widget updates to the other subscribers tot eh dashboard
+   * Send widget updates to the other subscribers to the dashboard
    *
    * @param widgets
    * @param dashboardID
@@ -82,6 +82,28 @@ export class LiveDashboardService {
     }
   }
 
+
+  /**
+   * sendWidgetUpdate
+   *
+   * Send widget updates to the other subscribers to the dashboard
+   *
+   * @param widget
+   * @param dashboardID
+   */
+  sendWidgetUpdate(widget: Widget, dashboardID: string) {
+    if (!this.registeredToDashboard) {
+      this.registerToDashboard(dashboardID).subscribe(() => {
+        this.socket.emit("updateDashWidget", {widget, dashboardID: dashboardID, widgetID: widget.id});
+
+      })
+    } else {
+      this.socket.emit("updateDashWidget", {widget, dashboardID: dashboardID, widgetID: widget.id});
+
+    }
+  }
+
+
   /**
    * getDashboardWidgetUpdates
    *
@@ -90,6 +112,18 @@ export class LiveDashboardService {
   getDashboardWidgetUpdates(): Observable<any> {
     return this.socket
       .fromEvent("dashWidgetUpdates")
+  }
+
+  /**
+   * getUpdatesForWidget
+   *
+   * Get an update subscription to updtes to a widget by widgetID from peers
+   * @param widgetID: string
+   * @returns Observable that provides updates for widget state
+   */
+  getUpdatesForWidget(widgetID: string) {
+    return this.socket.fromEvent(`dashWidgetUpdate-${widgetID}`);
+
   }
 
 

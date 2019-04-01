@@ -26,7 +26,7 @@
   <app-button-control-component *ngSwitchCase="'Button'" (boardRequest)="passBoardRequest($event)"
                                 [widget]="widget"></app-button-control-component>
   <app-slider-control *ngSwitchCase="'Slider'" (boardRequest)="passBoardRequest($event)" [widget]="widget"></app-slider-control>
-  <app-live-widget *ngSwitchCase="'LiveWidget'" (boardRequest)="passBoardRequest($event)" [widget]="widget"></app-live-widget>
+  <app-live-widget *ngSwitchCase="'LiveWidget'" (boardRequest)="passBoardRequest($event)" [widget]="widget" (widgetUpdate)="passWidgetUpdate($event)"></app-live-widget>
 
   <span *ngSwitchDefault>There has been an error</span>
 </mat-card>

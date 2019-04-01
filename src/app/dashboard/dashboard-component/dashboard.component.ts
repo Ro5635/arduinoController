@@ -15,6 +15,7 @@ import {BoardConfiguratorDialogueWrapperComponent} from "../../BoardComponents/b
 import {NewWidgetComponent} from "../widgets/creationWizards/new-widget/new-widget.component";
 import {DashboardUpdateInput} from "../../DashboardUpdateInput";
 import {LiveDashboardService} from "../../live-dashboard.service";
+import {Widget} from "../../Widget";
 
 @Component({
   selector: 'app-dashboard',
@@ -94,6 +95,19 @@ export class DashboardComponent implements OnInit {
 
     // Update peers to the change
     this.widgetUpdatedEventHandler();
+
+  }
+
+
+  /**
+   * handleWidgetUpdate
+   *
+   * Pass a widget update on to the liveWidgetService for distribution to peers
+   *
+   * @param updatedWidget: Widget
+   */
+  handleWidgetUpdate(updatedWidget: Widget) {
+    this.liveDashboardService.sendWidgetUpdate(updatedWidget, this.dashboardID);
 
   }
 
