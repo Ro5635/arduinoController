@@ -19,7 +19,7 @@
                              *ngFor="let control of currentDashboard.widgets[0]"
                              [widget]="control"
                              (removeWidgetEventEmitter)="removeWidgetEventHandler($event)"
-                             (boardRequest)="boardRequest($event)"></app-control-component>
+                             (boardRequest)="boardRequest($event)" (widgetUpdate)="handleWidgetUpdate($event)"></app-control-component>
 
     </div>
 
@@ -32,7 +32,7 @@
                              *ngFor="let control of currentDashboard.widgets[1]"
                              [widget]="control"
                              (removeWidgetEventEmitter)="removeWidgetEventHandler($event)"
-                             (boardRequest)="boardRequest($event)"></app-control-component>
+                             (boardRequest)="boardRequest($event)" (widgetUpdate)="handleWidgetUpdate($event)"></app-control-component>
     </div>
 
 
