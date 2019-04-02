@@ -1,2 +1,6 @@
 
-<div echarts [options]="chartOption" class="demo-chart"></div>
+<div echarts [merge]="updateOptions" [options]="chartOption" class="demo-chart"></div>
+
+<button mat-button (click)="downloadCSVExport()"><mat-icon>cloud_download</mat-icon> Download Graph</button>
+
+<button mat-button><mat-icon>settings_applications</mat-icon> Graph Settings</button>

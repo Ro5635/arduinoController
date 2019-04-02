@@ -28,8 +28,24 @@ export class GraphWidgetWizardComponent implements OnInit {
   }
 
   createGraphWidget(selectedPin: string, graphName: string){
+
+    let pinTarget = selectedPin;
+
+    if (selectedPin.indexOf("A") >= 0) {
+      // Need to convert pin number to base 10 form
+      let target = selectedPin;
+
+      let targetNumOnly = target.replace('A', '');
+
+      const convertedPinNum = +targetNumOnly + 54;
+
+      console.log(`Converted pin number to: ${convertedPinNum}`);
+      pinTarget = "" + convertedPinNum;
+
+    }
+
     // TODO: Handle ID Collisions
-    const newWidget = new Widget('Graph', graphName, uuid(), {}, selectedPin);
+    const newWidget = new Widget('Graph', graphName, uuid(), {interval: 2, 'pinTarget': pinTarget, 'xAxisData': [], 'readResult': [], chartType: "bar", dataLength:25}, selectedPin);
 
     // Set the pin as provisioned
     this.currentBoard.provisionPin(selectedPin, PIN_STATES.INPUT);

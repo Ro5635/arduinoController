@@ -30,7 +30,7 @@ export class DashboardComponent implements OnInit {
   // Connected board is pulled out of the dashboard and stored as the ConnectedBoard type
   currentBoard: ConnectedBoard;
 
-  constructor(public dialog: MatDialog, private boardBrokerServiceService: BoardBrokerServiceService, private route: ActivatedRoute, private dashboardService: DashboardService, private router: Router, private snackBar: MatSnackBar, private liveDashboardService : LiveDashboardService) {
+  constructor(public dialog: MatDialog, private boardBrokerServiceService: BoardBrokerServiceService, private route: ActivatedRoute, private dashboardService: DashboardService, private router: Router, private snackBar: MatSnackBar, private liveDashboardService: LiveDashboardService) {
   }
 
 
@@ -45,7 +45,7 @@ export class DashboardComponent implements OnInit {
     // this is clearly much less than optimal
     // this.liveDashboardService.registerToDashboard(this.currentDashboard.getID());
 
-    this.liveDashboardService.getDashboardWidgetUpdates().subscribe( updatedWidgets => {
+    this.liveDashboardService.getDashboardWidgetUpdates().subscribe(updatedWidgets => {
       console.log('Updated widgets received');
       this.currentDashboard.widgets = updatedWidgets.widgets;
 
@@ -305,6 +305,9 @@ export class DashboardComponent implements OnInit {
     });
 
     dialogRef.afterClosed().subscribe((result: ControlConfiguration) => {
+      console.log('Create Widget Pipeline exited, pushing current widget state to peers');
+      this.pushAllWidgetsToPeers();
+
     });
 
   }
@@ -327,6 +330,8 @@ export class DashboardComponent implements OnInit {
         duration: this.SNACKBAR_DURATION,
       });
 
+      this.pushAllWidgetsToPeers();
+
 
     });
 
@@ -337,7 +342,7 @@ export class DashboardComponent implements OnInit {
    *
    * TODO: Make this far more granular, this is a proof of concept implementation
    */
-  pushAllWidgetsToPeers(){
+  pushAllWidgetsToPeers() {
     // Push the updates to the widgets to peers
     this.liveDashboardService.sendDashboardWidgetUpdate(this.currentDashboard.widgets, this.currentDashboard.getID());
   }
@@ -353,10 +358,10 @@ export class DashboardComponent implements OnInit {
     }
 
     this.saveCurrentWidgetConfiguration().subscribe(() => {
+      this.pushAllWidgetsToPeers();
 
     });
 
-    this.pushAllWidgetsToPeers();
   }
 
 
