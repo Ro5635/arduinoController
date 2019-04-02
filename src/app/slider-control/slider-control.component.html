@@ -3,9 +3,9 @@
   <mat-slider
     class="sliderComponent_powerSlider"
     thumbLabel
-    (change)="makeBoardRequest({controlType: this.widget.type, boardPin: this.widget.boardPin, newState: $event.value})"
+    (change)="handleSliderUpdate($event)"
     tickInterval="10"
-    min="0"S
+    min="0"
     [(value)]="widget.state.value"
     max="255"></mat-slider>
   <mat-icon>brightness_7</mat-icon>

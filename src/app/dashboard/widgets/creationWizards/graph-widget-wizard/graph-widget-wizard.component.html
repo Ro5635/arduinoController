@@ -1,0 +1,36 @@
+<div>
+
+  <form [formGroup]="graphCreationForm">
+
+    <mat-form-field class="">
+      <input matInput placeholder="Graph Name" value="" formControlName="graphName" name="graphName" required>
+    </mat-form-field>
+
+    <h4>Micro-Controller Pin</h4>
+    <p>Select the pin that you want to bind this graph to from the available pins below.</p>
+    <p>Only the PWM pins from your micro-controller are available, this is because a slider can represent a value of 0 to 255.</p>
+    <mat-form-field>
+      <mat-label>Micro-Controller Pin</mat-label>
+      <mat-select formControlName="pin">
+        <mat-option *ngFor="let pin of currentBoard.getPins(false, 'ANALOG')" [value]="pin">
+          {{pin}}
+        </mat-option>
+      </mat-select>
+    </mat-form-field>
+
+  </form>
+
+  <div class="optionButtons">
+
+    <button mat-button [disabled]="graphCreationForm.invalid" (click)="createGraphWidget(graphCreationForm.get('pin').value, graphCreationForm.get('graphName').value)">
+      <mat-icon>check</mat-icon>
+      Create
+    </button>
+    <button mat-button>
+      <mat-icon>cancel</mat-icon>
+      Cancel
+    </button>
+
+  </div>
+
+</div>

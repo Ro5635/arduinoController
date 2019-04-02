@@ -18,6 +18,7 @@ bool stringComplete = false;
 void setup() {
 
   Serial.begin(115200);
+  Serial.println("BOARD STARTED");
 
 
   inputString.reserve(200);
@@ -104,7 +105,7 @@ void serialEvent() {
           // found closing #
           int nextValue;
           nextValue = inputString.substring(startOfNextInt, pos).toInt();
-          
+
           // Place new value into array
           passedValues[currentValueIndex++] = nextValue;
 
@@ -125,7 +126,7 @@ void serialEvent() {
       // }
 
       handleControlSequence(mode, passedValues, countOfValuesPassed);
-      
+
     }
   }
 }
@@ -141,7 +142,7 @@ void handleControlSequence(int mode, int values[], int valuesLength){
     case 11:
     setPinModeOutput(values, valuesLength);
     break;
-    
+
     case 12:
     setDigitalPinState(values[0], values[1]);
     break;
@@ -149,7 +150,18 @@ void handleControlSequence(int mode, int values[], int valuesLength){
     case 13:
     setAnalogPinState(values[0], values[1]);
     break;
-    
+
+    case 14:
+    int value = analogReadPin(values[0]);
+
+    Serial.print("#{\"analogRead\": {\"pin\": ");
+    Serial.print(values[0]);
+    Serial.print(", \"value\": ");
+    Serial.print(value);
+    Serial.println(", \"rc\": 5635}}#");
+    break;
+
+
     default:
     Serial.println("Unable to decode control mode");
     break;
@@ -162,36 +174,41 @@ void handleControlSequence(int mode, int values[], int valuesLength){
 
 
 void setAnalogPinState(int pinNo, int value){
-    analogWrite(pinNo, value); 
+    analogWrite(pinNo, value);
 
-}  
+}
 
 void setDigitalPinState(int pinNo, int high){
   if(high > 0) {
-    digitalWrite(pinNo, HIGH); 
-    
+    digitalWrite(pinNo, HIGH);
+
   }else {
-    digitalWrite(pinNo, LOW); 
+    digitalWrite(pinNo, LOW);
   }
-}  
+}
 
 void setPinModeInput(int pins[], int pinsLength) {
   int i;
 
   for (i = 0; i < pinsLength ; i++) {
     pinMode(pins[i], INPUT);
-    
+
   }
 
 
 }
+
+int analogReadPin(int pinNo){
+  return analogRead(pinNo);
+}
+
 
 void setPinModeOutput(int pins[], int pinsLength){
   int i;
 
   for (i = 0; i < pinsLength ; i++) {
     pinMode(pins[i], OUTPUT);
-    
+
   }
 
 

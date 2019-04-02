@@ -9,6 +9,7 @@ const {app, BrowserWindow, ipcMain} = require('electron');
 
 const serialHelperProvider = require('./serialHelper');
 const arduinoHelper = require('./Helpers/arduinoHelper');
+const pinReadSubscriptionHelper = require('./Helpers/pinReadSubscription');
 
 let serialHelper;
 
@@ -72,7 +73,8 @@ ipcMain.on('serialOperations', async function (event, tasks) {
       switch (task.taskName) {
         case 'openPort':
           try {
-            serialHelper = await serialHelperProvider.getSerialHelper(task.comPort, 115200);
+            serialHelper = await serialHelperProvider.getSerialHelper(task.comPort, 115200, mainWindow);
+            pinReadSubscriptionHelper.provideSerialWriteHelper(serialHelper.writeLine);
 
           } catch (err) {
             console.error('Call to open serial port failed');
@@ -91,6 +93,7 @@ ipcMain.on('serialOperations', async function (event, tasks) {
 
           try {
             await serialHelper.closePort();
+            pinReadSubscriptionHelper.clearAllSubscriptions();
 
             // Closed successfully
             mainWindow.webContents.send('serialOperations-closePort', {success: true});
@@ -110,6 +113,15 @@ ipcMain.on('serialOperations', async function (event, tasks) {
           }
           serialHelper.writeLine(task.line);
           break;
+
+        case 'registerAnalogReadSubscription':
+          // TODO: add way to remove a subscription
+          // TODO: This was written at 2AM to meet the deadline, so needs work...
+          pinReadSubscriptionHelper.registerSubscription({nextReadDue: new Date(), 'interval': task.interval, 'pinTarget': task.pinTarget, 'forWidgetID': task.forWidgetID });
+          //     task.interval
+              // task.forWidgetID
+        //      task.pinTarget
+              break;
 
         default:
           console.error('Could not identify required serialOperation');

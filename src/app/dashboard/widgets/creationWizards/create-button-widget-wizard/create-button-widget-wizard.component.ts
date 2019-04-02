@@ -14,7 +14,7 @@ import { v4 as uuid } from 'uuid';
 export class CreateButtonWidgetWizardComponent implements OnInit {
   @Input() currentBoard: ConnectedBoard;
   @Input() currentDashboard: Dashboard;
-  @Output() newWidgetEventEmitter: EventEmitter = new EventEmitter();
+  @Output() newWidgetEventEmitter: EventEmitter<any> = new EventEmitter<any>();
   buttonCreationForm: FormGroup;
 
   constructor(private _formBuilder: FormBuilder) {}

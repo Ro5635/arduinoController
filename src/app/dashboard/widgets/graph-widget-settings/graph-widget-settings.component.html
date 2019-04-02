@@ -1,0 +1,60 @@
+<div>
+
+  <form [formGroup]="graphSettingsForm">
+
+    <h2 class="titleFont">Graph Settings</h2>
+    <p>Depending on your subscription you can select enhanced graph options</p>
+
+    <div>
+      <mat-form-field>
+        <mat-label>Graph Type</mat-label>
+        <mat-select formControlName="graphType" name="graphType">
+          <mat-option *ngFor="let graphType of availableChartTypes" [value]="graphType.name">
+            {{graphType.displayName}}
+          </mat-option>
+        </mat-select>
+      </mat-form-field>
+    </div>
+
+    <div>
+      <p>Maximum number of items of data to store in the chart</p>
+      <mat-form-field>
+        <mat-label>Max Data Items</mat-label>
+        <mat-select formControlName="dataLength" name="dataLength">
+          <mat-option *ngFor="let dataLength of availableDataLengths" [value]="dataLength.value">
+            {{dataLength.displayName}}
+          </mat-option>
+        </mat-select>
+      </mat-form-field>
+    </div>
+
+    <div>
+      <mat-form-field>
+        <mat-label>Update Interval</mat-label>
+        <mat-select formControlName="updateInterval" name="updateInterval">
+          <mat-option *ngFor="let graphInterval of availableIntervals" [value]="graphInterval.value">
+            {{graphInterval.displayName}}
+          </mat-option>
+        </mat-select>
+      </mat-form-field>
+    </div>
+
+
+  </form>
+
+  <div class="optionButtons">
+
+    <button mat-button [disabled]="graphSettingsForm.invalid"
+            (click)="updateGraphWidgetSettings(graphSettingsForm.get('graphType').value, graphSettingsForm.get('dataLength').value, graphSettingsForm.get('updateInterval').value)">
+      <mat-icon>save</mat-icon>
+      Save Changes
+    </button>
+    <button mat-button (click)="closeDialogue()">
+      <mat-icon>clear</mat-icon>
+      Cancel
+    </button>
+
+  </div>
+
+
+</div>

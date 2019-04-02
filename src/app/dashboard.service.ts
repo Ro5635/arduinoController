@@ -146,7 +146,7 @@ export class DashboardService {
       const postBody = JSON.stringify({query, variables});
 
 
-      this.http.post(`${this.dashboardResourceURL}/graphql`, postBody, this.getHeaders(true))
+      this.http.post(`${this.dashboardResourceURL}`, postBody, this.getHeaders(true))
         .pipe(
           map((response: DashboardService_updateDashboardResponse) => response.data.updateDashboard),
           catchError(this.handleError('updateDashboard', {}))

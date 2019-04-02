@@ -14,6 +14,8 @@ import {ConfirmBoardForLoadDialogueComponent} from "../../dialogues/confirm-boar
 import {BoardConfiguratorDialogueWrapperComponent} from "../../BoardComponents/board-configurator-dialogue-wrapper/board-configurator-dialogue-wrapper.component";
 import {NewWidgetComponent} from "../widgets/creationWizards/new-widget/new-widget.component";
 import {DashboardUpdateInput} from "../../DashboardUpdateInput";
+import {LiveDashboardService} from "../../live-dashboard.service";
+import {Widget} from "../../Widget";
 
 @Component({
   selector: 'app-dashboard',
@@ -28,7 +30,7 @@ export class DashboardComponent implements OnInit {
   // Connected board is pulled out of the dashboard and stored as the ConnectedBoard type
   currentBoard: ConnectedBoard;
 
-  constructor(public dialog: MatDialog, private boardBrokerServiceService: BoardBrokerServiceService, private route: ActivatedRoute, private dashboardService: DashboardService, private router: Router, private snackBar: MatSnackBar) {
+  constructor(public dialog: MatDialog, private boardBrokerServiceService: BoardBrokerServiceService, private route: ActivatedRoute, private dashboardService: DashboardService, private router: Router, private snackBar: MatSnackBar, private liveDashboardService: LiveDashboardService) {
   }
 
 
@@ -38,6 +40,16 @@ export class DashboardComponent implements OnInit {
 
     // Load the dashboard into the view
     this.loadConfiguration(this.dashboardID).subscribe();
+
+    // This is a proof of concept implementation only, this wholesale updates the widgets
+    // this is clearly much less than optimal
+    // this.liveDashboardService.registerToDashboard(this.currentDashboard.getID());
+
+    this.liveDashboardService.getDashboardWidgetUpdates().subscribe(updatedWidgets => {
+      console.log('Updated widgets received');
+      this.currentDashboard.widgets = updatedWidgets.widgets;
+
+    })
 
   }
 
@@ -80,6 +92,22 @@ export class DashboardComponent implements OnInit {
     this.saveCurrentWidgetConfiguration().subscribe(() => {
       console.log('Dashboard Widget updates pushed to server successfully');
     });
+
+    // Update peers to the change
+    // this.widgetUpdatedEventHandler();
+
+  }
+
+
+  /**
+   * handleWidgetUpdate
+   *
+   * Pass a widget update on to the liveWidgetService for distribution to peers
+   *
+   * @param updatedWidget: Widget
+   */
+  handleWidgetUpdate(updatedWidget: Widget) {
+    this.liveDashboardService.sendWidgetUpdate(updatedWidget, this.dashboardID);
 
   }
 
@@ -245,6 +273,7 @@ export class DashboardComponent implements OnInit {
    * WARNING: THIS CURRENTLY EDITS THE PASSED DASHBOARD DIRECTLY
    *
    * TODO: Refactor this to emit the new Board, not mutate the currentDashboard
+   * TODO: This does nothing with the returned observable
    */
   configureNewBoardWizard(): Observable<boolean> {
     return new Observable(observer => {
@@ -277,6 +306,9 @@ export class DashboardComponent implements OnInit {
     });
 
     dialogRef.afterClosed().subscribe((result: ControlConfiguration) => {
+      console.log('Create Widget Pipeline exited, pushing current widget state to peers');
+      this.pushAllWidgetsToPeers();
+
     });
 
   }
@@ -299,9 +331,21 @@ export class DashboardComponent implements OnInit {
         duration: this.SNACKBAR_DURATION,
       });
 
+      this.pushAllWidgetsToPeers();
+
 
     });
 
+  }
+
+  /**
+   * widgetUpdatedEventHandler
+   *
+   * TODO: Make this far more granular, this is a proof of concept implementation
+   */
+  pushAllWidgetsToPeers() {
+    // Push the updates to the widgets to peers
+    this.liveDashboardService.sendDashboardWidgetUpdate(this.currentDashboard.widgets, this.currentDashboard.getID());
   }
 
   drop(event: CdkDragDrop<ControlConfiguration[]>) {
@@ -315,8 +359,10 @@ export class DashboardComponent implements OnInit {
     }
 
     this.saveCurrentWidgetConfiguration().subscribe(() => {
+      this.pushAllWidgetsToPeers();
 
-    })
+    });
+
   }
 
 
@@ -335,6 +381,10 @@ export class DashboardComponent implements OnInit {
 
       this.dashboardService.updateDashboard(dashboardUpdate).subscribe(() => {
         console.log('Dashboard configuration update saved');
+
+        // Push the updates to the peers
+        // this.liveDashboardService.sendDashboardWidgetUpdate(this.currentDashboard.widgets, this.currentDashboard.getID());
+
         observer.next();
         observer.complete();
 

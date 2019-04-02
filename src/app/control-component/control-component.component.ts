@@ -15,9 +15,14 @@ export class ControlComponentComponent implements OnInit {
   @Input()  widget: Widget;
   @Output() boardRequest = new EventEmitter<BoardRequest>();
   @Output() removeWidgetEventEmitter = new EventEmitter();
+  @Output() widgetUpdate = new EventEmitter<Widget>();
 
   passBoardRequest(payload: BoardRequest) {
     this.boardRequest.emit(payload);
+  }
+
+  passWidgetUpdate(updatedWidget: Widget) {
+    this.widgetUpdate.emit(updatedWidget);
   }
 
   ngOnInit() {

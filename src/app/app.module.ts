@@ -49,6 +49,16 @@ import { NewWidgetComponent } from './dashboard/widgets/creationWizards/new-widg
 import { SelectWidgetTypeComponent } from './dashboard/widgets/select-widget-type/select-widget-type.component';
 import { CreateButtonWidgetWizardComponent } from './dashboard/widgets/creationWizards/create-button-widget-wizard/create-button-widget-wizard.component';
 import { SliderWidgetWizardComponent } from './dashboard/widgets/creationWizards/slider-widget-wizard/slider-widget-wizard.component';
+import { SocketIoModule, SocketIoConfig } from 'ngx-socket-io';
+import { CreateLiveWidgetWizardComponent } from './dashboard/widgets/creationWizards/create-live-widget-wizard/create-live-widget-wizard.component';
+import { NgxEchartsModule } from 'ngx-echarts';
+import { LiveWidgetComponent } from './dashboard/widgets/live-widget/live-widget.component';
+import { GraphWidgetComponent } from './dashboard/widgets/graph-widget/graph-widget.component';
+import { GraphWidgetWizardComponent } from './dashboard/widgets/creationWizards/graph-widget-wizard/graph-widget-wizard.component';
+import { GraphWidgetSettingsComponent } from './dashboard/widgets/graph-widget-settings/graph-widget-settings.component';
+
+
+const wsConfig: SocketIoConfig = { url: 'http://localhost:5500', options: {} };
 
 @NgModule({
   declarations: [
@@ -76,12 +86,18 @@ import { SliderWidgetWizardComponent } from './dashboard/widgets/creationWizards
     SelectWidgetTypeComponent,
     CreateButtonWidgetWizardComponent,
     SliderWidgetWizardComponent,
+    CreateLiveWidgetWizardComponent,
+    LiveWidgetComponent,
+    GraphWidgetComponent,
+    GraphWidgetWizardComponent,
+    GraphWidgetSettingsComponent,
 
   ],
   imports: [
     BrowserAnimationsModule,
     BrowserModule,
     HttpClientModule,
+    SocketIoModule.forRoot(wsConfig),
     MatButtonModule,
     MatIconModule,
     MatToolbarModule,
@@ -104,7 +120,8 @@ import { SliderWidgetWizardComponent } from './dashboard/widgets/creationWizards
     MatListModule,
     MatExpansionModule,
     MatTabsModule,
-    MatMenuModule
+    MatMenuModule,
+    NgxEchartsModule
   ],
   providers: [],
   entryComponents: [
@@ -113,7 +130,8 @@ import { SliderWidgetWizardComponent } from './dashboard/widgets/creationWizards
     DashboardCreationComponent,
     ConfirmBoardForLoadDialogueComponent,
     BoardConfiguratorDialogueWrapperComponent,
-    NewWidgetComponent
+    NewWidgetComponent,
+    GraphWidgetSettingsComponent
   ],
   bootstrap: [AppComponent]
 })

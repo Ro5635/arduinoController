@@ -12,7 +12,7 @@ export class Dashboard {
   private readonly id: string;
   private name: string;
   private board: ConnectedBoard;
-  widgets: Widget[[Widget]];
+  widgets: Widget[][];
 
   constructor(id: string, name: string, board: ConnectedBoard, widgets) {
     this.id = id;
