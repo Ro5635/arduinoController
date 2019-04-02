@@ -56,6 +56,7 @@ import { LiveWidgetComponent } from './dashboard/widgets/live-widget/live-widget
 import { GraphWidgetComponent } from './dashboard/widgets/graph-widget/graph-widget.component';
 import { GraphWidgetWizardComponent } from './dashboard/widgets/creationWizards/graph-widget-wizard/graph-widget-wizard.component';
 import { GraphWidgetSettingsComponent } from './dashboard/widgets/graph-widget-settings/graph-widget-settings.component';
+import { TrafficLightWidgetWizardComponent } from './dashboard/widgets/creationWizards/traffic-light-widget-wizard/traffic-light-widget-wizard.component';
 
 
 const wsConfig: SocketIoConfig = { url: 'http://localhost:5500', options: {} };
@@ -91,6 +92,7 @@ const wsConfig: SocketIoConfig = { url: 'http://localhost:5500', options: {} };
     GraphWidgetComponent,
     GraphWidgetWizardComponent,
     GraphWidgetSettingsComponent,
+    TrafficLightWidgetWizardComponent,
 
   ],
   imports: [

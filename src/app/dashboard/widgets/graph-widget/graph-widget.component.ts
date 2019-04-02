@@ -234,7 +234,6 @@ export class GraphWidgetComponent implements OnInit {
       }
 
       // This event should be shared with peers
-      console.log('SENDING WIDGET UPDATES!');
       this.widgetUpdate.emit(this.widget);
 
 
