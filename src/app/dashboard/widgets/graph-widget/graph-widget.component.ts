@@ -8,6 +8,7 @@ import {LiveDashboardService} from "../../../live-dashboard.service";
 import {BoardConfiguratorDialogueWrapperComponent} from "../../../BoardComponents/board-configurator-dialogue-wrapper/board-configurator-dialogue-wrapper.component";
 import {MatDialog} from "@angular/material";
 import {GraphWidgetSettingsComponent} from "../graph-widget-settings/graph-widget-settings.component";
+import {Subscription} from "rxjs";
 
 /**
  *  The design of this widget will be entirely replaced once deadline is passed
@@ -29,6 +30,7 @@ export class GraphWidgetComponent implements OnInit {
   @Output() widgetUpdate = new EventEmitter<Widget>();
   chartOption: EChartOption;
   updateOptions: EChartOption;
+  private microControllerReadSubscription: Subscription;
 
   constructor(private boardBrokerService: BoardBrokerServiceService, private zone: NgZone, private liveDashboardService: LiveDashboardService, public dialog: MatDialog,) {
   }
@@ -68,6 +70,7 @@ export class GraphWidgetComponent implements OnInit {
         data: this.widget.state['xAxisData']
       },
       series: [{
+        type: this.widget.state['chartType'],
         data: this.widget.state['readResult'],
       }]
     };
@@ -75,7 +78,7 @@ export class GraphWidgetComponent implements OnInit {
 
     // // Subscribe to updates for this widget
     this.liveDashboardService.getUpdatesForWidget(this.widget.id).subscribe((widgetUpdate: WidgetUpdate) => {
-      // this.zone.run(() => {
+      this.zone.run(() => {
       console.log(`Update to graph widget ${this.widget.id} received`);
 
       this.widget.state = widgetUpdate.widget.state;
@@ -87,11 +90,12 @@ export class GraphWidgetComponent implements OnInit {
         },
         series: [{
           data: this.widget.state['readResult'],
+          type: this.widget.state['chartType'],
         }]
       };
 
 
-      // });
+      });
 
     }, err => {
       console.error(`Failure in subscription to widget updates for widget ID: ${this.widget.id}`);
@@ -99,8 +103,27 @@ export class GraphWidgetComponent implements OnInit {
 
     });
 
+    this.setUpMicroControllerReadSubscription();
 
-    this.boardBrokerService.subscribeToMicroControllerReadOnInterval(this.widget.id, this.widget.state['pinTarget'], 2).subscribe(readResponse => {
+
+  }
+
+  ngOnDestroy() {
+
+    // Remove the micro-controller read subscription
+    try {
+      this.microControllerReadSubscription.unsubscribe();
+
+    } catch (err) {
+      console.log('There was no micro-controller subscription to close');
+      console.log(err);
+    }
+
+  }
+
+  setUpMicroControllerReadSubscription () {
+
+    this.microControllerReadSubscription = this.boardBrokerService.subscribeToMicroControllerReadOnInterval(this.widget.id, this.widget.state['pinTarget'], this.widget.state['interval']).subscribe(readResponse => {
       this.zone.run(() => {
         const newValue = readResponse['analogRead']['value'];
 
@@ -114,6 +137,18 @@ export class GraphWidgetComponent implements OnInit {
         if (this.widget.state['readResult'].length > this.widget.state['dataLength']) {
           this.widget.state['readResult'].shift();
           this.widget.state['xAxisData'].shift();
+
+          if (this.widget.state['xAxisData'].length > this.widget.state['dataLength']) {
+            // Shift did not reduce to correct size, must have switched graph to a smaller size
+            // Extract the required length from the arrays
+            console.log('At start');
+            console.log(this.widget.state['readResult'] );
+            const newStartIndex = this.widget.state['xAxisData'].length - this.widget.state['dataLength'];
+            this.widget.state['xAxisData'] = this.widget.state['xAxisData'].splice(newStartIndex, this.widget.state['xAxisData'].length);
+            this.widget.state['readResult'] = this.widget.state['readResult'].splice(newStartIndex, this.widget.state['readResult'].length);
+            console.log('Shifted!');
+            console.log(this.widget.state['readResult'] );
+          }
 
         }
 
@@ -141,9 +176,8 @@ export class GraphWidgetComponent implements OnInit {
     });
 
 
-  }
 
-  /**
+  }  /**
    * downloadCSVExport
    *
    */
@@ -187,6 +221,21 @@ export class GraphWidgetComponent implements OnInit {
             return idx * 10;
           }}]
       };
+
+
+      // Update the widget Subscription
+      try {
+        this.microControllerReadSubscription.unsubscribe();
+        this.setUpMicroControllerReadSubscription();
+
+      } catch (err) {
+        console.log('Could not unsubscribe from micro-controller subscription');
+        console.log(err);
+      }
+
+      // This event should be shared with peers
+      console.log('SENDING WIDGET UPDATES!');
+      this.widgetUpdate.emit(this.widget);
 
 
     });
