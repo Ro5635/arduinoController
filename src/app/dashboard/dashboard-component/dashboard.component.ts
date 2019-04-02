@@ -273,6 +273,7 @@ export class DashboardComponent implements OnInit {
    * WARNING: THIS CURRENTLY EDITS THE PASSED DASHBOARD DIRECTLY
    *
    * TODO: Refactor this to emit the new Board, not mutate the currentDashboard
+   * TODO: This does nothing with the returned observable
    */
   configureNewBoardWizard(): Observable<boolean> {
     return new Observable(observer => {

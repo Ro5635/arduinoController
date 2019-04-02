@@ -5,6 +5,9 @@ import {EChartOption} from 'echarts';
 import {BoardBrokerServiceService} from "../../../board-broker-service.service";
 import {WidgetUpdate} from "../../../WidgetUpdate";
 import {LiveDashboardService} from "../../../live-dashboard.service";
+import {BoardConfiguratorDialogueWrapperComponent} from "../../../BoardComponents/board-configurator-dialogue-wrapper/board-configurator-dialogue-wrapper.component";
+import {MatDialog} from "@angular/material";
+import {GraphWidgetSettingsComponent} from "../graph-widget-settings/graph-widget-settings.component";
 
 /**
  *  The design of this widget will be entirely replaced once deadline is passed
@@ -27,7 +30,7 @@ export class GraphWidgetComponent implements OnInit {
   chartOption: EChartOption;
   updateOptions: EChartOption;
 
-  constructor(private boardBrokerService: BoardBrokerServiceService, private zone: NgZone, private liveDashboardService: LiveDashboardService) {
+  constructor(private boardBrokerService: BoardBrokerServiceService, private zone: NgZone, private liveDashboardService: LiveDashboardService, public dialog: MatDialog,) {
   }
 
   ngOnInit() {
@@ -161,6 +164,33 @@ export class GraphWidgetComponent implements OnInit {
     // Encode into a URI that can be opened as a link
     const encodedUri = encodeURI(csvContent);
     window.open(encodedUri);
+
+  }
+
+  openGraphWidgetSettings() {
+    const dialogRef = this.dialog.open(GraphWidgetSettingsComponent, {
+      width: '750px',
+      data: {widget: this.widget}
+    });
+
+    dialogRef.afterClosed().subscribe(() => {
+      // update the chart
+      this.updateOptions = {
+        xAxis: {
+          data: this.widget.state['xAxisData']
+        },
+        series: [{
+          name: `${this.widget.name} Readings`,
+          type: this.widget.state['chartType'],
+          data: this.widget.state['readResult'],
+          animationDelay: function (idx) {
+            return idx * 10;
+          }}]
+      };
+
+
+    });
+
 
   }
 

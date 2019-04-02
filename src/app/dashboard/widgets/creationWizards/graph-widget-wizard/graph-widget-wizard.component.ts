@@ -45,7 +45,7 @@ export class GraphWidgetWizardComponent implements OnInit {
     }
 
     // TODO: Handle ID Collisions
-    const newWidget = new Widget('Graph', graphName, uuid(), {interval: 2, 'pinTarget': pinTarget, 'xAxisData': [], 'readResult': [], chartType: "bar", dataLength:25}, selectedPin);
+    const newWidget = new Widget('Graph', graphName, uuid(), {'interval': 2, 'pinTarget': pinTarget, 'xAxisData': [], 'readResult': [], chartType: "bar", 'dataLength':25}, selectedPin);
 
     // Set the pin as provisioned
     this.currentBoard.provisionPin(selectedPin, PIN_STATES.INPUT);

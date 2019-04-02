@@ -55,6 +55,7 @@ import { NgxEchartsModule } from 'ngx-echarts';
 import { LiveWidgetComponent } from './dashboard/widgets/live-widget/live-widget.component';
 import { GraphWidgetComponent } from './dashboard/widgets/graph-widget/graph-widget.component';
 import { GraphWidgetWizardComponent } from './dashboard/widgets/creationWizards/graph-widget-wizard/graph-widget-wizard.component';
+import { GraphWidgetSettingsComponent } from './dashboard/widgets/graph-widget-settings/graph-widget-settings.component';
 
 
 const wsConfig: SocketIoConfig = { url: 'http://localhost:5500', options: {} };
@@ -89,6 +90,7 @@ const wsConfig: SocketIoConfig = { url: 'http://localhost:5500', options: {} };
     LiveWidgetComponent,
     GraphWidgetComponent,
     GraphWidgetWizardComponent,
+    GraphWidgetSettingsComponent,
 
   ],
   imports: [
@@ -128,7 +130,8 @@ const wsConfig: SocketIoConfig = { url: 'http://localhost:5500', options: {} };
     DashboardCreationComponent,
     ConfirmBoardForLoadDialogueComponent,
     BoardConfiguratorDialogueWrapperComponent,
-    NewWidgetComponent
+    NewWidgetComponent,
+    GraphWidgetSettingsComponent
   ],
   bootstrap: [AppComponent]
 })
