@@ -13,6 +13,7 @@ export class LiveDashboardService {
 
   constructor(private socket: Socket, private userService: UserService) {
 
+    // TODO: this is a bug, this is not updated
     const jwt = this.userService.getUsersJWT().getRawToken();
 
     // Handle authenticating the socket on connection

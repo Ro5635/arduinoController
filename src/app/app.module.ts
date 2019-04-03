@@ -60,7 +60,7 @@ import { TrafficLightWidgetWizardComponent } from './dashboard/widgets/creationW
 import { TrafficLightWidgetComponent } from './dashboard/widgets/traffic-light-widget/traffic-light-widget.component';
 
 
-const wsConfig: SocketIoConfig = { url: 'http://localhost:5500', options: {} };
+const wsConfig: SocketIoConfig = { url: 'http://live-dashboard-v0.speedyiot.tech:5500', options: {} };
 
 @NgModule({
   declarations: [
