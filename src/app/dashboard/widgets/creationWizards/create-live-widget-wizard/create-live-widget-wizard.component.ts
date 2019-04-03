@@ -47,7 +47,7 @@ export class CreateLiveWidgetWizardComponent implements OnInit {
     const newWidget = new Widget('LiveWidget', liveWidgetName, uuid(), {interval: 2, 'pinTarget': pinTarget, currentValue: "Waiting"}, selectedPin);
 
     // Set the pin as provisioned
-    this.currentBoard.provisionPin(selectedPin, PIN_STATES.OUTPUT);
+    this.currentBoard.provisionPin(selectedPin, PIN_STATES.INPUT);
 
     // Emit the new Widget for generic new Widget processes
     this.newWidgetEventEmitter.emit(newWidget);

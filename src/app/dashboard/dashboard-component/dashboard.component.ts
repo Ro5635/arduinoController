@@ -301,7 +301,7 @@ export class DashboardComponent implements OnInit {
    */
   createNewComponent() {
     const dialogRef = this.dialog.open(NewWidgetComponent, {
-      width: '650px',
+      width: '750px',
       data: {currentBoard: this.currentBoard, currentDashboard: this.currentDashboard}
     });
 
