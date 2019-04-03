@@ -16,7 +16,7 @@ export class TrafficLightWidgetWizardComponent implements OnInit {
   @Input() currentDashboard: Dashboard;
   @Output() newWidgetEventEmitter: EventEmitter<any> = new EventEmitter<any>();
   trafficLightCreationForm: FormGroup;
-  trafficLightUpdatePeriod = 3;
+  trafficLightUpdatePeriod = 2;
 
   logicExpressions = [{viewValue: '>', value: 'lessThan'}, {viewValue: '<', value: 'greaterThan'}];
 
