@@ -47,8 +47,8 @@
         </mat-form-field>
         than
         <mat-form-field class="example-full-width">
-          <input matInput placeholder="Comparison Constant" value="500" formControlName="selectedConstantValue"
-                 name="selectedConstantValue">
+          <input matInput placeholder="Comparison Constant" formControlName="selectedConstantValue"
+                 name="selectedConstantValue" matTooltip="Value must be from 0 to 1023">
         </mat-form-field>
 
 
@@ -63,7 +63,7 @@
             Cancel
           </button>
           <button mat-button [disabled]="trafficLightCreationForm.invalid"
-                  (click)="createTrafficLightWidget(trafficLightCreationForm.get('pin').value, trafficLightCreationForm.get('liveWidgetName').value)">
+                  (click)="createTrafficLightWidget(trafficLightCreationForm.get('trafficLightWidgetName').value, trafficLightCreationForm.get('pin').value, trafficLightCreationForm.get('selectedConstantValue').value,trafficLightCreationForm.get('selectedLogicExpression').value)">
             <mat-icon>check</mat-icon>
             Create
           </button>

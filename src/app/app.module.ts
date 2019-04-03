@@ -37,7 +37,7 @@ import {BoardSaveComponent} from './BoardComponents/board-save/board-save.compon
 import {SliderControlComponent} from './slider-control/slider-control.component';
 import {LoginFormComponent} from './login-form/login-form.component';
 import {DashboardSelectionComponent} from './dashboard/dashboard-selection/dashboard-selection.component';
-import {MatExpansionModule, MatListModule, MatMenuModule, MatTabsModule} from "@angular/material";
+import {MatExpansionModule, MatListModule, MatMenuModule, MatTabsModule, MatTooltipModule} from "@angular/material";
 import { ConfirmDialogueComponent } from './dialogues/confirm-dialogue/confirm-dialogue.component';
 import { DashboardCreationComponent } from './dashboard/dashboard-creation/dashboard-creation-component/dashboard-creation.component';
 import { DashboardSettingsComponent } from './dashboard/dashboard-settings/dashboard-settings.component';
@@ -57,6 +57,7 @@ import { GraphWidgetComponent } from './dashboard/widgets/graph-widget/graph-wid
 import { GraphWidgetWizardComponent } from './dashboard/widgets/creationWizards/graph-widget-wizard/graph-widget-wizard.component';
 import { GraphWidgetSettingsComponent } from './dashboard/widgets/graph-widget-settings/graph-widget-settings.component';
 import { TrafficLightWidgetWizardComponent } from './dashboard/widgets/creationWizards/traffic-light-widget-wizard/traffic-light-widget-wizard.component';
+import { TrafficLightWidgetComponent } from './dashboard/widgets/traffic-light-widget/traffic-light-widget.component';
 
 
 const wsConfig: SocketIoConfig = { url: 'http://localhost:5500', options: {} };
@@ -93,6 +94,7 @@ const wsConfig: SocketIoConfig = { url: 'http://localhost:5500', options: {} };
     GraphWidgetWizardComponent,
     GraphWidgetSettingsComponent,
     TrafficLightWidgetWizardComponent,
+    TrafficLightWidgetComponent,
 
   ],
   imports: [
@@ -123,7 +125,8 @@ const wsConfig: SocketIoConfig = { url: 'http://localhost:5500', options: {} };
     MatExpansionModule,
     MatTabsModule,
     MatMenuModule,
-    NgxEchartsModule
+    NgxEchartsModule,
+    MatTooltipModule
   ],
   providers: [],
   entryComponents: [

@@ -1,0 +1,12 @@
+<div class="lampsContainer">
+
+  <div [class.activatedLamp]="lightActivated" class="lamp"></div>
+  <div [class.inactiveLamp]="!lightActivated" class="lamp"></div>
+
+</div>
+
+<div class="trafficLightDetails">
+<h4>Current Value: {{widget.state.currentValue}}</h4>
+  <p>Green when current value is {{this.widget.state['logicExpressionName']}} {{this.widget.state['comparisonConstant']}}</p>
+
+</div>
